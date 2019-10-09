@@ -72,7 +72,6 @@ public class StrategoGameState {
         }
 
         gameWon = false;
-        enoughPlayers = true;
     }
 
     /**
