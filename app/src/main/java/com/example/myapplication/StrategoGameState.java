@@ -57,5 +57,33 @@ public class StrategoGameState {
 
             }
         }
+
+        gameWon = false;
+        enoughPlayers = true;
     }
+
+    /**
+     * Deep Copy Constructor
+     *
+     * @param state the one true state of the game that would be copied.
+     */
+    public StrategoGameState(StrategoGameState state){
+        playerOneID = state.playerOneID;
+        playerTwoID = state.playerTwoID;
+
+        turn = state.turn;
+
+        for(int i = 0; i < 10; i++){
+            for (int j = 0; j < 10; j++){
+                if(board == null){
+                    return;
+                }
+                else{
+                    board[i][j] = new Board(state.board[i][j]);
+                }
+            }
+        }
+    }
+
+
 }
