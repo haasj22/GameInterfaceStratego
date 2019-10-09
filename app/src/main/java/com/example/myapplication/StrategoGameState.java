@@ -13,35 +13,48 @@ import java.util.ArrayList;
 
 public class StrategoGameState {
 
+    enum phase {
+        SETUP_PHASE,
+        PLAY_PHASE
+    };
+
     //max number of rows and cols in board
-    static final int COLMAX = 10;
-    static final int ROWMAX = 10;
+    private final int COLMAX = 10;
+    private final int ROWMAX = 10;
 
     //amount of pieces
-    final int numOfMarshalls = 1;
-    final int numOfGenerals = 1;
-    final int numOfColonels = 2;
-    final int numOfMajors = 3;
-    final int numOfCaptains = 4;
-    final int numOfLietenants = 4;
-    final int numOfSergeants = 4;
-    final int numOfMiners = 5;
-    final int numOfScouts = 8;
-    final int numOfSpy = 1;
-    final int numOfBombs = 6;
+    private final int numOfMarshalls = 1;
+    private final int numOfGenerals = 1;
+    private final int numOfColonels = 2;
+    private final int numOfMajors = 3;
+    private final int numOfCaptains = 4;
+    private final int numOfLietenants = 4;
+    private final int numOfSergeants = 4;
+    private final int numOfMiners = 5;
+    private final int numOfScouts = 8;
+    private final int numOfSpy = 1;
+    private final int numOfBombs = 6;
 
     //ranks of pieces
     final int rankOfMarshall = 10;
 
-    private Board[][] board = new Board[10][10];
+    private Block[][] board = new Block[10][10];
 
-
+    //ids of the players
     private int playerOneID;
-    private int playerTwoID;
+    private int playerOneTimer; //in milliseconds
 
+    private int playerTwoID;
+    private int playerTwoTimer; //in milliseconds
+
+    private phase currentPhase;
+
+    //id of the player whose turn it is
     private int turn;
+
+    //checks if game is won
     private boolean gameWon;
-    private boolean enoughPlayers;
+
 
     /**
      * Constructor for objects of class StrategoGameState
