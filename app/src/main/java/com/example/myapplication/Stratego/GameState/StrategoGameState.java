@@ -35,6 +35,7 @@ public class StrategoGameState {
     private int playerOneID;
     private int playerOneTimer; //in milliseconds
 
+    //variables that will store the amount of pieces player One has
     private int playerOneMarshalls;
     private int playerOneGenerals;
     private int playerOneColonels;
@@ -51,6 +52,7 @@ public class StrategoGameState {
     private int playerTwoID;
     private int playerTwoTimer; //in milliseconds
 
+    //variables that will store the amount of pieces player Two has
     private int playerTwoMarshalls;
     private int playerTwoGenerals;
     private int playerTwoColonels;
@@ -170,11 +172,11 @@ public class StrategoGameState {
 
     //set up variables?
     //allows players to set pieces on the board if its SET_UP phase
-    public boolean setPiece(int x1, int y1, int x2, int y2) {
-        if(x1 >= ROWMAX || x1 < 0 || x2 >= ROWMAX || x2 < 0) {
+    public boolean setPiece(int x, int y) {
+        if(x >= ROWMAX || x < 0 ) {
             return false;
         }
-        else if (y1 >= COLMAX || y1 < 0 || y2 >= COLMAX || y2 < 0) {
+        else if ( y >= COLMAX || y < 0 ) {
             return false;
         }
         //use own phase?
@@ -188,7 +190,6 @@ public class StrategoGameState {
 
     //transitions from set up to PLAY_PHASE
     public boolean transitionPhases() {
-        if
         if(this.currentPhase == Phase.SETUP_PHASE) {
             this.currentPhase = Phase.PLAY_PHASE;
             return true;
@@ -197,13 +198,14 @@ public class StrategoGameState {
     }
 
     //allows the player to move their piece
-    public boolean movePiece() {
+    public boolean movePiece(int x1, int x2, int y1, int y2) {
         if(this.currentPhase != Phase.PLAY_PHASE) {
             return false;
         }
         return true;
     }
 
+    //helper method for movePiece
     public boolean attackPiece(Piece attacker, Piece defender) {
         return false;
     }
