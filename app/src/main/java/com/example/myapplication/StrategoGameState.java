@@ -97,5 +97,13 @@ public class StrategoGameState {
         }
     }
 
+    @Override
+    public String toString(){
+        String toReturn = "\nStratego Game State:\n";
+
+
+        return toReturn;
+    }
+
 
 }
