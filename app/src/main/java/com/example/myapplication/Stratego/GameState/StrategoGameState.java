@@ -1,15 +1,14 @@
+/**
+ * class that contains all information the game will need to function
+ *
+ * @author John Haas
+ * @author Jordan Ho
+ * @author Kavya Mandla
+ */
+
 package com.example.myapplication.Stratego.GameState;
 
 import java.util.ArrayList;
-
-/**
- * The State of the game.
- * Includes values for pieces,
- *
- * @author Kavya Mandla
- * @author John Haas
- * @author Jordan Ho
- */
 
 public class StrategoGameState {
 
@@ -17,7 +16,7 @@ public class StrategoGameState {
     private final int COLMAX = 10;
     private final int ROWMAX = 10;
 
-    //amount of pieces
+    //maximum amount of pieces each game can have
     private final int numOfMarshalls = 1;
     private final int numOfGenerals = 1;
     private final int numOfColonels = 2;
@@ -30,23 +29,26 @@ public class StrategoGameState {
     private final int numOfSpy = 1;
     private final int numOfBombs = 6;
 
+    //array that represents the state of the game board
     private Block[][] board = new Block[ROWMAX][COLMAX];
 
-    //ids of the players
+    //player one's information
     private int playerOneID;
     private int playerOneTimer; //in milliseconds
-
-    //variables that will store the amount of pieces player One has
+    //variables that will store what pieces player one has in play
     private ArrayList<Piece> playerOnePieces;
+    //necessary for transitioning between phases
     private boolean playerOneHasFlag;
 
+    //player two's information
     private int playerTwoID;
     private int playerTwoTimer; //in milliseconds
-
-    //variables that will store the amount of pieces player Two has
+    //variables that will store what pieces player two has in play
     private ArrayList<Piece> playerTwoPieces;
+    //necessary for transitioning between phases
     private boolean playerTwoHasFlag;
 
+    //what phase the game is currently in
     private Phase currentPhase;
 
     //id of the player whose turn it is
@@ -57,24 +59,29 @@ public class StrategoGameState {
      * Constructor for objects of class StrategoGameState
      */
     public StrategoGameState(){
+        //player one sets up first
         playerOneID = 1;
         playerOneTimer = 3000;
 
+        //player one starts with no pieces on the board
         playerOnePieces= new ArrayList<Piece>();
         playerOneHasFlag = false;
 
+        //player one does not get access to any of player two's information
         playerTwoID = 2;
         playerTwoTimer = 0;
 
+        //player one does not get to see where player two placed his pieces
         playerTwoPieces=new ArrayList<Piece>();
         playerTwoHasFlag = false;
 
-
+        //starts the game out in setup phase
         currentPhase = Phase.SETUP_PHASE;
 
+        //player one starts
         currentPlayer = 1;
 
-        //creates basic block
+        //creates basic game board
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
                 if(i != 4 || i !=5) {
@@ -98,67 +105,43 @@ public class StrategoGameState {
      */
     public StrategoGameState(StrategoGameState state){
 
+        //copies player one's information
         this.playerOneID = state.playerOneID;
         this.playerOneTimer = state.playerOneTimer;
 
+        //copies player one's pieces
         for(Piece p: state.playerOnePieces) {
             this.playerOnePieces.add(new Piece(p));
         }
-        //deep copy of arrayLists
 
+        //sees whether player one has won yet
         this.playerOneHasFlag = state.playerOneHasFlag;
 
+        //copies player two's information
         this.playerTwoID = state.playerTwoID;
         this.playerTwoTimer = state.playerTwoTimer;
 
+        //copies player two's pieces
         for(Piece p: state.playerTwoPieces) {
             this.playerTwoPieces.add(new Piece(p));
         }
 
+        //sees whether player two has won yet
         this.playerTwoHasFlag = state.playerTwoHasFlag;
 
+        //copies the phase of the game
         this.currentPhase = state.currentPhase;
 
+        //finds who's turn it is
         this.currentPlayer = state.currentPlayer;
 
-        //put new blocks here
+        //copies the game board
         for(int i = 0; i < 10; i++){
             for (int j = 0; j < 10; j++){
                 this.board[i][j] = new Block(state.board[i][j]);
             }
         }
 
-    }
-
-    @Override
-    public String toString(){
-        String toReturn = "\nStratego Game State:\n";
-
-        toReturn += "[Player One ID: " + playerOneID + "]\n";
-        toReturn += "[Player One Timer: " + playerOneTimer + "]\n";
-
-        toReturn += "[Player Two ID: " + playerTwoID + "]\n";
-        toReturn += "[Player Two Timer: " + playerTwoTimer + "]\n";
-
-        toReturn += "[Current Phase: " + currentPhase + "]\n";
-
-        if(currentPlayer == 1){
-            toReturn += "Player One's Turn\n";
-        }
-        else{
-            toReturn += "Player Two's turn\n";
-        }
-
-        toReturn += "------------------------\n";
-        for(int i=0; i<ROWMAX; i++) {
-            for(int j=0; j<COLMAX; j++) {
-                toReturn += "[Block " + (i+1) + ":" + (j+1) + "]\n";
-                toReturn += board[i][j];
-            }
-        }
-        toReturn += "------------------------\n";
-
-        return toReturn;
     }
 
     //set up variables?
@@ -216,6 +199,35 @@ public class StrategoGameState {
     }
 
 
-    //timer maybe
+    @Override
+    public String toString(){
+        String toReturn = "\nStratego Game State:\n";
+
+        toReturn += "[Player One ID: " + playerOneID + "]\n";
+        toReturn += "[Player One Timer: " + playerOneTimer + "]\n";
+
+        toReturn += "[Player Two ID: " + playerTwoID + "]\n";
+        toReturn += "[Player Two Timer: " + playerTwoTimer + "]\n";
+
+        toReturn += "[Current Phase: " + currentPhase + "]\n";
+
+        if(currentPlayer == 1){
+            toReturn += "Player One's Turn\n";
+        }
+        else{
+            toReturn += "Player Two's turn\n";
+        }
+
+        toReturn += "------------------------\n";
+        for(int i=0; i<ROWMAX; i++) {
+            for(int j=0; j<COLMAX; j++) {
+                toReturn += "[Block " + (i+1) + ":" + (j+1) + "]\n";
+                toReturn += board[i][j];
+            }
+        }
+        toReturn += "------------------------\n";
+
+        return toReturn;
+    }
 
 }
