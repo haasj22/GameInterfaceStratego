@@ -12,11 +12,11 @@ package com.example.myapplication.Stratego.GameState;
 public class StrategoGameState {
 
     //max number of rows and cols in board
-    static final int COLMAX = 10;
-    static final int ROWMAX = 10;
+    private final int COLMAX = 10;
+    private final int ROWMAX = 10;
 
     //amount of pieces
-    static final int numOfMarshalls = 1;
+    private final int numOfMarshalls = 1;
     static final int numOfGenerals = 1;
     static final int numOfColonels = 2;
     static final int numOfMajors = 3;
@@ -27,9 +27,8 @@ public class StrategoGameState {
     static final int numOfScouts = 8;
     static final int numOfSpy = 1;
     static final int numOfBombs = 6;
-    static final int numOfFlags = 1;
 
-    private Block[][] board = new Block[10][10];
+    private Block[][] board = new Block[ROWMAX][COLMAX];
 
     //ids of the players
     private int playerOneID;
@@ -70,9 +69,6 @@ public class StrategoGameState {
 
     //id of the player whose turn it is
     private int currentPlayer;
-
-    //checks if game is won
-    private boolean gameWon = false;
 
 
     /**
@@ -131,7 +127,6 @@ public class StrategoGameState {
             }
         }
 
-        gameWon = false;
     }
 
     /**
@@ -177,6 +172,7 @@ public class StrategoGameState {
 
         this.currentPlayer = state.currentPlayer;
 
+        //put new blocks here
         for(int i = 0; i < 10; i++){
             for (int j = 0; j < 10; j++){
                 this.board[i][j] = state.board[i][j];
@@ -213,13 +209,6 @@ public class StrategoGameState {
         }
         toReturn += "------------------------\n";
 
-        if(gameWon == true){
-            toReturn += "Game is over\n";
-        }
-        else{
-            toReturn += "Game is not over\n";
-        }
-
         return toReturn;
     }
 
@@ -241,6 +230,10 @@ public class StrategoGameState {
         return true;
     }
 
+    public boolean removePiece() {
+
+    }
+
     //transitions from set up to PLAY_PHASE
     public boolean transitionPhases() {
         if(this.currentPhase == Phase.SETUP_PHASE) {
@@ -259,7 +252,11 @@ public class StrategoGameState {
     }
 
     //helper method for movePiece
-    public boolean attackPiece(Piece attacker, Piece defender) {
+    private boolean attackPiece(Piece attacker, Piece defender) {
+        return false;
+    }
+
+    public boolean forfeitGame() {
         return false;
     }
 
@@ -269,10 +266,6 @@ public class StrategoGameState {
         return false;
     }
 
-    //How do I do this
-    public boolean receiveUpdatedInfo(StrategoGameState newGameState) {
-        return false;
-    }
 
     //timer maybe
 
