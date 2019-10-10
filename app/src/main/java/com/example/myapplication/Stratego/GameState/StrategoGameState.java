@@ -1,5 +1,7 @@
 package com.example.myapplication.Stratego.GameState;
 
+import java.util.ArrayList;
+
 /**
  * The State of the game.
  * Includes values for pieces,
@@ -17,16 +19,16 @@ public class StrategoGameState {
 
     //amount of pieces
     private final int numOfMarshalls = 1;
-    static final int numOfGenerals = 1;
-    static final int numOfColonels = 2;
-    static final int numOfMajors = 3;
-    static final int numOfCaptains = 4;
-    static final int numOfLietenants = 4;
-    static final int numOfSergeants = 4;
-    static final int numOfMiners = 5;
-    static final int numOfScouts = 8;
-    static final int numOfSpy = 1;
-    static final int numOfBombs = 6;
+    private final int numOfGenerals = 1;
+    private final int numOfColonels = 2;
+    private final int numOfMajors = 3;
+    private final int numOfCaptains = 4;
+    private final int numOfLietenants = 4;
+    private final int numOfSergeants = 4;
+    private final int numOfMiners = 5;
+    private final int numOfScouts = 8;
+    private final int numOfSpy = 1;
+    private final int numOfBombs = 6;
 
     private Block[][] board = new Block[ROWMAX][COLMAX];
 
@@ -35,34 +37,14 @@ public class StrategoGameState {
     private int playerOneTimer; //in milliseconds
 
     //variables that will store the amount of pieces player One has
-    private int playerOneMarshalls;
-    private int playerOneGenerals;
-    private int playerOneColonels;
-    private int playerOneMajors;
-    private int playerOneCaptains;
-    private int playerOneLietenants;
-    private int playerOneSergeants;
-    private int playerOneMiners;
-    private int playerOneScouts;
-    private int playerOneSpy;
-    private int playerOneBombs;
+    private ArrayList<Piece> playerOnePieces;
     private boolean playerOneHasFlag;
 
     private int playerTwoID;
     private int playerTwoTimer; //in milliseconds
 
     //variables that will store the amount of pieces player Two has
-    private int playerTwoMarshalls;
-    private int playerTwoGenerals;
-    private int playerTwoColonels;
-    private int playerTwoMajors;
-    private int playerTwoCaptains;
-    private int playerTwoLietenants;
-    private int playerTwoSergeants;
-    private int playerTwoMiners;
-    private int playerTwoScouts;
-    private int playerTwoSpy;
-    private int playerTwoBombs;
+    private ArrayList<Piece> playerTwoPieces;
     private boolean playerTwoHasFlag;
 
     private Phase currentPhase;
@@ -78,33 +60,13 @@ public class StrategoGameState {
         playerOneID = 1;
         playerOneTimer = 3000;
 
-        playerOneMarshalls = 0;
-        playerOneGenerals = 0;
-        playerOneColonels = 0;
-        playerOneMajors = 0;
-        playerOneCaptains = 0;
-        playerOneLietenants = 0;
-        playerOneSergeants = 0;
-        playerOneMiners = 0;
-        playerOneScouts = 0;
-        playerOneSpy = 0;
-        playerOneBombs = 0;
+        playerOnePieces= new ArrayList<Piece>();
         playerOneHasFlag = false;
 
         playerTwoID = 2;
         playerTwoTimer = 0;
 
-        playerTwoMarshalls = 0;
-        playerTwoGenerals = 0;
-        playerTwoColonels = 0;
-        playerTwoMajors = 0;
-        playerTwoCaptains = 0;
-        playerTwoLietenants = 0;
-        playerTwoSergeants = 0;
-        playerTwoMiners = 0;
-        playerTwoScouts = 0;
-        playerTwoSpy = 0;
-        playerTwoBombs = 0;
+        playerTwoPieces=new ArrayList<Piece>();
         playerTwoHasFlag = false;
 
 
@@ -139,34 +101,21 @@ public class StrategoGameState {
         this.playerOneID = state.playerOneID;
         this.playerOneTimer = state.playerOneTimer;
 
-        this.playerOneMarshalls = state.playerOneMarshalls;
-        this.playerOneGenerals = state.playerOneGenerals;
-        this.playerOneColonels = state.playerOneColonels;
-        this.playerOneMajors = state.playerOneMajors;
-        this.playerOneCaptains = state.playerOneCaptains;
-        this.playerOneLietenants = state.playerOneLietenants;
-        this.playerOneSergeants = state.playerOneSergeants;
-        this.playerOneMiners = state.playerOneMiners;
-        this.playerOneScouts = state.playerOneScouts;
-        this.playerOneSpy = state.playerOneSpy ;
-        this.playerOneBombs = state.playerOneBombs;
+        for(Piece p: state.playerOnePieces) {
+            this.playerOnePieces.add(new Piece(p));
+        }
+        //deep copy of arrayLists
+
         this.playerOneHasFlag = state.playerOneHasFlag;
 
         this.playerTwoID = state.playerTwoID;
         this.playerTwoTimer = state.playerTwoTimer;
 
-       this.playerTwoMarshalls = state.playerTwoMarshalls;
-       this.playerTwoGenerals = state.playerTwoGenerals;
-       this.playerTwoColonels = state.playerTwoColonels;
-       this.playerTwoMajors = state.playerTwoMajors;
-       this.playerTwoCaptains = state.playerTwoCaptains;
-       this.playerTwoLietenants = state.playerTwoLietenants;
-       this.playerTwoSergeants = state.playerTwoSergeants;
-       this.playerTwoMiners = state.playerTwoMiners;
-       this.playerTwoScouts = state.playerTwoScouts;
-       this.playerTwoSpy = state.playerTwoSpy;
-       this.playerTwoBombs = state.playerTwoBombs;
-       this.playerTwoHasFlag = state.playerTwoHasFlag;
+        for(Piece p: state.playerTwoPieces) {
+            this.playerTwoPieces.add(new Piece(p));
+        }
+
+        this.playerTwoHasFlag = state.playerTwoHasFlag;
 
         this.currentPhase = state.currentPhase;
 
@@ -175,7 +124,7 @@ public class StrategoGameState {
         //put new blocks here
         for(int i = 0; i < 10; i++){
             for (int j = 0; j < 10; j++){
-                this.board[i][j] = state.board[i][j];
+                this.board[i][j] = new Block(state.board[i][j]);
             }
         }
 
@@ -214,7 +163,7 @@ public class StrategoGameState {
 
     //set up variables?
     //allows players to set pieces on the board if its SET_UP phase
-    public boolean setPiece(int x, int y) {
+    public boolean setPiece(Rank pieceRank, int x, int y) {
         if(x >= ROWMAX || x < 0 ) {
             return false;
         }
@@ -231,7 +180,7 @@ public class StrategoGameState {
     }
 
     public boolean removePiece() {
-
+        return false;
     }
 
     //transitions from set up to PLAY_PHASE

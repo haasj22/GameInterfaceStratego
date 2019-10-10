@@ -10,7 +10,7 @@ package com.example.myapplication.Stratego.GameState;
 
 public class Block {
 
-    Tile blockType;
+    private Tile blockType;
     private Piece containedPiece;
     private boolean isHighLighted;
 
