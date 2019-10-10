@@ -61,7 +61,12 @@ public class StrategoGameState {
      */
     public StrategoGameState(){
         playerOneID = 1;
+        playerOneTimer = 3000;
+
         playerTwoID = 2;
+        playerTwoTimer = 0;
+
+        currentPhase = phase.SETUP_PHASE;
 
         turn = 1;
 
@@ -69,7 +74,13 @@ public class StrategoGameState {
             for(int j = 0; j < 10; j++){
                 if(i != 4 || i !=5) {
                     board[i][j] = new Block(Block.Tile.GRASS);
+                    break;
                 }
+                if(j != 2 || j != 3 || j != 6 || j != 7) {
+                    board[i][j] = new Block(Block.Tile.WATER);
+                    break;
+                }
+                board[i][j] = new Block(Block.Tile.BRIDGE)
             }
         }
 
