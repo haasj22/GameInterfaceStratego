@@ -27,18 +27,19 @@ public class StrategoGameState {
     static final int numOfScouts = 8;
     static final int numOfSpy = 1;
     static final int numOfBombs = 6;
+    static final int numOfFlags = 1;
 
     //ranks of pieces
     static final int rankOfMarshall = 1;
     static final int rankOfGeneral = 2;
     static final int rankOfColonel = 3;
     static final int rankOfMajor = 4;
-    final int rankOfCaptain = 5;
-    final int rankOfLieutenant = 6;
-    final int rankOfSergeant = 7;
-    final int rankOfMiner = 8;
-    final int rankOfScout = 9;
-    final int rankOfSpy = 0;
+    static final int rankOfCaptain = 5;
+    static final int rankOfLieutenant = 6;
+    static final int rankOfSergeant = 7;
+    static final int rankOfMiner = 8;
+    static final int rankOfScout = 9;
+    static final int rankOfSpy = 0;
 
     private Block[][] board = new Block[10][10];
 
@@ -46,8 +47,34 @@ public class StrategoGameState {
     private int playerOneID;
     private int playerOneTimer; //in milliseconds
 
+    private int playerOneMarshalls;
+    private int playerOneGenerals;
+    private int playerOneColonels;
+    private int playerOneMajors;
+    private int playerOneCaptains;
+    private int playerOneLietenants;
+    private int playerOneSergeants;
+    private int playerOneMiners;
+    private int playerOneScouts;
+    private int playerOneSpy;
+    private int playerOneBombs;
+    private boolean playerOneHasFlag;
+
     private int playerTwoID;
     private int playerTwoTimer; //in milliseconds
+
+    private int playerTwoMarshalls;
+    private int playerTwoGenerals;
+    private int playerTwoColonels;
+    private int playerTwoMajors;
+    private int playerTwoCaptains;
+    private int playerTwoLietenants;
+    private int playerTwoSergeants;
+    private int playerTwoMiners;
+    private int playerTwoScouts;
+    private int playerTwoSpy;
+    private int playerTwoBombs;
+    private boolean playerTwoHasFlag;
 
     private Phase currentPhase;
 
@@ -152,6 +179,7 @@ public class StrategoGameState {
         return toReturn;
     }
 
+    //set up variables?
     //allows players to set pieces on the board if its SET_UP phase
     public boolean setPiece(int x1, int y1, int x2, int y2) {
         if(x1 >= ROWMAX || x1 < 0 || x2 >= ROWMAX || x2 < 0) {
@@ -186,6 +214,10 @@ public class StrategoGameState {
         return true;
     }
 
+    public boolean attackPiece(Piece attacker, Piece defender) {
+
+    }
+
     //checks if the game is over
     public boolean isGameOver() {
 
@@ -196,5 +228,6 @@ public class StrategoGameState {
     public boolean receiveUpdatedInfo(StrategoGameState newGameState) {
     }
 
+    //timer maybe
 
 }
