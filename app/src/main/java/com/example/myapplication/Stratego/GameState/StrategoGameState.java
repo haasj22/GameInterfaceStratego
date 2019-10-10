@@ -92,8 +92,35 @@ public class StrategoGameState {
         playerOneID = 1;
         playerOneTimer = 3000;
 
+        playerOneMarshalls = 0;
+        playerOneGenerals = 0;
+        playerOneColonels = 0;
+        playerOneMajors = 0;
+        playerOneCaptains = 0;
+        playerOneLietenants = 0;
+        playerOneSergeants = 0;
+        playerOneMiners = 0;
+        playerOneScouts = 0;
+        playerOneSpy = 0;
+        playerOneBombs = 0;
+        playerOneHasFlag = false;
+
         playerTwoID = 2;
         playerTwoTimer = 0;
+
+        playerTwoMarshalls = 0;
+        playerTwoGenerals = 0;
+        playerTwoColonels = 0;
+        playerTwoMajors = 0;
+        playerTwoCaptains = 0;
+        playerTwoLietenants = 0;
+        playerTwoSergeants = 0;
+        playerTwoMiners = 0;
+        playerTwoScouts = 0;
+        playerTwoSpy = 0;
+        playerTwoBombs = 0;
+        playerTwoHasFlag = false;
+
 
         currentPhase = Phase.SETUP_PHASE;
 
@@ -122,11 +149,38 @@ public class StrategoGameState {
      * @param state the one true state of the game that would be copied.
      */
     public StrategoGameState(StrategoGameState state){
+
         this.playerOneID = state.playerOneID;
         this.playerOneTimer = state.playerOneTimer;
 
+        this.playerOneMarshalls = state.playerOneMarshalls;
+        this.playerOneGenerals = state.playerOneGenerals;
+        this.playerOneColonels = state.playerOneColonels;
+        this.playerOneMajors = state.playerOneMajors;
+        this.playerOneCaptains = state.playerOneCaptains;
+        this.playerOneLietenants = state.playerOneLietenants;
+        this.playerOneSergeants = state.playerOneSergeants;
+        this.playerOneMiners = state.playerOneMiners;
+        this.playerOneScouts = state.playerOneScouts;
+        this.playerOneSpy = state.playerOneSpy ;
+        this.playerOneBombs = state.playerOneBombs;
+        this.playerOneHasFlag = state.playerOneHasFlag;
+
         this.playerTwoID = state.playerTwoID;
         this.playerTwoTimer = state.playerTwoTimer;
+
+       this.playerTwoMarshalls = state.playerTwoMarshalls;
+       this.playerTwoGenerals = state.playerTwoGenerals;
+       this.playerTwoColonels = state.playerTwoColonels;
+       this.playerTwoMajors = state.playerTwoMajors;
+       this.playerTwoCaptains = state.playerTwoCaptains;
+       this.playerTwoLietenants = state.playerTwoLietenants;
+       this.playerTwoSergeants = state.playerTwoSergeants;
+       this.playerTwoMiners = state.playerTwoMiners;
+       this.playerTwoScouts = state.playerTwoScouts;
+       this.playerTwoSpy = state.playerTwoSpy;
+       this.playerTwoBombs = state.playerTwoBombs;
+       this.playerTwoHasFlag = state.playerTwoHasFlag;
 
         this.currentPhase = state.currentPhase;
 
@@ -137,7 +191,6 @@ public class StrategoGameState {
                 this.board[i][j] = state.board[i][j];
             }
         }
-
 
     }
 
@@ -215,7 +268,7 @@ public class StrategoGameState {
     }
 
     public boolean attackPiece(Piece attacker, Piece defender) {
-
+        return false;
     }
 
     //checks if the game is over

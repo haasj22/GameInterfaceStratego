@@ -1,4 +1,11 @@
 package com.example.myapplication.Stratego.GameState;
+/**
+ * @author Kavya Mandla
+ * @author John Haas
+ * @author Jordan Ho
+ *
+ * Rank class
+ */
 
 import androidx.annotation.NonNull;
 

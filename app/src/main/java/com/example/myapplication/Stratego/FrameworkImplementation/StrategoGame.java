@@ -6,9 +6,13 @@ import com.example.myapplication.Stratego.GameState.StrategoGameState;
 public class StrategoGame {
     private StrategoGameState currentGameState;
 
-    public void start();
+    public void start(){
 
-    public void sendAction();
+    }
+
+    public void sendAction(){
+
+    }
 
 
 }

@@ -1,5 +1,12 @@
 package com.example.myapplication.Stratego.GameState;
 
+/**
+ *  @author Kavya Mandla
+ *  @author John Haas
+ *  @author Jordan Ho
+ *
+ */
+
 public class Piece {
 
     enum Rank {

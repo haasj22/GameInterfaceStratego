@@ -1,5 +1,13 @@
 package com.example.myapplication.Stratego.GameState;
 
+/**
+ * @author Kavya Mandla
+ * @author John Haas
+ * @author Jordan Ho
+ *
+ * class for Block
+ */
+
 public class Block {
 
     Tile blockType;
