@@ -226,6 +226,7 @@ public class StrategoGameState {
 
     //How do I do this
     public boolean receiveUpdatedInfo(StrategoGameState newGameState) {
+        return false;
     }
 
     //timer maybe
