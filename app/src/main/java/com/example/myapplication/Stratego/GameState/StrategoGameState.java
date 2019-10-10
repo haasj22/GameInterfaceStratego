@@ -29,24 +29,13 @@ public class StrategoGameState {
     static final int numOfBombs = 6;
     static final int numOfFlags = 1;
 
-    //ranks of pieces
-    static final int rankOfMarshall = 1;
-    static final int rankOfGeneral = 2;
-    static final int rankOfColonel = 3;
-    static final int rankOfMajor = 4;
-    static final int rankOfCaptain = 5;
-    static final int rankOfLieutenant = 6;
-    static final int rankOfSergeant = 7;
-    static final int rankOfMiner = 8;
-    static final int rankOfScout = 9;
-    static final int rankOfSpy = 0;
-
     private Block[][] board = new Block[10][10];
 
     //ids of the players
     private int playerOneID;
     private int playerOneTimer; //in milliseconds
 
+    //variables that will store the amount of pieces player One has
     private int playerOneMarshalls;
     private int playerOneGenerals;
     private int playerOneColonels;
@@ -63,6 +52,7 @@ public class StrategoGameState {
     private int playerTwoID;
     private int playerTwoTimer; //in milliseconds
 
+    //variables that will store the amount of pieces player Two has
     private int playerTwoMarshalls;
     private int playerTwoGenerals;
     private int playerTwoColonels;
@@ -79,7 +69,7 @@ public class StrategoGameState {
     private Phase currentPhase;
 
     //id of the player whose turn it is
-    private int turn;
+    private int currentPlayer;
 
     //checks if game is won
     private boolean gameWon = false;
@@ -124,8 +114,9 @@ public class StrategoGameState {
 
         currentPhase = Phase.SETUP_PHASE;
 
-        turn = 1;
+        currentPlayer = 1;
 
+        //creates basic block
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
                 if(i != 4 || i !=5) {
@@ -184,7 +175,7 @@ public class StrategoGameState {
 
         this.currentPhase = state.currentPhase;
 
-        this.turn = state.turn;
+        this.currentPlayer = state.currentPlayer;
 
         for(int i = 0; i < 10; i++){
             for (int j = 0; j < 10; j++){
@@ -206,7 +197,7 @@ public class StrategoGameState {
 
         toReturn += "[Current Phase: " + currentPhase + "]\n";
 
-        if(turn == 1){
+        if(currentPlayer == 1){
             toReturn += "Player One's Turn\n";
         }
         else{
@@ -234,11 +225,11 @@ public class StrategoGameState {
 
     //set up variables?
     //allows players to set pieces on the board if its SET_UP phase
-    public boolean setPiece(int x1, int y1, int x2, int y2) {
-        if(x1 >= ROWMAX || x1 < 0 || x2 >= ROWMAX || x2 < 0) {
+    public boolean setPiece(int x, int y) {
+        if(x >= ROWMAX || x < 0 ) {
             return false;
         }
-        else if (y1 >= COLMAX || y1 < 0 || y2 >= COLMAX || y2 < 0) {
+        else if ( y >= COLMAX || y < 0 ) {
             return false;
         }
         //use own phase?
@@ -260,13 +251,14 @@ public class StrategoGameState {
     }
 
     //allows the player to move their piece
-    public boolean movePiece() {
+    public boolean movePiece(int x1, int x2, int y1, int y2) {
         if(this.currentPhase != Phase.PLAY_PHASE) {
             return false;
         }
         return true;
     }
 
+    //helper method for movePiece
     public boolean attackPiece(Piece attacker, Piece defender) {
         return false;
     }
