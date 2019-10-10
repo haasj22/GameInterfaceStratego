@@ -94,20 +94,22 @@ public class StrategoGameState {
      */
     public StrategoGameState(StrategoGameState state){
         this.playerOneID = state.playerOneID;
+        this.playerOneTimer = state.playerOneTimer;
+
         this.playerTwoID = state.playerTwoID;
+        this.playerTwoTimer = state.playerTwoTimer;
+
+        this.currentPhase = state.currentPhase;
 
         this.turn = state.turn;
 
         for(int i = 0; i < 10; i++){
             for (int j = 0; j < 10; j++){
-                if(board == null){
-                    return;
-                }
-                else{
-                    board[i][j] = new Board(state.board[i][j]);
-                }
+                this.board[i][j] = state.board[i][j];
             }
         }
+
+
     }
 
 
