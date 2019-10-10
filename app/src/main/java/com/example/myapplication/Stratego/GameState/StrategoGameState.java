@@ -29,18 +29,6 @@ public class StrategoGameState {
     static final int numOfBombs = 6;
     static final int numOfFlags = 1;
 
-    //ranks of pieces
-    static final int rankOfMarshall = 1;
-    static final int rankOfGeneral = 2;
-    static final int rankOfColonel = 3;
-    static final int rankOfMajor = 4;
-    static final int rankOfCaptain = 5;
-    static final int rankOfLieutenant = 6;
-    static final int rankOfSergeant = 7;
-    static final int rankOfMiner = 8;
-    static final int rankOfScout = 9;
-    static final int rankOfSpy = 0;
-
     private Block[][] board = new Block[10][10];
 
     //ids of the players
@@ -79,7 +67,7 @@ public class StrategoGameState {
     private Phase currentPhase;
 
     //id of the player whose turn it is
-    private int turn;
+    private int currentPlayer;
 
     //checks if game is won
     private boolean gameWon = false;
@@ -97,8 +85,9 @@ public class StrategoGameState {
 
         currentPhase = Phase.SETUP_PHASE;
 
-        turn = 1;
+        currentPlayer = 1;
 
+        //creates basic block
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
                 if(i != 4 || i !=5) {
@@ -130,7 +119,7 @@ public class StrategoGameState {
 
         this.currentPhase = state.currentPhase;
 
-        this.turn = state.turn;
+        this.currentPlayer = state.currentPlayer;
 
         for(int i = 0; i < 10; i++){
             for (int j = 0; j < 10; j++){
@@ -153,7 +142,7 @@ public class StrategoGameState {
 
         toReturn += "[Current Phase: " + currentPhase + "]\n";
 
-        if(turn == 1){
+        if(currentPlayer == 1){
             toReturn += "Player One's Turn\n";
         }
         else{
@@ -199,6 +188,7 @@ public class StrategoGameState {
 
     //transitions from set up to PLAY_PHASE
     public boolean transitionPhases() {
+        if
         if(this.currentPhase == Phase.SETUP_PHASE) {
             this.currentPhase = Phase.PLAY_PHASE;
             return true;
@@ -215,7 +205,7 @@ public class StrategoGameState {
     }
 
     public boolean attackPiece(Piece attacker, Piece defender) {
-
+        return false;
     }
 
     //checks if the game is over

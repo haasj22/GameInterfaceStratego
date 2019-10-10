@@ -1,5 +1,6 @@
 package com.example.myapplication.Stratego.GameState;
 
+//used for highlighting blocks
 enum Tile{
     WATER {
         @Override
