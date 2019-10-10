@@ -152,5 +152,21 @@ public class StrategoGameState {
         return toReturn;
     }
 
+    public boolean setPiece() {
+        return false;
+    }
+
+    public boolean transitionPhases() {
+        return false;
+    }
+
+    public boolean movePiece() {
+        return false;
+    }
+
+    public boolean isGameOver() {
+        return false;
+    }
+
 
 }
