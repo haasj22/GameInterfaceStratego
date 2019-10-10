@@ -153,17 +153,18 @@ public class StrategoGameState {
     }
 
     //allows players to set pieces on the board if its SET_UP phase
-    public boolean setPiece(Piece pieceToPlace, int x, int y) {
-        if(x >= ROWMAX || x < 0) {
+    public boolean setPiece(int x1, int y1, int x2, int y2) {
+        if(x1 >= ROWMAX || x1 < 0 || x2 >= ROWMAX || x2 < 0) {
             return false;
         }
-        else if (y >= COLMAX || y < 0) {
+        else if (y1 >= COLMAX || y1 < 0 || y2 >= COLMAX || y2 < 0) {
             return false;
         }
         //use own phase?
         else if (this.currentPhase != Phase.SETUP_PHASE) {
             return false;
         }
+
 
         return true;
     }
