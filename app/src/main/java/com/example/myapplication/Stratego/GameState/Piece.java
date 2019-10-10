@@ -28,15 +28,19 @@ public class Piece {
     Rank pieceRank;
     boolean isVisible;
 
+    //TODO: make adjustments to copy constructor @JOHN
+    public Piece(){
+        pieceTeam = Team.BLUE_TEAM;
+        pieceRank = Rank.ONE;
+        isVisible = true;
+    }
+
     public Piece(Team pTeam, Rank pRank) {
         pieceTeam = pTeam;
         pieceRank = pRank;
         isVisible = false;
     }
-    //TODO: add copy constructor
-    public Piece(){
 
-    }
 
     public String toString() {
         String toReturn = "Piece Information\n";

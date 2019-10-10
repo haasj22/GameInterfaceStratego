@@ -14,6 +14,13 @@ public class Block {
     private Piece containedPiece;
     private boolean isHighLighted;
 
+    //TODO: make adjustments as necessary @JOHN
+    public Block(){
+        blockType = Tile.BRIDGE;
+        containedPiece = ;
+        isHighLighted = false;
+
+    }
 
     public Block(Piece conPiece, Tile typeOfLand) {
         blockType=typeOfLand;
@@ -27,10 +34,7 @@ public class Block {
         isHighLighted=false;
     }
 
-    //TODO: add copy constructor
-    public Block(){
 
-    }
 
     public String toString() {
         String toReturn="Block Info\n";
