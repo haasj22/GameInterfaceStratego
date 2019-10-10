@@ -152,20 +152,47 @@ public class StrategoGameState {
         return toReturn;
     }
 
-    public boolean setPiece() {
-        return false;
+    //allows players to set pieces on the board if its SET_UP phase
+    public boolean setPiece(Piece pieceToPlace, int x, int y) {
+        if(x >= ROWMAX || x < 0) {
+            return false;
+        }
+        else if (y >= COLMAX || y < 0) {
+            return false;
+        }
+        //use own phase?
+        else if (this.currentPhase != Phase.SETUP_PHASE) {
+            return false;
+        }
+
+        return true;
     }
 
+    //transitions from set up to PLAY_PHASE
     public boolean transitionPhases() {
+        if(this.currentPhase == Phase.SETUP_PHASE) {
+            this.currentPhase = Phase.PLAY_PHASE;
+            return true;
+        }
         return false;
     }
 
+    //allows the player to move their piece
     public boolean movePiece() {
+        if(this.currentPhase != Phase.PLAY_PHASE) {
+            return false;
+        }
+        return true;
+    }
+
+    //checks if the game is over
+    public boolean isGameOver() {
+
         return false;
     }
 
-    public boolean isGameOver() {
-        return false;
+    //How do I do this
+    public boolean receiveUpdatedInfo(StrategoGameState newGameState) {
     }
 
 
