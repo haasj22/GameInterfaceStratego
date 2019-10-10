@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Stratego.GameState;
 
 public class Piece {
     enum Team {

@@ -1,4 +1,4 @@
-package com.example.myapplication;
+package com.example.myapplication.Stratego.GameState;
 
 /**
  * Holds information on pieces and their values
