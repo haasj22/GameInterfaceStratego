@@ -19,21 +19,21 @@ public class StrategoGameState {
     };
 
     //max number of rows and cols in board
-    private final int COLMAX = 10;
-    private final int ROWMAX = 10;
+    static final int COLMAX = 10;
+    static final int ROWMAX = 10;
 
     //amount of pieces
-    private final int numOfMarshalls = 1;
-    private final int numOfGenerals = 1;
-    private final int numOfColonels = 2;
-    private final int numOfMajors = 3;
-    private final int numOfCaptains = 4;
-    private final int numOfLietenants = 4;
-    private final int numOfSergeants = 4;
-    private final int numOfMiners = 5;
-    private final int numOfScouts = 8;
-    private final int numOfSpy = 1;
-    private final int numOfBombs = 6;
+    static final int numOfMarshalls = 1;
+    static final int numOfGenerals = 1;
+    static final int numOfColonels = 2;
+    static final int numOfMajors = 3;
+    static final int numOfCaptains = 4;
+    static final int numOfLietenants = 4;
+    static final int numOfSergeants = 4;
+    static final int numOfMiners = 5;
+    static final int numOfScouts = 8;
+    static final int numOfSpy = 1;
+    static final int numOfBombs = 6;
 
     //ranks of pieces
     final int rankOfMarshall = 10;
@@ -80,10 +80,10 @@ public class StrategoGameState {
      * @param state the one true state of the game that would be copied.
      */
     public StrategoGameState(StrategoGameState state){
-        playerOneID = state.playerOneID;
-        playerTwoID = state.playerTwoID;
+        this.playerOneID = state.playerOneID;
+        this.playerTwoID = state.playerTwoID;
 
-        turn = state.turn;
+        this.turn = state.turn;
 
         for(int i = 0; i < 10; i++){
             for (int j = 0; j < 10; j++){
