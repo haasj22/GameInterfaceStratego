@@ -4,6 +4,7 @@
  * @author John Haas
  * @author Jordan Ho
  * @author Kavya Mandla
+ * @version October 2019
  */
 
 package com.example.myapplication.Stratego.GameState;
@@ -144,8 +145,15 @@ public class StrategoGameState {
 
     }
 
+    /**
+     * setPiece method
+     * allows players to set pieces on the board if its SET_UP phase
+     * @param pieceRank
+     * @param x
+     * @param y
+     * @return
+     */
     //set up variables?
-    //allows players to set pieces on the board if its SET_UP phase
     public boolean setPiece(Rank pieceRank, int x, int y) {
         if(x >= ROWMAX || x < 0 ) {
             return false;
@@ -162,11 +170,20 @@ public class StrategoGameState {
         return true;
     }
 
+    /**
+     * removePiece method
+     * removes pieces from board during set up phase
+     * @return
+     */
     public boolean removePiece() {
         return false;
     }
 
-    //transitions from set up to PLAY_PHASE
+    /**
+     * transitionPhases method
+     * transitions from set up to PLAY_PHASE
+     * @return
+     */
     public boolean transitionPhases() {
         if(this.currentPhase == Phase.SETUP_PHASE) {
             this.currentPhase = Phase.PLAY_PHASE;
@@ -175,7 +192,15 @@ public class StrategoGameState {
         return false;
     }
 
-    //allows the player to move their piece
+    /**
+     * movePiece method
+     * allows players to move their piece
+     * @param x1
+     * @param x2
+     * @param y1
+     * @param y2
+     * @return
+     */
     public boolean movePiece(int x1, int x2, int y1, int y2) {
         if(this.currentPhase != Phase.PLAY_PHASE) {
             return false;
@@ -183,22 +208,41 @@ public class StrategoGameState {
         return true;
     }
 
-    //helper method for movePiece
+    /**
+     * attackPiece method
+     * helper method for movePiece
+     * @param attacker
+     * @param defender
+     * @return
+     */
     private boolean attackPiece(Piece attacker, Piece defender) {
         return false;
     }
 
+
+    /**
+     * forfeitGame method
+     * @return
+     */
     public boolean forfeitGame() {
         return false;
     }
 
-    //checks if the game is over
+    /**
+     * isGameOver method
+     * checks if the game is over
+     * @return
+     */
     public boolean isGameOver() {
 
         return false;
     }
 
 
+    /**
+     * toString method
+     * @return
+     */
     @Override
     public String toString(){
         String toReturn = "\nStratego Game State:\n";

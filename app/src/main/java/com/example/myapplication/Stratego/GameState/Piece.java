@@ -33,6 +33,10 @@ public class Piece {
         pieceRank = pRank;
         isVisible = false;
     }
+    //TODO: add copy constructor
+    public Piece(){
+
+    }
 
     public String toString() {
         String toReturn = "Piece Information\n";

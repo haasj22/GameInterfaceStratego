@@ -27,6 +27,11 @@ public class Block {
         isHighLighted=false;
     }
 
+    //TODO: add copy constructor
+    public Block(){
+
+    }
+
     public String toString() {
         String toReturn="Block Info\n";
         toReturn += "[Block Type: " + blockType + "]\n";
