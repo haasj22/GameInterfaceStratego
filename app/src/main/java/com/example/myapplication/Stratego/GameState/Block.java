@@ -1,25 +1,32 @@
 package com.example.myapplication.Stratego.GameState;
 
 public class Block {
-    enum Tile{
-        WATER,
-        GRASS,
-        BRIDGE
-    }
 
+    Tile blockType;
     private Piece containedPiece;
     private boolean isHighLighted;
-    Tile blockType;
+
 
     public Block(Piece conPiece, Tile typeOfLand) {
+        blockType=typeOfLand;
         containedPiece=conPiece;
         isHighLighted=false;
-        blockType=typeOfLand;
     }
 
     public Block(Tile typeOfLand) {
+        blockType=typeOfLand;
         containedPiece=null;
         isHighLighted=false;
-        blockType=typeOfLand;
+    }
+
+    public String toString() {
+        String toReturn="Block Info\n";
+        toReturn += "[Block Type: " + blockType + "]\n";
+        toReturn += "----------------------";
+        toReturn += containedPiece;
+        toReturn += "----------------------";
+        toReturn += "Is Piece Highlighted: " + isHighLighted;
+
+        return toReturn;
     }
 }

@@ -11,7 +11,8 @@ public abstract class GameHumanPlayer implements GamePlayer {
     public GameHumanPlayer(String name){
         this.name = name;
         this.gameOver = false;
-
     }
+
+
 
 }

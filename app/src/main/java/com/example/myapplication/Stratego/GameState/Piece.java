@@ -1,10 +1,6 @@
 package com.example.myapplication.Stratego.GameState;
 
 public class Piece {
-    enum Team {
-        RED_TEAM,
-        BLUE_TEAM
-    };
 
     enum Rank {
         ONE,
@@ -29,5 +25,14 @@ public class Piece {
         pieceTeam = pTeam;
         pieceRank = pRank;
         isVisible = false;
+    }
+
+    public String toString() {
+        String toReturn = "Piece Information\n";
+        toReturn += "[Pieces Team: " + pieceTeam + "]\n";
+        toReturn += "[Pieces Rank: " + pieceRank + "]\n";
+        toReturn += "[Is Piece Visible: " + isVisible + "]\n";
+
+        return toReturn;
     }
 }
