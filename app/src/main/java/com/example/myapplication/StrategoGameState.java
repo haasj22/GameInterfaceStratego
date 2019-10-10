@@ -67,7 +67,9 @@ public class StrategoGameState {
 
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
-
+                if(i != 4 || i !=5) {
+                    board[i][j] = new Block(Block.Tile.GRASS);
+                }
             }
         }
 
