@@ -100,7 +100,7 @@ public class StrategoGameState {
     }
 
     /**
-     * Deep Copy Constructor
+     * Deep Copy Constructor of the StrategoGameState
      *
      * @param state the one true state of the game that would be copied.
      */
@@ -145,23 +145,29 @@ public class StrategoGameState {
 
     }
 
+
+    /**--------------------------------SETUP_PHASE METHODS----------------------------------------*/
+
     /**
-     * setPiece method
+     * addPieceToGame method
      * allows players to set pieces on the board if its SET_UP phase
-     * @param pieceRank
-     * @param x
-     * @param y
-     * @return
+     * @param placedPiece desired piece to be placed
+     * @param x the desired x coordinate of the placed piece
+     * @param y the desired y coordinate of the placed piece
+     * @return true if piece is set at the desired location
+     *         false if the piece cannot be placed at the desired location
      */
-    //set up variables?
-    public boolean setPiece(Rank pieceRank, int x, int y) {
+    public boolean addPieceToGame(Piece placedPiece, int x, int y) {
+        //TODO finish adding logic to and implementing the method
+        //makes sure x is a legal value
         if(x >= ROWMAX || x < 0 ) {
             return false;
         }
+        //makes sure y is a legal value
         else if ( y >= COLMAX || y < 0 ) {
             return false;
         }
-        //use own phase?
+        //makes sure the current phase is the setup phase
         else if (this.currentPhase != Phase.SETUP_PHASE) {
             return false;
         }
@@ -171,20 +177,42 @@ public class StrategoGameState {
     }
 
     /**
-     * removePiece method
+     * removePieceFromGame method
      * removes pieces from board during set up phase
-     * @return
+     * @param x x variable of the piece to be removed
+     * @param y y variable of the piece to be removed
+     * @return true if piece has been removed
+     *         false if placement lacks a piece or coordinates are invalid
      */
-    public boolean removePiece() {
+    public boolean removePieceFromGame(int x, int y) {
+        //TODO implement removePieceFromGame method functionality
         return false;
     }
 
     /**
+     * movePieceFromGame method
+     * allows the user to move his pieces around the game board during SETUP_PHASE
+     * @param x1 x variable of the original location
+     * @param x2 x variable of the desired location
+     * @param y1 y variable of the original location
+     * @param y2 y variable of the desired location
+     * @return true if piece is properly moved from point 1 to 2
+     *         false if the coordinates are invalid
+     */
+    public boolean movePieceDuringSetup(int x1, int x2, int y1, int y2) {
+        //TODO implement movePieceDuringSetup method
+    }
+
+    /**-------------------------------------------------------------------------------------------*/
+
+    /**
      * transitionPhases method
-     * transitions from set up to PLAY_PHASE
-     * @return
+     * transitions from SETUP_PHASE to PLAY_PHASE
+     * @return true if conditions to transition phases are met
+     *         false if conditions to transition phases are not met
      */
     public boolean transitionPhases() {
+        //TODO implement conditions under which the function returns false
         if(this.currentPhase == Phase.SETUP_PHASE) {
             this.currentPhase = Phase.PLAY_PHASE;
             return true;
@@ -192,16 +220,20 @@ public class StrategoGameState {
         return false;
     }
 
+    /**--------------------------------------PLAY_PHASE-------------------------------------------*/
+
     /**
      * movePiece method
-     * allows players to move their piece
-     * @param x1
-     * @param x2
-     * @param y1
-     * @param y2
-     * @return
+     * allows players to move their piece during PLAY_PHASE
+     * @param x1 original x-coordinate of piece
+     * @param x2 x-coordinate piece wants to be moved to
+     * @param y1 original y-coordinate of piece
+     * @param y2 y-coordinate piece wants to be moved to
+     * @return true once piece has been moved
+     *         false if the coordinates are invalid
      */
     public boolean movePiece(int x1, int x2, int y1, int y2) {
+        //TODO implement movePiece function
         if(this.currentPhase != Phase.PLAY_PHASE) {
             return false;
         }
@@ -209,42 +241,48 @@ public class StrategoGameState {
     }
 
     /**
-     * attackPiece method
-     * helper method for movePiece
-     * @param attacker
-     * @param defender
-     * @return
+     * helper method for movePiece that triggers
+     * when two pieces collide on game board
+     * @param attacker piece that is on the offense
+     * @param defender piece that is defending
+     * @return true if attacker wins
+     *         false if defender wins
      */
     private boolean attackPiece(Piece attacker, Piece defender) {
-        return false;
-    }
-
-
-    /**
-     * forfeitGame method
-     * @return
-     */
-    public boolean forfeitGame() {
+        //TODO implment attackPiece method
         return false;
     }
 
     /**
      * isGameOver method
      * checks if the game is over
-     * @return
+     * @return true if both players have their flags
      */
     public boolean isGameOver() {
-
+        //TODO implement isGameOver method
         return false;
     }
 
+    /**-------------------------------------------------------------------------------------------*/
+
+    /**-----------------------------------General Methods-----------------------------------------*/
 
     /**
-     * toString method
-     * @return
+     * method that allows the user to forfeit the game
+     * @return true once game has been ended
+     */
+    public boolean forfeitGame() {
+        //TODO Implement forfeitGame method
+        return true;
+    }
+
+    /**
+     * method that prints class information as a String
+     * @return toReturn: the String that contains all the gameState information
      */
     @Override
     public String toString(){
+        //prints all the game state information
         String toReturn = "\nStratego Game State:\n";
 
         toReturn += "[Player One ID: " + playerOneID + "]\n";
@@ -255,6 +293,7 @@ public class StrategoGameState {
 
         toReturn += "[Current Phase: " + currentPhase + "]\n";
 
+        //prints whose turn it is based on currentPlayer variable
         if(currentPlayer == 1){
             toReturn += "Player One's Turn\n";
         }
@@ -262,16 +301,21 @@ public class StrategoGameState {
             toReturn += "Player Two's turn\n";
         }
 
+        //prints whats stored in each board block
         toReturn += "------------------------\n";
         for(int i=0; i<ROWMAX; i++) {
             for(int j=0; j<COLMAX; j++) {
-                toReturn += "[Block " + (i+1) + ":" + (j+1) + "]\n";
+                toReturn += "[Block " + (i+1) + ":" + (j+1) + "]";
                 toReturn += board[i][j];
             }
+            toReturn += "\n";
         }
         toReturn += "------------------------\n";
 
+        //return information
         return toReturn;
     }
+
+    /**-------------------------------------------------------------------------------------------*/
 
 }

@@ -24,16 +24,10 @@ public class Piece {
         FLAG
     };
 
-    Team pieceTeam;
-    Rank pieceRank;
-    boolean isVisible;
+    private Team pieceTeam;
+    private Rank pieceRank;
+    private boolean isVisible;
 
-    //TODO: make adjustments to copy constructor @JOHN
-    public Piece(){
-        pieceTeam = Team.BLUE_TEAM;
-        pieceRank = Rank.ONE;
-        isVisible = true;
-    }
 
     public Piece(Team pTeam, Rank pRank) {
         pieceTeam = pTeam;

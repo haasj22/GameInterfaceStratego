@@ -14,13 +14,6 @@ public class Block {
     private Piece containedPiece;
     private boolean isHighLighted;
 
-    //TODO: make adjustments as necessary @JOHN
-    public Block(){
-        blockType = Tile.BRIDGE;
-        containedPiece = ;
-        isHighLighted = false;
-
-    }
 
     public Block(Piece conPiece, Tile typeOfLand) {
         blockType=typeOfLand;
@@ -32,6 +25,10 @@ public class Block {
         blockType=typeOfLand;
         containedPiece=null;
         isHighLighted=false;
+    }
+
+    public void setContainedPiece(Piece addedPiece) {
+        this.containedPiece=addedPiece;
     }
 
 
