@@ -1,6 +1,10 @@
+/**
+ * enum that will store which team each piece is on
+ *
+ * @author John Haas
+ */
+
 package com.example.myapplication.Stratego.GameState;
-
-
 
 enum Team {
     RED_TEAM {

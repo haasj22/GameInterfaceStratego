@@ -1,12 +1,10 @@
-package com.example.myapplication.Stratego.GameState;
 /**
- * @author Kavya Mandla
- * @author John Haas
- * @author Jordan Ho
+ * Enum that will store a piece's rank
  *
- * Rank class
+ * @author John Haas
  */
 
+package com.example.myapplication.Stratego.GameState;
 import androidx.annotation.NonNull;
 
 enum Rank {

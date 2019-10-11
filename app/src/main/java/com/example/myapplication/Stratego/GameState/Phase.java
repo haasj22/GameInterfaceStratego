@@ -1,3 +1,9 @@
+/**
+ * enum that will store the current phase of the game
+ *
+ * @author John Haas
+ */
+
 package com.example.myapplication.Stratego.GameState;
 
 enum Phase {

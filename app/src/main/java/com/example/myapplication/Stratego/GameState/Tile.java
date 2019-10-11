@@ -1,3 +1,9 @@
+/**
+ * enum that stores the tile type of each block
+ *
+ * @author John Haas
+ */
+
 package com.example.myapplication.Stratego.GameState;
 
 //used for highlighting blocks

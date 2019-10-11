@@ -36,6 +36,7 @@ public class StrategoGameState {
     //player one's information
     private int playerOneID;
     private int playerOneTimer; //in milliseconds
+
     //variables that will store what pieces player one has in play
     private ArrayList<Piece> playerOnePieces;
     //necessary for transitioning between phases
@@ -54,7 +55,6 @@ public class StrategoGameState {
 
     //id of the player whose turn it is
     private int currentPlayer;
-
 
     /**
      * Constructor for objects of class StrategoGameState
@@ -102,49 +102,99 @@ public class StrategoGameState {
     /**
      * Deep Copy Constructor of the StrategoGameState
      *
-     * @param state the one true state of the game that would be copied.
+     * @param trueState the one true state of the game that would be copied.
      */
-    public StrategoGameState(StrategoGameState state){
+    public StrategoGameState(StrategoGameState trueState){
 
         //copies player one's information
-        this.playerOneID = state.playerOneID;
-        this.playerOneTimer = state.playerOneTimer;
+        this.playerOneID = trueState.playerOneID;
+        this.playerOneTimer = trueState.playerOneTimer;
 
         //copies player one's pieces
-        for(Piece p: state.playerOnePieces) {
+        for(Piece p: trueState.playerOnePieces) {
             this.playerOnePieces.add(new Piece(p));
         }
 
         //sees whether player one has won yet
-        this.playerOneHasFlag = state.playerOneHasFlag;
+        this.playerOneHasFlag = trueState.playerOneHasFlag;
 
         //copies player two's information
-        this.playerTwoID = state.playerTwoID;
-        this.playerTwoTimer = state.playerTwoTimer;
+        this.playerTwoID = trueState.playerTwoID;
+        this.playerTwoTimer = trueState.playerTwoTimer;
 
         //copies player two's pieces
-        for(Piece p: state.playerTwoPieces) {
+        for(Piece p: trueState.playerTwoPieces) {
             this.playerTwoPieces.add(new Piece(p));
         }
 
         //sees whether player two has won yet
-        this.playerTwoHasFlag = state.playerTwoHasFlag;
+        this.playerTwoHasFlag = trueState.playerTwoHasFlag;
 
         //copies the phase of the game
-        this.currentPhase = state.currentPhase;
+        this.currentPhase = trueState.currentPhase;
 
         //finds who's turn it is
-        this.currentPlayer = state.currentPlayer;
+        this.currentPlayer = trueState.currentPlayer;
 
         //copies the game board
         for(int i = 0; i < 10; i++){
             for (int j = 0; j < 10; j++){
-                this.board[i][j] = new Block(state.board[i][j]);
+                this.board[i][j] = new Block(trueState.board[i][j]);
             }
         }
 
     }
+    /**-----------------------------------GETTER METHODS------------------------------------------*/
 
+    public Block[][] getBoard() {
+        return board;
+    }
+
+    public ArrayList<Piece> getPlayerOnePieces() {
+        return playerOnePieces;
+    }
+
+    public boolean getIsPlayerOneHasFlag() {
+        return playerOneHasFlag;
+    }
+
+    public ArrayList<Piece> getPlayerTwoPieces() {
+        return playerTwoPieces;
+    }
+
+    public boolean getIsPlayerTwoHasFlag() {
+        return playerTwoHasFlag;
+    }
+
+    public Phase getCurrentPhase() {
+        return currentPhase;
+    }
+
+    /**-----------------------------------SETTER METHODS------------------------------------------*/
+
+    public void setBoard(Block[][] board) {
+        this.board = board;
+    }
+
+    public void setPlayerOnePieces(ArrayList<Piece> playerOnePieces) {
+        this.playerOnePieces = playerOnePieces;
+    }
+
+    public void setPlayerOneHasFlag(boolean playerOneHasFlag) {
+        this.playerOneHasFlag = playerOneHasFlag;
+    }
+
+    public void setPlayerTwoPieces(ArrayList<Piece> playerTwoPieces) {
+        this.playerTwoPieces = playerTwoPieces;
+    }
+
+    public void setPlayerTwoHasFlag(boolean playerTwoHasFlag) {
+        this.playerTwoHasFlag = playerTwoHasFlag;
+    }
+
+    public void setCurrentPhase(Phase currentPhase) {
+        this.currentPhase = currentPhase;
+    }
 
     /**--------------------------------SETUP_PHASE METHODS----------------------------------------*/
 
@@ -201,6 +251,7 @@ public class StrategoGameState {
      */
     public boolean movePieceDuringSetup(int x1, int x2, int y1, int y2) {
         //TODO implement movePieceDuringSetup method
+        return false;
     }
 
     /**-------------------------------------------------------------------------------------------*/
