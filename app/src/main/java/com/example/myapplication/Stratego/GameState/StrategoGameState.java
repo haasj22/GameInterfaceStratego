@@ -17,18 +17,9 @@ public class StrategoGameState {
     private final int COLMAX = 10;
     private final int ROWMAX = 10;
 
-    //maximum amount of pieces each game can have
-    private final int numOfMarshalls = 1;
-    private final int numOfGenerals = 1;
-    private final int numOfColonels = 2;
-    private final int numOfMajors = 3;
-    private final int numOfCaptains = 4;
-    private final int numOfLietenants = 4;
-    private final int numOfSergeants = 4;
-    private final int numOfMiners = 5;
-    private final int numOfScouts = 8;
-    private final int numOfSpy = 1;
-    private final int numOfBombs = 6;
+    //stores the proper min and max indexes for the columns
+    private final int COLMININDEX=0;
+    private final int COLMAXINDEX=0;
 
     //array that represents the state of the game board
     private Block[][] board = new Block[ROWMAX][COLMAX];
@@ -210,18 +201,37 @@ public class StrategoGameState {
     public boolean addPieceToGame(Piece placedPiece, int x, int y) {
         //TODO finish adding logic to and implementing the method
         //makes sure x is a legal value
-        if(x >= ROWMAX || x < 0 ) {
+        if(x < COLMININDEX || x > COLMAXINDEX ) {
             return false;
         }
         //makes sure y is a legal value
-        else if ( y >= COLMAX || y < 0 ) {
+        if ( y < placedPiece.getPieceTeam().getTOPBOUNDARYINDEX()
+                || y > placedPiece.getPieceTeam().getBOTTOMBOUNDARYINDEX() ) {
             return false;
         }
         //makes sure the current phase is the setup phase
-        else if (this.currentPhase != Phase.SETUP_PHASE) {
+        if (this.currentPhase != Phase.SETUP_PHASE) {
             return false;
         }
 
+        //makes sure there are not too many of the desired piece on the board
+        int numOfDesiredPieceOnBoard=0;
+        for(Piece piece : playerOnePieces) {
+            if(piece.getPieceRank() == placedPiece.getPieceRank()) {
+                numOfDesiredPieceOnBoard++;
+            }
+        }
+        if(numOfDesiredPieceOnBoard >= placedPiece.getPieceRank().getMaxAmountOfPieces()) {
+            return false;
+        };
+
+        //checks if the desired spot already has a piece on it
+        if(board[y][x].containsPiece()) {
+            return false;
+        }
+
+        //sets the piece to the desired place
+        board[y][x].setContainedPiece(placedPiece);
 
         return true;
     }

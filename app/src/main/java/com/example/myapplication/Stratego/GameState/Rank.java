@@ -7,76 +7,92 @@
 package com.example.myapplication.Stratego.GameState;
 import androidx.annotation.NonNull;
 
-enum Rank {
-    ONE {
+/**
+ * External Citation
+ * Date Writing: 13 October 2019
+ * Person Writing: John Haas
+ * Problem: I was confused as how to add variables and methods to enums
+ *
+ * Resource: https://www.geeksforgeeks.org/enum-in-java/
+ * Solution: I referenced a lot of the starter code in this webpage
+ */
+public enum Rank {
+    ONE(1) {
         @Override
-        public String toString() {
-            return "One";
-        }
+        public String toString() { return "One"; }
     },
-    TWO {
+    TWO(1) {
         @Override
         public String toString() {
             return "Two";
         }
     },
-    THREE {
+    THREE(2) {
         @Override
         public String toString() {
             return "Three";
         }
     },
-    FOUR {
+    FOUR(3) {
         @Override
         public String toString() {
             return "Four";
         }
     },
-    FIVE {
+    FIVE(4) {
         @Override
         public String toString() {
             return "Five";
         }
     },
-    SIX {
+    SIX(4) {
         @Override
         public String toString() {
             return "Six";
         }
     },
-    SEVEN {
+    SEVEN(4) {
         public String toString() {
             return "Seven";
         }
     },
-    EIGHT {
+    EIGHT(5) {
         @Override
         public String toString() {
             return "Eight";
         }
     },
-    NINE {
+    NINE(8) {
         @Override
         public String toString() {
             return "Nine";
         }
     },
-    SPY {
+    SPY(1) {
         @Override
         public String toString() {
             return "Spy";
         }
     },
-    BOMB {
+    BOMB(6) {
         @Override
         public String toString() {
             return "Bomb";
         }
     },
-    FLAG {
+    FLAG(1) {
         @Override
         public String toString() {
             return "Flag";
         }
+    };
+
+    private int maxAmountOfPieces;
+    private Rank(int maxAmount) {
+        maxAmountOfPieces=maxAmount;
+    }
+
+    public int getMaxAmountOfPieces() {
+        return maxAmountOfPieces;
     }
 };

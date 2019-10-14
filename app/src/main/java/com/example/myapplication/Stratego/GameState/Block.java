@@ -55,9 +55,22 @@ public class Block {
         return containedPiece;
     }
 
-    public boolean getIsHighLighted() {
-        return isHighLighted;
+    public boolean getIsHighLighted() { return isHighLighted; }
+
+    /**
+     * method that checks if a block is empty or not
+     *
+     * @return true if block contains a piece
+     *         false if block is empty
+     */
+    public boolean containsPiece() {
+        if(this.containedPiece == null) {
+            return false;
+        }
+        return true;
     }
+
+
 
     /**-----------------------------------Setter Methods------------------------------------------*/
 
