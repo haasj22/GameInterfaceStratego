@@ -245,8 +245,9 @@ public class StrategoGameState {
      *         false if placement lacks a piece or coordinates are invalid
      */
     public boolean removePieceFromGame(int x, int y) {
-        //TODO implement removePieceFromGame method functionality
-        return false;
+        //removes the piece from the board
+        board[y][x].setContainedPiece(null);
+        return true;
     }
 
     /**
@@ -260,8 +261,15 @@ public class StrategoGameState {
      *         false if the coordinates are invalid
      */
     public boolean movePieceDuringSetup(int x1, int x2, int y1, int y2) {
-        //TODO implement movePieceDuringSetup method
-        return false;
+        //makes sure that the first spot contains a piece
+        if(!(board[y1][x1].containsPiece())) {
+            return false;
+        }
+        //switches the piece in the first block with the second block
+        Piece temp=new Piece(board[y1][x1].getContainedPiece());
+        board[y1][x1].setContainedPiece(new Piece(board[y2][x2].getContainedPiece()));
+        board[y2][x2].setContainedPiece(temp);
+        return true;
     }
 
     /**-------------------------------------------------------------------------------------------*/
