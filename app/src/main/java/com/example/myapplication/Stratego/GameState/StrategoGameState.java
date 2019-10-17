@@ -209,10 +209,6 @@ public class StrategoGameState {
                 || y > placedPiece.getPieceTeam().getBOTTOMBOUNDARYINDEX() ) {
             return false;
         }
-        //makes sure the current phase is the setup phase
-        if (this.currentPhase != Phase.SETUP_PHASE) {
-            return false;
-        }
 
         //makes sure there are not too many of the desired piece on the board
         int numOfDesiredPieceOnBoard=0;
@@ -225,13 +221,15 @@ public class StrategoGameState {
             return false;
         };
 
-        //checks if the desired spot already has a piece on it
-        if(board[y][x].containsPiece()) {
-            return false;
-        }
-
         //sets the piece to the desired place
         board[y][x].setContainedPiece(placedPiece);
+        if(placedPiece.getPieceRank() == Rank.FLAG) {
+            if(currentPlayer == 1) {
+                setPlayerOneHasFlag(true);
+            } else {
+                setPlayerTwoHasFlag(true);
+            }
+        }
 
         return true;
     }
@@ -282,11 +280,21 @@ public class StrategoGameState {
      */
     public boolean transitionPhases() {
         //TODO implement conditions under which the function returns false
-        if(this.currentPhase == Phase.SETUP_PHASE) {
-            this.currentPhase = Phase.PLAY_PHASE;
-            return true;
-        }
+
         return false;
+    }
+
+    /**
+     * transitionTurns method
+     * transitions form one player's turn to the other
+     */
+    public boolean transitionTurns() {
+        if(currentPlayer == 1) {
+            currentPlayer = 2;
+        } else if(currentPlayer == 2) {
+            currentPlayer = 1;
+        }
+        return true;
     }
 
     /**--------------------------------------PLAY_PHASE-------------------------------------------*/
