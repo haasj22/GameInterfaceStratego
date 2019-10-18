@@ -87,7 +87,7 @@ public enum Rank {
         }
     };
 
-    private int maxAmountOfPieces;
+    private final int maxAmountOfPieces;
     private Rank(int maxAmount) {
         maxAmountOfPieces=maxAmount;
     }

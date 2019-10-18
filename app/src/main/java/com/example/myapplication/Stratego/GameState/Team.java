@@ -47,7 +47,6 @@ enum Team {
     public int getTOPBOUNDARYINDEX() {
         return TOPBOUNDARYINDEX;
     }
-
     public int getBOTTOMBOUNDARYINDEX() {
         return BOTTOMBOUNDARYINDEX;
     }

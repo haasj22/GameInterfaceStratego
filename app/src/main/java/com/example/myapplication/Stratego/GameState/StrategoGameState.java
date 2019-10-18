@@ -25,53 +25,53 @@ public class StrategoGameState {
     private Block[][] board = new Block[ROWMAX][COLMAX];
 
     //player one's information
-    private int playerOneID;
-    private int playerOneTimer; //in milliseconds
+    private int redTeamID;
+    private int redTeamTimer; //in milliseconds
 
     //variables that will store what pieces player one has in play
-    private ArrayList<Piece> playerOnePieces;
+    private ArrayList<Piece> redTeamPieces;
     //necessary for transitioning between phases
-    private boolean playerOneHasFlag;
+    private boolean redTeamHasFlag;
 
     //player two's information
-    private int playerTwoID;
-    private int playerTwoTimer; //in milliseconds
+    private int blueTeamID;
+    private int blueTeamTimer; //in milliseconds
     //variables that will store what pieces player two has in play
-    private ArrayList<Piece> playerTwoPieces;
+    private ArrayList<Piece> blueTeamPieces;
     //necessary for transitioning between phases
-    private boolean playerTwoHasFlag;
+    private boolean blueTeamHasFlag;
 
     //what phase the game is currently in
     private Phase currentPhase;
 
     //id of the player whose turn it is
-    private int currentPlayer;
+    private Team currentTeamsTurn;
 
     /**
      * Constructor for objects of class StrategoGameState
      */
     public StrategoGameState(){
         //player one sets up first
-        playerOneID = 1;
-        playerOneTimer = 3000;
+        redTeamID = 1;
+        redTeamTimer = 3000;
 
         //player one starts with no pieces on the board
-        playerOnePieces= new ArrayList<Piece>();
-        playerOneHasFlag = false;
+        redTeamPieces= new ArrayList<Piece>();
+        redTeamHasFlag = false;
 
         //player one does not get access to any of player two's information
-        playerTwoID = 2;
-        playerTwoTimer = 0;
+        blueTeamID = 2;
+        blueTeamTimer = 0;
 
         //player one does not get to see where player two placed his pieces
-        playerTwoPieces=new ArrayList<Piece>();
-        playerTwoHasFlag = false;
+        blueTeamPieces=new ArrayList<Piece>();
+        blueTeamHasFlag = false;
 
         //starts the game out in setup phase
         currentPhase = Phase.SETUP_PHASE;
 
         //player one starts
-        currentPlayer = 1;
+        currentTeamsTurn = Team.RED_TEAM;
 
         //creates basic game board
         for(int i = 0; i < 10; i++){
@@ -98,34 +98,34 @@ public class StrategoGameState {
     public StrategoGameState(StrategoGameState trueState){
 
         //copies player one's information
-        this.playerOneID = trueState.playerOneID;
-        this.playerOneTimer = trueState.playerOneTimer;
+        this.redTeamID = trueState.redTeamID;
+        this.redTeamTimer = trueState.redTeamTimer;
 
         //copies player one's pieces
-        for(Piece p: trueState.playerOnePieces) {
-            this.playerOnePieces.add(new Piece(p));
+        for(Piece p: trueState.redTeamPieces) {
+            this.redTeamPieces.add(new Piece(p));
         }
 
         //sees whether player one has won yet
-        this.playerOneHasFlag = trueState.playerOneHasFlag;
+        this.redTeamHasFlag = trueState.redTeamHasFlag;
 
         //copies player two's information
-        this.playerTwoID = trueState.playerTwoID;
-        this.playerTwoTimer = trueState.playerTwoTimer;
+        this.blueTeamID = trueState.blueTeamID;
+        this.blueTeamTimer = trueState.blueTeamTimer;
 
         //copies player two's pieces
-        for(Piece p: trueState.playerTwoPieces) {
-            this.playerTwoPieces.add(new Piece(p));
+        for(Piece p: trueState.blueTeamPieces) {
+            this.blueTeamPieces.add(new Piece(p));
         }
 
         //sees whether player two has won yet
-        this.playerTwoHasFlag = trueState.playerTwoHasFlag;
+        this.blueTeamHasFlag = trueState.blueTeamHasFlag;
 
         //copies the phase of the game
         this.currentPhase = trueState.currentPhase;
 
         //finds who's turn it is
-        this.currentPlayer = trueState.currentPlayer;
+        this.currentTeamsTurn = trueState.currentTeamsTurn;
 
         //copies the game board
         for(int i = 0; i < 10; i++){
@@ -141,20 +141,20 @@ public class StrategoGameState {
         return board;
     }
 
-    public ArrayList<Piece> getPlayerOnePieces() {
-        return playerOnePieces;
+    public ArrayList<Piece> getRedTeamPieces() {
+        return redTeamPieces;
     }
 
-    public boolean getIsPlayerOneHasFlag() {
-        return playerOneHasFlag;
+    public boolean getIsRedTeamHasFlag() {
+        return redTeamHasFlag;
     }
 
-    public ArrayList<Piece> getPlayerTwoPieces() {
-        return playerTwoPieces;
+    public ArrayList<Piece> getBlueTeamPieces() {
+        return blueTeamPieces;
     }
 
-    public boolean getIsPlayerTwoHasFlag() {
-        return playerTwoHasFlag;
+    public boolean getIsBlueTeamHasFlag() {
+        return blueTeamHasFlag;
     }
 
     public Phase getCurrentPhase() {
@@ -167,20 +167,20 @@ public class StrategoGameState {
         this.board = board;
     }
 
-    public void setPlayerOnePieces(ArrayList<Piece> playerOnePieces) {
-        this.playerOnePieces = playerOnePieces;
+    public void setRedTeamPieces(ArrayList<Piece> RedTeamPieces) {
+        this.redTeamPieces = RedTeamPieces;
     }
 
-    public void setPlayerOneHasFlag(boolean playerOneHasFlag) {
-        this.playerOneHasFlag = playerOneHasFlag;
+    public void setRedTeamHasFlag(boolean RedTeamHasFlag) {
+        this.redTeamHasFlag = RedTeamHasFlag;
     }
 
-    public void setPlayerTwoPieces(ArrayList<Piece> playerTwoPieces) {
-        this.playerTwoPieces = playerTwoPieces;
+    public void setblueTeamPieces(ArrayList<Piece> blueTeamPieces) {
+        this.blueTeamPieces = blueTeamPieces;
     }
 
-    public void setPlayerTwoHasFlag(boolean playerTwoHasFlag) {
-        this.playerTwoHasFlag = playerTwoHasFlag;
+    public void setblueTeamHasFlag(boolean blueTeamHasFlag) {
+        this.blueTeamHasFlag = blueTeamHasFlag;
     }
 
     public void setCurrentPhase(Phase currentPhase) {
@@ -212,22 +212,31 @@ public class StrategoGameState {
 
         //makes sure there are not too many of the desired piece on the board
         int numOfDesiredPieceOnBoard=0;
-        for(Piece piece : playerOnePieces) {
+        for(Piece piece : redTeamPieces) {
             if(piece.getPieceRank() == placedPiece.getPieceRank()) {
                 numOfDesiredPieceOnBoard++;
             }
         }
+
+        //makes sure the amount of pieces doesn't exceed the maz
         if(numOfDesiredPieceOnBoard >= placedPiece.getPieceRank().getMaxAmountOfPieces()) {
             return false;
-        };
+        }
+
+        //doesn't allow a piece to be placed
+        if(board[y][x].containsPiece()) {
+            return false;
+        }
 
         //sets the piece to the desired place
         board[y][x].setContainedPiece(placedPiece);
+
+        //sets the flag variable accordingly
         if(placedPiece.getPieceRank() == Rank.FLAG) {
-            if(currentPlayer == 1) {
-                setPlayerOneHasFlag(true);
+            if(currentTeamsTurn == Team.RED_TEAM) {
+                setRedTeamHasFlag(true);
             } else {
-                setPlayerTwoHasFlag(true);
+                setblueTeamHasFlag(true);
             }
         }
 
@@ -270,6 +279,57 @@ public class StrategoGameState {
         return true;
     }
 
+    /**
+     * method that randomizes the remaining pieces that are not placed yet
+     *
+     * @return true when all pieces are placed
+     */
+    public boolean randomizeRemainingPieces() {
+        //iterates through all possible ranks
+        for(Rank r: Rank.values()) {
+            //for the rest of the pieces that are not placed
+            for(int x = getAmountOfPieces(currentTeamsTurn, r);
+                x < r.getMaxAmountOfPieces(); x++) {
+
+                //randomizes possible x and y values
+                int randomXValue = (int)(Math.random() * 10);
+                int randomYValue = (int)(Math.random() * 4 +
+                        currentTeamsTurn.getTOPBOUNDARYINDEX());
+
+
+                //places piece if possible or adds another iteration to the loop
+                if(!board[randomYValue][randomXValue].containsPiece()) {
+                    boolean isPiecePlace = addPieceToGame(new Piece(currentTeamsTurn, r),
+                            randomXValue, randomYValue);
+                } else {
+                    x--;
+                }
+
+            }
+        }
+        return true;
+    }
+
+    /**
+     * helper method that checks if a given team's side of the board is full
+     *
+     * @param targetTeam team whos side of the board needs to be checked
+     * @return true if the team's side of the board is full
+     *         false if the team's side of the board has an empty spot
+     */
+    private boolean isBoardFull(Team targetTeam) {
+        //searches through the appropriate side of the board
+        for(int x=targetTeam.getTOPBOUNDARYINDEX(); x <= targetTeam.getBOTTOMBOUNDARYINDEX(); x++) {
+            for(int y=0; y<10; y++) {
+                //returns false if the block does not contain a piece
+                if(!board[x][y].containsPiece()) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
     /**-------------------------------------------------------------------------------------------*/
 
     /**
@@ -279,9 +339,23 @@ public class StrategoGameState {
      *         false if conditions to transition phases are not met
      */
     public boolean transitionPhases() {
-        //TODO implement conditions under which the function returns false
-
-        return false;
+        //makes sure the game is in set up phase
+        if(currentPhase != Phase.SETUP_PHASE) {
+            return false;
+        }
+        //fills the current players side of the board if not full
+        if(!isBoardFull(currentTeamsTurn)) {
+            randomizeRemainingPieces();
+        }
+        //transitions current player
+        transitionTurns();
+        //if the other players boards not full, its their turn to set up
+        if(!isBoardFull(currentTeamsTurn)) {
+            return false;
+        }
+        //transitions phases
+        this.currentPhase = Phase.PLAY_PHASE;
+        return true;
     }
 
     /**
@@ -289,10 +363,11 @@ public class StrategoGameState {
      * transitions form one player's turn to the other
      */
     public boolean transitionTurns() {
-        if(currentPlayer == 1) {
-            currentPlayer = 2;
-        } else if(currentPlayer == 2) {
-            currentPlayer = 1;
+        //switches the current team
+        if(currentTeamsTurn == Team.RED_TEAM) {
+            currentTeamsTurn = Team.BLUE_TEAM;
+        } else if(currentTeamsTurn == Team.BLUE_TEAM) {
+            currentTeamsTurn = Team.RED_TEAM;
         }
         return true;
     }
@@ -345,6 +420,38 @@ public class StrategoGameState {
     /**-----------------------------------General Methods-----------------------------------------*/
 
     /**
+     * method that gets the amount of a given piece a given player has
+     *
+     * @param desiredPlayer player that will be searched
+     * @param desiredRank rank that the player is searching for
+     * @return amount: the amount of the given piece the given player has
+     */
+    private int getAmountOfPieces(Team desiredPlayer, Rank desiredRank) {
+        //will store the total of the desired piece
+        int amount=0;
+
+        //will store the pieces of the team that is to be searched
+        ArrayList<Piece> currentTeamsPieces;
+
+        //sets the current teams pieces according to the current team
+        if(desiredPlayer == Team.RED_TEAM) {
+            currentTeamsPieces = this.getRedTeamPieces();
+        } else {
+            currentTeamsPieces = this.getBlueTeamPieces();
+        }
+
+        //counts the amount of pieces matching the desired rank
+        for(Piece p: currentTeamsPieces) {
+            if(p.getPieceRank() == desiredRank) {
+                amount++;
+            }
+        }
+
+        //returns the amount of pieces found
+        return amount;
+    }
+
+    /**
      * method that allows the user to forfeit the game
      * @return true once game has been ended
      */
@@ -362,20 +469,20 @@ public class StrategoGameState {
         //prints all the game state information
         String toReturn = "\nStratego Game State:\n";
 
-        toReturn += "[Player One ID: " + playerOneID + "]\n";
-        toReturn += "[Player One Timer: " + playerOneTimer + "]\n";
+        toReturn += "[Player One ID: " + redTeamID + "]\n";
+        toReturn += "[Player One Timer: " + redTeamTimer + "]\n";
 
-        toReturn += "[Player Two ID: " + playerTwoID + "]\n";
-        toReturn += "[Player Two Timer: " + playerTwoTimer + "]\n";
+        toReturn += "[Player Two ID: " + blueTeamID + "]\n";
+        toReturn += "[Player Two Timer: " + blueTeamTimer + "]\n";
 
         toReturn += "[Current Phase: " + currentPhase + "]\n";
 
         //prints whose turn it is based on currentPlayer variable
-        if(currentPlayer == 1){
-            toReturn += "Player One's Turn\n";
+        if(currentTeamsTurn == Team.RED_TEAM){
+            toReturn += "Red Team's Turn\n";
         }
         else{
-            toReturn += "Player Two's turn\n";
+            toReturn += "Blue Team's turn\n";
         }
 
         //prints whats stored in each board block
