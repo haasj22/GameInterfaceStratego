@@ -47,6 +47,9 @@ public class StrategoGameState {
     //id of the player whose turn it is
     private Team currentTeamsTurn;
 
+    //used for making moves and attacks
+    private Piece lastTappedPiece;
+
     /**
      * Constructor for objects of class StrategoGameState
      */
@@ -88,6 +91,7 @@ public class StrategoGameState {
             }
         }
 
+        lastTappedPiece = null;
     }
 
     /**
@@ -134,6 +138,7 @@ public class StrategoGameState {
             }
         }
 
+        this.lastTappedPiece = new Piece(lastTappedPiece);
     }
     /**-----------------------------------GETTER METHODS------------------------------------------*/
 
@@ -199,7 +204,6 @@ public class StrategoGameState {
      *         false if the piece cannot be placed at the desired location
      */
     public boolean addPieceToGame(Piece placedPiece, int x, int y) {
-        //TODO finish adding logic to and implementing the method
         //makes sure x is a legal value
         if(x < COLMININDEX || x > COLMAXINDEX ) {
             return false;
@@ -375,16 +379,69 @@ public class StrategoGameState {
     /**--------------------------------------PLAY_PHASE-------------------------------------------*/
 
     /**
+     * overall method that reacts to interaction with blocks
+     *
+     * @param x the row index of the board where the tap was registered
+     * @param y the col index of the board where the tap was registered
+     * @return true once information is handled appropriately
+     *         false if the given information is unusable
+     */
+    public boolean tapOnSquare(int x, int y) {
+        //makes sure the coordinates are valid
+        if(x < 0 || x > COLMAX) {
+            return false;
+        } else if (y < 0 || y > ROWMAX) {
+            return false;
+        }
+
+        //procedure for attacking piece
+        if(board[y][x].isHighLighted() && board[y][x].containsPiece()) {
+            attackPiece(lastTappedPiece, board[y][x].getContainedPiece());
+            removeHighlightedBlocks();
+            lastTappedPiece=null;
+            transitionTurns();
+        //procedure for moving piece
+        } else if (board[y][x].isHighLighted()) {
+            movePiece(lastTappedPiece, x, y);
+            removeHighlightedBlocks();
+            lastTappedPiece=null;
+            transitionTurns();
+        //procedure for highlighting pieces
+        } else if (board[y][x].containsPiece() &&
+                board[y][x].getContainedPiece().getPieceTeam() == currentTeamsTurn) {
+            //does not highlight movable spots for bomb and flag
+            if(board[y][x].getContainedPiece().getPieceRank() == Rank.BOMB ||
+                board[y][x].getContainedPiece().getPieceRank() == Rank.FLAG) {
+
+                removeHighlightedBlocks();
+                lastTappedPiece=null;
+            //procedure for highlighting scouts movable squares
+            } else if(board[y][x].getContainedPiece().getPieceRank() == Rank.NINE) {
+                setScoutsHighlightedBlocks(x, y);
+                lastTappedPiece=board[y][x].getContainedPiece();
+            //procedure for highlighting normal units movable squares
+            } else {
+                setHighLightedBlocks(x, y);
+                lastTappedPiece=board[y][x].getContainedPiece();
+            }
+        //removes highlights if tapping on an empty or enemy square
+        } else {
+            removeHighlightedBlocks();
+            lastTappedPiece=null;
+        }
+        return true;
+    }
+
+    /**
      * movePiece method
      * allows players to move their piece during PLAY_PHASE
-     * @param x1 original x-coordinate of piece
-     * @param x2 x-coordinate piece wants to be moved to
+     * @param movedPiece
      * @param y1 original y-coordinate of piece
      * @param y2 y-coordinate piece wants to be moved to
      * @return true once piece has been moved
      *         false if the coordinates are invalid
      */
-    public boolean movePiece(int x1, int x2, int y1, int y2) {
+    public boolean movePiece(Piece movedPiece, int y1, int y2) {
         //TODO implement movePiece function
         if(this.currentPhase != Phase.PLAY_PHASE) {
             return false;
@@ -413,6 +470,89 @@ public class StrategoGameState {
     public boolean isGameOver() {
         //TODO implement isGameOver method
         return false;
+    }
+
+    /**
+     * method that highlights the blocks a normal unit could move
+     *
+     * @param x the x coordinate of the tap
+     * @param y the y coordinate of the tap
+     * @return true once all possible blocks have been highlighted
+     */
+    private boolean setHighLightedBlocks(int x, int y) {
+        //highlights the spot above the tap if possible
+        if(y != 0 && board[y-1][x].isBlockHighlightable(currentTeamsTurn)) {
+            board[y-1][x].setHighLighted(true);
+        }
+        //highlights the spot below the tap if possible
+        if(y != ROWMAX-1 && board[y+1][x].isBlockHighlightable(currentTeamsTurn)) {
+            board[y+1][x].setHighLighted(true);
+        }
+        //highlights the spot to the left of the tap if possible
+        if(x != 0 && board[y][x-1].isBlockHighlightable(currentTeamsTurn)) {
+            board[y][x-1].setHighLighted(true);
+        }
+        //highlights the spot to the right of the tap if possible
+        if(x != COLMAX-1 && board[y][x+1].isBlockHighlightable(currentTeamsTurn)) {
+            board[y][x+1].setHighLighted(true);
+        }
+        return true;
+    }
+
+    /**
+     * highlights all the possible spots a scout could move
+     *
+     * @param x the x coordinate of the tapped piece
+     * @param y the y coordinate of the tapped piece
+     * @return true once all proper pieces have been highlighted
+     */
+    private boolean setScoutsHighlightedBlocks(int x, int y) {
+        //checks the spots above the tapped piece
+        for(int row = y-1; row >= 0; row--) {
+            if(!board[row][x].isBlockHighlightable(currentTeamsTurn)) {
+                break;
+            }
+            board[row][x].setHighLighted(true);
+        }
+        //checks the spots below a tapped piece
+        for(int row = y+1; row < ROWMAX; row++) {
+            if(!board[row][x].isBlockHighlightable(currentTeamsTurn)) {
+                break;
+            }
+            board[row][x].setHighLighted(true);
+        }
+        //checks the spots to the left of a tapped piece
+        for(int col = x-1; col >= 0; col--) {
+            if(!board[y][col].isBlockHighlightable(currentTeamsTurn)) {
+                break;
+            }
+            board[y][col].setHighLighted(true);
+        }
+        //checks the spots to the right of a tapped piece
+        for(int col = x+1; col < COLMAX; col++) {
+            if(!board[y][col].isBlockHighlightable(currentTeamsTurn)) {
+                break;
+            }
+            board[y][col].setHighLighted(true);
+        }
+        return true;
+    }
+
+
+    /**
+     * method that removes all highlighted spots from the board
+     *
+     * @return true when all highlighted spots are removed
+     */
+    private boolean removeHighlightedBlocks() {
+        for(int row = 0; row < ROWMAX; row++) {
+            for(int col = 0; col < COLMAX; col++) {
+                if(board[row][col].isHighLighted()) {
+                    board[row][col].setHighLighted(false);
+                }
+            }
+        }
+        return true;
     }
 
     /**-------------------------------------------------------------------------------------------*/

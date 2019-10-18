@@ -51,11 +51,11 @@ public class Block {
 
     /**------------------------------------Getter Methods-----------------------------------------*/
 
+    public Tile getBlockType() { return blockType; }
     public Piece getContainedPiece() {
         return containedPiece;
     }
-
-    public boolean getIsHighLighted() { return isHighLighted; }
+    public boolean isHighLighted() { return isHighLighted; }
 
     /**
      * method that checks if a block is empty or not
@@ -70,8 +70,6 @@ public class Block {
         return true;
     }
 
-
-
     /**-----------------------------------Setter Methods------------------------------------------*/
 
     public void setContainedPiece(Piece containedPiece) {
@@ -83,6 +81,27 @@ public class Block {
     }
 
     /**-----------------------------------Generic Methods----------------------------------------*/
+
+    /**
+     * method that checks if a given block is highlightable
+     *
+     * @param currentTeamsTurn the team whos turn it currently is
+     * @return true if block is highlightable
+     *         false if block is not highlightable
+     */
+    public boolean isBlockHighlightable(Team currentTeamsTurn) {
+        //pieces can't walk on water. Jesus rank not implemented yet
+        if(this.getBlockType() == Tile.WATER) {
+            return false;
+        }
+        //pieces can't move onto fellow teammates squares
+        if (this.containsPiece() &&
+                this.getContainedPiece().getPieceTeam() == currentTeamsTurn){
+            return false;
+        }
+        //pieces can always move elsewhere
+        return true;
+    }
 
     /**
      * to String method for objects of the Block class
