@@ -24,7 +24,7 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
      **/
 
     public void setAsGui(GameMainActivity activity){
-        // sets gui with current information
+        // sets gui with most current information
     }
     private void updateGui(){
         // updates gui after actions are played
