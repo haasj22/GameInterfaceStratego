@@ -19,7 +19,7 @@ public class StrategoGameState {
 
     //stores the proper min and max indexes for the columns
     private final int COLMININDEX=0;
-    private final int COLMAXINDEX=0;
+    private final int COLMAXINDEX=9;
 
     //array that represents the state of the game board
     private Block[][] board = new Block[ROWMAX][COLMAX];
@@ -80,13 +80,13 @@ public class StrategoGameState {
         //creates basic game board
         for(int i = 0; i < 10; i++){
             for(int j = 0; j < 10; j++){
-                if(i != 4 || i !=5) {
+                if(i != 4 && i !=5) {
                     board[i][j] = new Block(Tile.GRASS);
-                    break;
+                    continue;
                 }
-                if(j != 2 || j != 3 || j != 6 || j != 7) {
+                if(j != 2 && j != 3 && j != 6 && j != 7) {
                     board[i][j] = new Block(Tile.WATER);
-                    break;
+                    continue;
                 }
                 board[i][j] = new Block(Tile.BRIDGE);
             }
@@ -108,6 +108,7 @@ public class StrategoGameState {
         this.redTeamTimer = trueState.redTeamTimer;
 
         //copies player one's pieces
+        redTeamPieces= new ArrayList<Piece>();
         for(Piece p: trueState.redTeamPieces) {
             this.redTeamPieces.add(new Piece(p));
         }
@@ -120,6 +121,7 @@ public class StrategoGameState {
         this.blueTeamTimer = trueState.blueTeamTimer;
 
         //copies player two's pieces
+        blueTeamPieces= new ArrayList<Piece>();
         for(Piece p: trueState.blueTeamPieces) {
             this.blueTeamPieces.add(new Piece(p));
         }
@@ -211,19 +213,19 @@ public class StrategoGameState {
      * addPieceToGame method
      * allows players to set pieces on the board if its SET_UP phase
      * @param placedPiece desired piece to be placed
-     * @param x the desired x coordinate of the placed piece
-     * @param y the desired y coordinate of the placed piece
+     * @param row the desired row of the placed piece
+     * @param col the desired col of the placed piece
      * @return true if piece is set at the desired location
      *         false if the piece cannot be placed at the desired location
      */
-    public boolean addPieceToGame(Piece placedPiece, int x, int y) {
+    public boolean addPieceToGame(Piece placedPiece, int row, int col) {
         //makes sure x is a legal value
-        if(x < COLMININDEX || x > COLMAXINDEX ) {
+        if(col < COLMININDEX || col > COLMAXINDEX ) {
             return false;
         }
         //makes sure y is a legal value
-        if ( y < placedPiece.getPieceTeam().getTOPBOUNDARYINDEX()
-                || y > placedPiece.getPieceTeam().getBOTTOMBOUNDARYINDEX() ) {
+        if ( row < placedPiece.getPieceTeam().getTOPBOUNDARYINDEX()
+                || row > placedPiece.getPieceTeam().getBOTTOMBOUNDARYINDEX() ) {
             return false;
         }
 
@@ -241,12 +243,12 @@ public class StrategoGameState {
         }
 
         //doesn't allow a piece to be placed
-        if(board[y][x].containsPiece()) {
+        if(board[row][col].containsPiece()) {
             return false;
         }
 
         //sets the piece to the desired place
-        board[y][x].setContainedPiece(placedPiece);
+        board[row][col].setContainedPiece(placedPiece);
         this.addPieceToPlayer(currentTeamsTurn, placedPiece);
 
         //sets the flag variable accordingly
@@ -805,11 +807,19 @@ public class StrategoGameState {
         //prints all the game state information
         String toReturn = "\nStratego Game State:\n";
 
-        toReturn += "[Player One ID: " + redTeamID + "]\n";
-        toReturn += "[Player One Timer: " + redTeamTimer + "]\n";
+        toReturn += "[Red Team's id: " + redTeamID + "]\n";
+        toReturn += "[Red Team's Timer: " + redTeamTimer + "]\n";
+        toReturn += "Red Team's Pieces:\n";
+        for(Piece p: redTeamPieces) {
+            toReturn += p.toString();
+        }
 
-        toReturn += "[Player Two ID: " + blueTeamID + "]\n";
-        toReturn += "[Player Two Timer: " + blueTeamTimer + "]\n";
+        toReturn += "[Blue Team's ID: " + blueTeamID + "]\n";
+        toReturn += "[Blue Team's Timer: " + blueTeamTimer + "]\n";
+        toReturn += "Red Team's Pieces:\n";
+        for(Piece p: blueTeamPieces) {
+            toReturn += p.toString();
+        }
 
         toReturn += "[Current Phase: " + currentPhase + "]\n";
 

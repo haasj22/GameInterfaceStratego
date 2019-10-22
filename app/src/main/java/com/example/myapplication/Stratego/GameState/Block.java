@@ -44,8 +44,17 @@ public class Block {
      * @param trueBlock the block that  contains the true data
      */
     public Block(Block trueBlock) {
+        if(trueBlock == null) {
+            this.blockType=null;
+            this.containedPiece = null;
+            this.isHighLighted = false;
+        }
         this.blockType=trueBlock.blockType;
-        this.containedPiece=new Piece(trueBlock.containedPiece);
+        if(trueBlock.containedPiece != null) {
+            this.containedPiece = new Piece(trueBlock.containedPiece);
+        } else {
+            this.containedPiece = null;
+        }
         this.isHighLighted=trueBlock.isHighLighted;
     }
 
@@ -112,10 +121,10 @@ public class Block {
     public String toString() {
         String toReturn="Block Info\n";
         toReturn += "[Block Type: " + blockType + "]\n";
-        toReturn += "----------------------";
-        toReturn += containedPiece; //prints the contained piece
-        toReturn += "----------------------";
-        toReturn += "Is Piece Highlighted: " + isHighLighted;
+        toReturn += "----------------------\n";
+        toReturn += containedPiece + "\n"; //prints the contained piece
+        toReturn += "----------------------\n";
+        toReturn += "Is Piece Highlighted: " + isHighLighted + "\n";
 
         return toReturn;
     }

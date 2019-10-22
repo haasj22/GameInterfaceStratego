@@ -26,6 +26,11 @@ public class Piece {
     }
 
     public Piece(Piece truePiece) {
+        if(truePiece == null) {
+            this.pieceTeam = null;
+            this.pieceTeam = null;
+            this.isVisible = false;
+        }
         this.pieceTeam = truePiece.pieceTeam;
         this.pieceRank = truePiece.pieceRank;
         this.isVisible = truePiece.isVisible;
