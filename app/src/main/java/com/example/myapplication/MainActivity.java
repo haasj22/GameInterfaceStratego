@@ -55,11 +55,41 @@ public class MainActivity extends AppCompatActivity {
             case 3:
                 Log.i("Here", "3 Click");
                 firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.ONE), 7, 3);
-                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.FIVE), 9,  9);
-                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.FOUR), 0,  0);
-                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.THREE), 7,  3);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.FIVE), 9, 9);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.SIX), 6, 7);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.TWO), 8, 2);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.NINE), 8, 9);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.FOUR), 0, 0);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.THREE), 7, 3);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.SPY), 6, 2);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.EIGHT), 6, 3);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.NINE), 7, 3);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.FIVE), 6, 6);
+
                 changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
                 break;
+            case 4:
+                firstInstance.removePieceFromGame(7, 3);
+                firstInstance.movePieceDuringSetup(6, 0, 8, 9);
+                firstInstance.movePieceDuringSetup(9, 9, 6, 7);
+                firstInstance.movePieceDuringSetup(8, 2, 8, 4);
+                changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
+                break;
+            case 5:
+                firstInstance.transitionPhases();
+                changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
+                break;
+            case 6:
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.ONE), 3, 2);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.BOMB), 3, 3);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.FLAG), 2, 3);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.FOUR), 3, 6);
+                firstInstance.addPieceToGame(new Piece(firstInstance.getCurrentTeamsTurn(), Rank.NINE), 3, 7);
+                firstInstance.transitionPhases();
+                changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
+                break;
+            case 7:
+                firstInstance.tapOnSquare(3, 7)
         }
 
     }

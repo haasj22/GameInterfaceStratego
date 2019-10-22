@@ -73,10 +73,7 @@ public class Block {
      *         false if block is empty
      */
     public boolean containsPiece() {
-        if(this.containedPiece == null) {
-            return false;
-        }
-        return true;
+        return !(this.containedPiece == null);
     }
 
     /**-----------------------------------Setter Methods------------------------------------------*/
@@ -124,7 +121,7 @@ public class Block {
         toReturn += "----------------------\n";
         toReturn += containedPiece + "\n"; //prints the contained piece
         toReturn += "----------------------\n";
-        toReturn += "Is Piece Highlighted: " + isHighLighted + "\n";
+        toReturn += "Is Piece Highlighted: " + isHighLighted + "\n\n";
 
         return toReturn;
     }

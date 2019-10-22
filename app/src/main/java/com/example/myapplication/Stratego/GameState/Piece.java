@@ -27,9 +27,7 @@ public class Piece {
 
     public Piece(Piece truePiece) {
         if(truePiece == null) {
-            this.pieceTeam = null;
-            this.pieceTeam = null;
-            this.isVisible = false;
+            return;
         }
         this.pieceTeam = truePiece.pieceTeam;
         this.pieceRank = truePiece.pieceRank;
@@ -67,7 +65,7 @@ public class Piece {
         String toReturn = "Piece Information\n";
         toReturn += "[Pieces Team: " + pieceTeam + "]\n";
         toReturn += "[Pieces Rank: " + pieceRank + "]\n";
-        toReturn += "[Is Piece Visible: " + isVisible + "]\n";
+        toReturn += "[Is Piece Visible: " + isVisible + "]";
 
         return toReturn;
     }

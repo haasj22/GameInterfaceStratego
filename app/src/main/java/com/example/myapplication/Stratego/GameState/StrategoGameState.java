@@ -9,6 +9,8 @@
 
 package com.example.myapplication.Stratego.GameState;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class StrategoGameState {
@@ -48,8 +50,8 @@ public class StrategoGameState {
     private Team currentTeamsTurn;
 
     //used for making moves and attacks
-    private int lastTappedPieceX;
-    private int lastTappedPieceY;
+    private int lastTappedRow;
+    private int lastTappedCol;
 
     /**
      * Constructor for objects of class StrategoGameState
@@ -92,8 +94,8 @@ public class StrategoGameState {
             }
         }
 
-        lastTappedPieceX = -1;
-        lastTappedPieceY = -1;
+        lastTappedRow = -1;
+        lastTappedCol = -1;
     }
 
     /**
@@ -142,8 +144,8 @@ public class StrategoGameState {
             }
         }
 
-        this.lastTappedPieceX = trueState.lastTappedPieceX;
-        this.lastTappedPieceY = trueState.lastTappedPieceY;
+        this.lastTappedRow = trueState.lastTappedRow;
+        this.lastTappedCol = trueState.lastTappedCol;
     }
     /**-----------------------------------GETTER METHODS------------------------------------------*/
 
@@ -219,6 +221,7 @@ public class StrategoGameState {
      *         false if the piece cannot be placed at the desired location
      */
     public boolean addPieceToGame(Piece placedPiece, int row, int col) {
+        Log.i("Tag", "Adding");
         //makes sure x is a legal value
         if(col < COLMININDEX || col > COLMAXINDEX ) {
             return false;
@@ -231,9 +234,17 @@ public class StrategoGameState {
 
         //makes sure there are not too many of the desired piece on the board
         int numOfDesiredPieceOnBoard=0;
-        for(Piece piece : redTeamPieces) {
-            if(piece.getPieceRank() == placedPiece.getPieceRank()) {
-                numOfDesiredPieceOnBoard++;
+        if(currentTeamsTurn == Team.RED_TEAM) {
+            for (Piece piece : redTeamPieces) {
+                if (piece.getPieceRank() == placedPiece.getPieceRank()) {
+                    numOfDesiredPieceOnBoard++;
+                }
+            }
+        } else {
+            for (Piece piece : blueTeamPieces) {
+                if (piece.getPieceRank() == placedPiece.getPieceRank()) {
+                    numOfDesiredPieceOnBoard++;
+                }
             }
         }
 
@@ -241,12 +252,12 @@ public class StrategoGameState {
         if(numOfDesiredPieceOnBoard >= placedPiece.getPieceRank().getMaxAmountOfPieces()) {
             return false;
         }
-
+        Log.i("msg", "Got b4 conditional" + board[row][col].getContainedPiece());
         //doesn't allow a piece to be placed
         if(board[row][col].containsPiece()) {
             return false;
         }
-
+        Log.i("msg", "Got after conditional");
         //sets the piece to the desired place
         board[row][col].setContainedPiece(placedPiece);
         this.addPieceToPlayer(currentTeamsTurn, placedPiece);
@@ -266,15 +277,15 @@ public class StrategoGameState {
     /**
      * removePieceFromGame method
      * removes pieces from board during set up phase
-     * @param x x variable of the piece to be removed
-     * @param y y variable of the piece to be removed
+     * @param row x variable of the piece to be removed
+     * @param col y variable of the piece to be removed
      * @return true if piece has been removed
      *         false if placement lacks a piece or coordinates are invalid
      */
-    public boolean removePieceFromGame(int x, int y) {
+    public boolean removePieceFromGame(int row, int col) {
         //removes the piece from the board
-        this.removePieceFromPlayer(currentTeamsTurn, board[y][x].getContainedPiece());
-        board[y][x].setContainedPiece(null);
+        this.removePieceFromPlayer(currentTeamsTurn, board[row][col].getContainedPiece());
+        board[row][col].setContainedPiece(null);
 
         return true;
     }
@@ -282,22 +293,26 @@ public class StrategoGameState {
     /**
      * movePieceFromGame method
      * allows the user to move his pieces around the game board during SETUP_PHASE
-     * @param x1 x variable of the original location
-     * @param x2 x variable of the desired location
-     * @param y1 y variable of the original location
-     * @param y2 y variable of the desired location
+     * @param row1 x variable of the original location
+     * @param col1 x variable of the desired location
+     * @param row2 y variable of the original location
+     * @param col2 y variable of the desired location
      * @return true if piece is properly moved from point 1 to 2
      *         false if the coordinates are invalid
      */
-    public boolean movePieceDuringSetup(int x1, int x2, int y1, int y2) {
+    public boolean movePieceDuringSetup(int row1, int col1, int row2, int col2) {
         //makes sure that the first spot contains a piece
-        if(!(board[y1][x1].containsPiece())) {
+        if(!(board[row1][col1].containsPiece())) {
             return false;
         }
         //switches the piece in the first block with the second block
-        Piece temp=new Piece(board[y1][x1].getContainedPiece());
-        board[y1][x1].setContainedPiece(new Piece(board[y2][x2].getContainedPiece()));
-        board[y2][x2].setContainedPiece(temp);
+        Piece temp=new Piece(board[row1][col1].getContainedPiece());
+        if(board[row2][col2].containsPiece()) {
+            board[row1][col1].setContainedPiece(new Piece(board[row2][col2].getContainedPiece()));
+        } else {
+            board[row1][col1].setContainedPiece(null);
+        }
+        board[row2][col2].setContainedPiece(temp);
         return true;
     }
 
@@ -309,23 +324,24 @@ public class StrategoGameState {
     public boolean randomizeRemainingPieces() {
         //iterates through all possible ranks
         for(Rank r: Rank.values()) {
+            Log.i("tag", "Rank Chosen");
             //for the rest of the pieces that are not placed
             for(int x = getAmountOfPieces(currentTeamsTurn, r);
                 x < r.getMaxAmountOfPieces(); x++) {
 
+                Log.i("Tag", "Entering Loop" + x + " " + r.getMaxAmountOfPieces() + " " + r);
                 //randomizes possible x and y values
-                int randomXValue = (int)(Math.random() * 10);
-                int randomYValue = (int)(Math.random() * 4 +
+                int randomColValue = (int)(Math.random() * 10);
+                int randomRowValue = (int)(Math.random() * 4 +
                         currentTeamsTurn.getTOPBOUNDARYINDEX());
-
+                Log.i("Hi", "" + randomRowValue + " " + randomColValue);
 
                 //places piece if possible or adds another iteration to the loop
-                if(!board[randomYValue][randomXValue].containsPiece()) {
                     boolean isPiecePlace = addPieceToGame(new Piece(currentTeamsTurn, r),
-                            randomXValue, randomYValue);
-                } else {
-                    x--;
-                }
+                            randomRowValue, randomColValue);
+                    if(isPiecePlace == false) {
+                        x--;
+                    }
 
             }
         }
@@ -384,7 +400,7 @@ public class StrategoGameState {
      * transitionTurns method
      * transitions form one player's turn to the other
      */
-    public boolean transitionTurns() {
+    private boolean transitionTurns() {
         //switches the current team
         if(currentTeamsTurn == Team.RED_TEAM) {
             currentTeamsTurn = Team.BLUE_TEAM;
@@ -399,61 +415,61 @@ public class StrategoGameState {
     /**
      * overall method that reacts to interaction with blocks
      *
-     * @param x the row index of the board where the tap was registered
-     * @param y the col index of the board where the tap was registered
+     * @param row the row index of the board where the tap was registered
+     * @param col the col index of the board where the tap was registered
      * @return true once information is handled appropriately
      *         false if the given information is unusable
      */
-    public boolean tapOnSquare(int x, int y) {
+    public boolean tapOnSquare(int row, int col) {
         //makes sure the coordinates are valid
-        if(x < 0 || x > COLMAX) {
+        if(col < 0 || col > COLMAX) {
             return false;
-        } else if (y < 0 || y > ROWMAX) {
+        } else if (row < 0 || row > ROWMAX) {
             return false;
         }
 
         //procedure for attacking piece
-        if(board[y][x].isHighLighted() && board[y][x].containsPiece()) {
-            attackPiece(lastTappedPieceX, x, lastTappedPieceY, y);
+        if(board[row][col].isHighLighted() && board[row][col].containsPiece()) {
+            attackPiece(lastTappedRow, lastTappedCol, row, col);
             removeHighlightedBlocks();
-            lastTappedPieceX= -1;
-            lastTappedPieceY= -1;
+            lastTappedRow = -1;
+            lastTappedCol = -1;
             transitionTurns();
         //procedure for moving piece
-        } else if (board[y][x].isHighLighted()) {
-            movePiece(lastTappedPieceX, x, lastTappedPieceY, y);
+        } else if (board[row][col].isHighLighted()) {
+            movePiece(lastTappedRow, lastTappedCol, row, col);
             //updates data
             removeHighlightedBlocks();
-            lastTappedPieceX= -1;
-            lastTappedPieceY= -1;
+            lastTappedRow= -1;
+            lastTappedCol= -1;
             //ends the currentPlayers turn
             transitionTurns();
         //procedure for highlighting pieces
-        } else if (board[y][x].containsPiece() &&
-                board[y][x].getContainedPiece().getPieceTeam() == currentTeamsTurn) {
+        } else if (board[row][col].containsPiece() &&
+                board[row][col].getContainedPiece().getPieceTeam() == currentTeamsTurn) {
             //does not highlight movable spots for bomb and flag
-            if(board[y][x].getContainedPiece().getPieceRank() == Rank.BOMB ||
-                board[y][x].getContainedPiece().getPieceRank() == Rank.FLAG) {
+            if(board[row][col].getContainedPiece().getPieceRank() == Rank.BOMB ||
+                board[row][col].getContainedPiece().getPieceRank() == Rank.FLAG) {
 
                 removeHighlightedBlocks();
-                lastTappedPieceX= -1;
-                lastTappedPieceY= -1;
+                lastTappedRow = -1;
+                lastTappedCol = -1;
             //procedure for highlighting scouts movable squares
-            } else if(board[y][x].getContainedPiece().getPieceRank() == Rank.NINE) {
-                setScoutsHighlightedBlocks(x, y);
-                lastTappedPieceX=x;
-                lastTappedPieceY=y;
+            } else if(board[row][col].getContainedPiece().getPieceRank() == Rank.NINE) {
+                setScoutsHighlightedBlocks(row, col);
+                lastTappedRow=row;
+                lastTappedCol=col;
             //procedure for highlighting normal units movable squares
             } else {
-                setHighLightedBlocks(x, y);
-                lastTappedPieceX=x;
-                lastTappedPieceY=y;
+                setHighLightedBlocks(row, col);
+                lastTappedRow=row;
+                lastTappedRow=col;
             }
         //removes highlights if tapping on an empty or enemy square
         } else {
             removeHighlightedBlocks();
-            lastTappedPieceX= -1;
-            lastTappedPieceY= -1;
+            lastTappedRow = -1;
+            lastTappedCol = -1;
         }
         return true;
     }
@@ -461,64 +477,64 @@ public class StrategoGameState {
     /**
      * movePiece method
      * allows players to move their piece during PLAY_PHASE
-     * @param x1 original x-coordinate of piece
-     * @param x2 x-coordinate piece wants to be moved to
-     * @param y1 original y-coordinate of piece
-     * @param y2 y-coordinate piece wants to be moved to
+     * @param row1 original row of piece
+     * @param col1 original col of piece
+     * @param row2 row piece will be moved to
+     * @param col2 col piece wants to be moved to
      * @return true once piece has been moved
      *         false if the coordinates are invalid
      */
-    public boolean movePiece(int x1, int x2, int y1, int y2) {
+    private boolean movePiece(int row1, int col1, int row2, int col2) {
         //moves the pieces to their according places
-        board[y2][x2].setContainedPiece(board[y1][x1].getContainedPiece());
-        board[y1][x1].setContainedPiece(null);
+        board[row2][row2].setContainedPiece(board[row1][col1].getContainedPiece());
+        board[row1][col1].setContainedPiece(null);
         return true;
     }
 
     /**
      * helper method for movePiece that triggers
      * when two pieces collide on game board
-     * @param x1 original x-coordinate of piece
-     * @param x2 x-coordinate piece wants to be moved to
-     * @param y1 original y-coordinate of piece
-     * @param y2 y-coordinate piece wants to be moved to
+     * @param row1 original row of piece
+     * @param col1 original col of piece
+     * @param row2 row piece will be moved to
+     * @param col2 col piece will be moved to
      * @return true if attacker wins
      *         false if defender wins
      */
-    private boolean attackPiece(int x1, int x2, int y1, int y2) {
-        if(board[y2][x2].getContainedPiece().getPieceRank() == Rank.FLAG) {
+    private boolean attackPiece(int row1, int col1, int row2, int col2) {
+        if(board[row2][col2].getContainedPiece().getPieceRank() == Rank.FLAG) {
             return attackFlag();
         }
-        if(board[y2][x2].getContainedPiece().getPieceRank() == Rank.BOMB) {
-            return attackBomb(x1, x2, y1, y2);
+        if(board[row2][col2].getContainedPiece().getPieceRank() == Rank.BOMB) {
+            return attackBomb(row1, col1, row2, col2);
         }
-        if(board[y1][x1].getContainedPiece().getPieceRank() == Rank.SPY) {
-            return spyAttacks(x1, x2, y1, y2);
+        if(board[row1][col1].getContainedPiece().getPieceRank() == Rank.SPY) {
+            return spyAttacks(row1, col1, row2, col2);
         }
-        if(board[y1][x1].getContainedPiece().getPieceRank() == Rank.NINE){
-            return scoutAttacks(x1, x2, y1, y2);
+        if(board[row1][col1].getContainedPiece().getPieceRank() == Rank.NINE){
+            return scoutAttacks(row1, col1, row2, col2);
         }
-        return unitAttacks(x1, x2, y1, y2);
+        return unitAttacks(row1, col1, row2, col2);
     }
 
     /**
      * helper method to attackPiece that handles general unit attacks
      *
-     * @param x1 x coordinate of the attacker
-     * @param x2 x coordinate of the defender
-     * @param y1 y coordinate of the attacker
-     * @param y2 y coordiante of the defender
+     * @param row1 row of the attacker
+     * @param col1 col of the attacker
+     * @param row2 row of the defender
+     * @param col2 col of the defender
      * @return true when pieces have been moved accordingly
      */
-    private boolean unitAttacks(int x1, int x2, int y1, int y2) {
+    private boolean unitAttacks(int row1, int col1, int row2, int col2) {
         //stores the attacking and defending pieces into variables
-        Piece attacker = board[y1][x1].getContainedPiece();
-        Piece defender = board[y2][x2].getContainedPiece();
+        Piece attacker = board[row1][col1].getContainedPiece();
+        Piece defender = board[row2][col2].getContainedPiece();
         //if defender is a lower number/higher rank kill the attacker
         if(attacker.getPieceRank().ordinal() > defender.getPieceRank().ordinal()) {
             //removes piece from board and teams arraylist
             removePieceFromPlayer(currentTeamsTurn, attacker);
-            board[y1][x1].setContainedPiece(null);
+            board[row1][col1].setContainedPiece(null);
             return true;
         }
         //if defender is a higher number/lower rank kill the defender
@@ -526,16 +542,16 @@ public class StrategoGameState {
             //removes defender from arraylist
             removePieceFromPlayer(getEnemyTeam(), defender);
             //moves attacker to desired location
-            return movePiece(x1, x2, y1, y2);
+            return movePiece(row1, col1, row2, col2);
         }
         //if attacker and defender are equal rank kill both
         if(attacker.getPieceRank().ordinal() == defender.getPieceRank().ordinal()) {
             //kills attacker and removes from proper teams hand
             removePieceFromPlayer(currentTeamsTurn, attacker);
-            board[y1][x1].setContainedPiece(null);
+            board[row1][col1].setContainedPiece(null);
             //kills defender and removes from proper teams hand
             removePieceFromPlayer(getEnemyTeam(), defender);
-            board[y2][x2].setContainedPiece(null);
+            board[row2][col2].setContainedPiece(null);
             return true;
         }
         return true;
@@ -544,59 +560,59 @@ public class StrategoGameState {
     /**
      * helper method to attackPiece that handles scoutAttacks
      *
-     * @param x1 x coordinate of the attacker
-     * @param x2 x coordinate of the defender
-     * @param y1 y coordinate of the attacker
-     * @param y2 y coordinate of the defender
+     * @param row1 row of the attacker
+     * @param col1 col of the attacker
+     * @param row2 row of the defender
+     * @param col2 col of the defender
      * @return true once all pieces have been moved accordingly
      */
-    private boolean scoutAttacks(int x1, int x2, int y1, int y2) {
+    private boolean scoutAttacks(int row1, int col1, int row2, int col2) {
         //sets defenders status to visible
-        board[y2][x2].getContainedPiece().setVisible(true);
+        board[row2][col2].getContainedPiece().setVisible(true);
         //otherwise acts as normal piece
-        return unitAttacks(x1, x2, y1, y2);
+        return unitAttacks(row1, col1, row2, col2);
     }
 
     /**
      * helper method to attackPiece that handles spy attacks
      *
-     * @param x1 x coordinate of the attacker
-     * @param x2 x coordinate of the defender
-     * @param y1 y coordinate of the attacker
-     * @param y2 y coordinate of the defender
+     * @param row1 row of the attacker
+     * @param col1 col of the attacker
+     * @param row2 row of the defender
+     * @param col2 col of the defender
      * @return true once pieces have been moved accordingly
      */
-    private boolean spyAttacks(int x1, int x2, int y1, int y2) {
+    private boolean spyAttacks(int row1, int col1, int row2, int col2) {
         //if spy attacks Marshall, removes marshall from board
-        if(board[y2][x2].getContainedPiece().getPieceRank() == Rank.ONE) {
-            removePieceFromPlayer(getEnemyTeam(), board[y2][x2].getContainedPiece());
-            return movePiece(x1, x2, y1, y2);
+        if(board[row2][col2].getContainedPiece().getPieceRank() == Rank.ONE) {
+            removePieceFromPlayer(getEnemyTeam(), board[row2][col2].getContainedPiece());
+            return movePiece(row1, col1, row2, col2);
         }
         //else treat spy like normal piece
-        return unitAttacks(x1, x2, y1, y2);
+        return unitAttacks(row1, col1, row2, col2);
     }
 
     /**
      * helper method for attackPiece that handles attacks involving bombs
      *
-     * @param x1 x coordinate of the attacker
-     * @param x2 x coordinate of the defender
-     * @param y1 y coordinate of the attacker
-     * @param y2 y coordinate of the defender
+     * @param row1 row of the attacker
+     * @param col1 col of the attacker
+     * @param row2 row of the defender
+     * @param col2 col of the defender
      * @return true once pieces have been moved accordingly
      */
-    private boolean attackBomb(int x1, int x2, int y1, int y2) {
+    private boolean attackBomb(int row1, int col1, int row2, int col2) {
         //removes the bomb from the battlefield
-        removePieceFromPlayer(this.getEnemyTeam(), board[y2][x2].getContainedPiece());
+        removePieceFromPlayer(this.getEnemyTeam(), board[row2][col2].getContainedPiece());
         //if attacker is a miner, moves it to its desired location
-        if(board[y1][x1].getContainedPiece().getPieceRank() == Rank.EIGHT) {
-            return movePiece(x1, x2, y1, y2);
+        if(board[row1][col1].getContainedPiece().getPieceRank() == Rank.EIGHT) {
+            return movePiece(row1, col1, row2, col2);
         }
         // removes attacker from battlefield and updates board
         else {
-            removePieceFromPlayer(currentTeamsTurn, board[y1][x1].getContainedPiece());
-            board[y1][x1].setContainedPiece(null);
-            return movePiece(x1, x2, y1, y2);
+            removePieceFromPlayer(currentTeamsTurn, board[row1][col1].getContainedPiece());
+            board[row1][col1].setContainedPiece(null);
+            return movePiece(row1, col1, row2, col2);
         }
     }
 
@@ -621,7 +637,7 @@ public class StrategoGameState {
      * @return true if either player has lost their flags
      *         false if both players have their flags
      */
-    public boolean isGameOver() {
+    private boolean isGameOver() {
         //if either team has lost their flag return true
         if(redTeamHasFlag == false || blueTeamHasFlag == false) {
             return true;
@@ -633,26 +649,26 @@ public class StrategoGameState {
     /**
      * method that highlights the blocks a normal unit could move
      *
-     * @param x the x coordinate of the tap
-     * @param y the y coordinate of the tap
+     * @param row the row of the tap
+     * @param col the col of the tap
      * @return true once all possible blocks have been highlighted
      */
-    private boolean setHighLightedBlocks(int x, int y) {
+    private boolean setHighLightedBlocks(int row, int col) {
         //highlights the spot above the tap if possible
-        if(y != 0 && board[y-1][x].isBlockHighlightable(currentTeamsTurn)) {
-            board[y-1][x].setHighLighted(true);
+        if(row != 0 && board[row-1][col].isBlockHighlightable(currentTeamsTurn)) {
+            board[row-1][col].setHighLighted(true);
         }
         //highlights the spot below the tap if possible
-        if(y != ROWMAX-1 && board[y+1][x].isBlockHighlightable(currentTeamsTurn)) {
-            board[y+1][x].setHighLighted(true);
+        if(row != ROWMAX-1 && board[row+1][col].isBlockHighlightable(currentTeamsTurn)) {
+            board[row+1][col].setHighLighted(true);
         }
         //highlights the spot to the left of the tap if possible
-        if(x != 0 && board[y][x-1].isBlockHighlightable(currentTeamsTurn)) {
-            board[y][x-1].setHighLighted(true);
+        if(col != 0 && board[row][col-1].isBlockHighlightable(currentTeamsTurn)) {
+            board[row][col-1].setHighLighted(true);
         }
         //highlights the spot to the right of the tap if possible
-        if(x != COLMAX-1 && board[y][x+1].isBlockHighlightable(currentTeamsTurn)) {
-            board[y][x+1].setHighLighted(true);
+        if(col != COLMAX-1 && board[row][col+1].isBlockHighlightable(currentTeamsTurn)) {
+            board[row][col+1].setHighLighted(true);
         }
         return true;
     }
@@ -660,38 +676,38 @@ public class StrategoGameState {
     /**
      * highlights all the possible spots a scout could move
      *
-     * @param x the x coordinate of the tapped piece
-     * @param y the y coordinate of the tapped piece
+     * @param row the row of the tapped piece
+     * @param col the column of the tapped piece
      * @return true once all proper pieces have been highlighted
      */
-    private boolean setScoutsHighlightedBlocks(int x, int y) {
+    private boolean setScoutsHighlightedBlocks(int row, int col) {
         //checks the spots above the tapped piece
-        for(int row = y-1; row >= 0; row--) {
-            if(!board[row][x].isBlockHighlightable(currentTeamsTurn)) {
+        for(int rowToCheck = row-1; rowToCheck >= 0; rowToCheck--) {
+            if(!board[rowToCheck][col].isBlockHighlightable(currentTeamsTurn)) {
                 break;
             }
-            board[row][x].setHighLighted(true);
+            board[rowToCheck][col].setHighLighted(true);
         }
         //checks the spots below a tapped piece
-        for(int row = y+1; row < ROWMAX; row++) {
-            if(!board[row][x].isBlockHighlightable(currentTeamsTurn)) {
+        for(int rowToCheck = row+1; rowToCheck < ROWMAX; rowToCheck++) {
+            if(!board[rowToCheck][col].isBlockHighlightable(currentTeamsTurn)) {
                 break;
             }
-            board[row][x].setHighLighted(true);
+            board[rowToCheck][col].setHighLighted(true);
         }
         //checks the spots to the left of a tapped piece
-        for(int col = x-1; col >= 0; col--) {
-            if(!board[y][col].isBlockHighlightable(currentTeamsTurn)) {
+        for(int colToCheck = col-1; colToCheck >= 0; colToCheck--) {
+            if(!board[row][colToCheck].isBlockHighlightable(currentTeamsTurn)) {
                 break;
             }
-            board[y][col].setHighLighted(true);
+            board[row][colToCheck].setHighLighted(true);
         }
         //checks the spots to the right of a tapped piece
-        for(int col = x+1; col < COLMAX; col++) {
-            if(!board[y][col].isBlockHighlightable(currentTeamsTurn)) {
+        for(int colToCheck = col+1; colToCheck < COLMAX; colToCheck++) {
+            if(!board[row][colToCheck].isBlockHighlightable(currentTeamsTurn)) {
                 break;
             }
-            board[y][col].setHighLighted(true);
+            board[row][colToCheck].setHighLighted(true);
         }
         return true;
     }
@@ -816,7 +832,7 @@ public class StrategoGameState {
 
         toReturn += "[Blue Team's ID: " + blueTeamID + "]\n";
         toReturn += "[Blue Team's Timer: " + blueTeamTimer + "]\n";
-        toReturn += "Red Team's Pieces:\n";
+        toReturn += "Blue Team's Pieces:\n";
         for(Piece p: blueTeamPieces) {
             toReturn += p.toString();
         }
