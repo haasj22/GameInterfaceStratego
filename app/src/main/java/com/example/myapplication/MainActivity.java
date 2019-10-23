@@ -89,7 +89,11 @@ public class MainActivity extends AppCompatActivity {
                 changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
                 break;
             case 7:
-                firstInstance.tapOnSquare(3, 7)
+                firstInstance.tapOnSquare(6, 2);
+                changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
+            case 8:
+                firstInstance.tapOnSquare(5,2);
+                changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
         }
 
     }

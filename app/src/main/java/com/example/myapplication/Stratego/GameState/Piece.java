@@ -65,7 +65,7 @@ public class Piece {
         String toReturn = "Piece Information\n";
         toReturn += "[Pieces Team: " + pieceTeam + "]\n";
         toReturn += "[Pieces Rank: " + pieceRank + "]\n";
-        toReturn += "[Is Piece Visible: " + isVisible + "]";
+        toReturn += "[Is Piece Visible: " + isVisible + "]\n";
 
         return toReturn;
     }

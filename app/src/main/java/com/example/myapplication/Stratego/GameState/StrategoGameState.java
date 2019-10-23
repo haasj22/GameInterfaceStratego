@@ -221,7 +221,6 @@ public class StrategoGameState {
      *         false if the piece cannot be placed at the desired location
      */
     public boolean addPieceToGame(Piece placedPiece, int row, int col) {
-        Log.i("Tag", "Adding");
         //makes sure x is a legal value
         if(col < COLMININDEX || col > COLMAXINDEX ) {
             return false;
@@ -252,12 +251,10 @@ public class StrategoGameState {
         if(numOfDesiredPieceOnBoard >= placedPiece.getPieceRank().getMaxAmountOfPieces()) {
             return false;
         }
-        Log.i("msg", "Got b4 conditional" + board[row][col].getContainedPiece());
         //doesn't allow a piece to be placed
         if(board[row][col].containsPiece()) {
             return false;
         }
-        Log.i("msg", "Got after conditional");
         //sets the piece to the desired place
         board[row][col].setContainedPiece(placedPiece);
         this.addPieceToPlayer(currentTeamsTurn, placedPiece);
@@ -324,17 +321,14 @@ public class StrategoGameState {
     public boolean randomizeRemainingPieces() {
         //iterates through all possible ranks
         for(Rank r: Rank.values()) {
-            Log.i("tag", "Rank Chosen");
             //for the rest of the pieces that are not placed
             for(int x = getAmountOfPieces(currentTeamsTurn, r);
                 x < r.getMaxAmountOfPieces(); x++) {
 
-                Log.i("Tag", "Entering Loop" + x + " " + r.getMaxAmountOfPieces() + " " + r);
                 //randomizes possible x and y values
                 int randomColValue = (int)(Math.random() * 10);
                 int randomRowValue = (int)(Math.random() * 4 +
                         currentTeamsTurn.getTOPBOUNDARYINDEX());
-                Log.i("Hi", "" + randomRowValue + " " + randomColValue);
 
                 //places piece if possible or adds another iteration to the loop
                     boolean isPiecePlace = addPieceToGame(new Piece(currentTeamsTurn, r),
@@ -421,13 +415,13 @@ public class StrategoGameState {
      *         false if the given information is unusable
      */
     public boolean tapOnSquare(int row, int col) {
+        Log.i("msg", "Tapped");
         //makes sure the coordinates are valid
         if(col < 0 || col > COLMAX) {
             return false;
         } else if (row < 0 || row > ROWMAX) {
             return false;
         }
-
         //procedure for attacking piece
         if(board[row][col].isHighLighted() && board[row][col].containsPiece()) {
             attackPiece(lastTappedRow, lastTappedCol, row, col);
@@ -440,13 +434,14 @@ public class StrategoGameState {
             movePiece(lastTappedRow, lastTappedCol, row, col);
             //updates data
             removeHighlightedBlocks();
-            lastTappedRow= -1;
-            lastTappedCol= -1;
+            lastTappedRow = -1;
+            lastTappedCol = -1;
             //ends the currentPlayers turn
             transitionTurns();
-        //procedure for highlighting pieces
+            //procedure for highlighting pieces
         } else if (board[row][col].containsPiece() &&
                 board[row][col].getContainedPiece().getPieceTeam() == currentTeamsTurn) {
+            Log.i("msg", "Tapped3");
             //does not highlight movable spots for bomb and flag
             if(board[row][col].getContainedPiece().getPieceRank() == Rank.BOMB ||
                 board[row][col].getContainedPiece().getPieceRank() == Rank.FLAG) {
@@ -456,17 +451,20 @@ public class StrategoGameState {
                 lastTappedCol = -1;
             //procedure for highlighting scouts movable squares
             } else if(board[row][col].getContainedPiece().getPieceRank() == Rank.NINE) {
+                Log.i("msg", "scout");
                 setScoutsHighlightedBlocks(row, col);
                 lastTappedRow=row;
                 lastTappedCol=col;
             //procedure for highlighting normal units movable squares
             } else {
                 setHighLightedBlocks(row, col);
+                Log.i("msg", "newUnit");
                 lastTappedRow=row;
-                lastTappedRow=col;
+                lastTappedCol=col;
             }
         //removes highlights if tapping on an empty or enemy square
         } else {
+            Log.i("msg", "TappedNotGood");
             removeHighlightedBlocks();
             lastTappedRow = -1;
             lastTappedCol = -1;
@@ -486,7 +484,7 @@ public class StrategoGameState {
      */
     private boolean movePiece(int row1, int col1, int row2, int col2) {
         //moves the pieces to their according places
-        board[row2][row2].setContainedPiece(board[row1][col1].getContainedPiece());
+        board[row2][col2].setContainedPiece(board[row1][col1].getContainedPiece());
         board[row1][col1].setContainedPiece(null);
         return true;
     }
@@ -846,6 +844,9 @@ public class StrategoGameState {
         else{
             toReturn += "Blue Team's turn\n";
         }
+
+        toReturn += lastTappedRow + "\n";
+        toReturn += lastTappedCol + "\n";
 
         //prints whats stored in each board block
         toReturn += "------------------------\n";

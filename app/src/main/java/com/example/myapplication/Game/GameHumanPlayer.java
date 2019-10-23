@@ -35,7 +35,9 @@ public abstract class GameHumanPlayer implements GamePlayer, Tickable {
         //sendInfo(new TimerInfo(timer));
     }
 
-    public abstract View getTopView();
+    public View getTopView() {
+        return null;
+    };
 
     public void start(){
 
