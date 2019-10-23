@@ -6,7 +6,7 @@ import android.widget.SeekBar;
 
 import com.example.myapplication.Game.GameMainActivity;
 import com.example.myapplication.Game.GameHumanPlayer;
-
+/**
 public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener,
         SeekBar.OnSeekBarChangeListener{
 
@@ -22,7 +22,7 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
         // receives info from game state
     }
      **/
-
+    /**
     public void setAsGui(GameMainActivity activity){
         // sets gui with most current information
     }
@@ -79,4 +79,6 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
     public void gameSetAsGui(GameMainActivity activity) {
 
     }
+
 }
+     **/
