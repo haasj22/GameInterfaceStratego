@@ -1,12 +1,13 @@
 package com.example.myapplication.Game;
 
 import android.util.Log;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import com.example.myapplication.Game.actionMsg.GameAction;
 import com.example.myapplication.Game.infoMsg.GameInfo;
-
-import java.util.LinkedList;
-import java.util.Queue;
+import com.example.myapplication.Game.util.IPCoder;
+import com.example.myapplication.Game.util.NetworkObjectPasser;
 
 /**
  * A Game object that is used as a proxy for the real game that is on another
