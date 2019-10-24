@@ -31,7 +31,7 @@ public class StrategoGameState {
     private int redTeamTimer; //in milliseconds
 
     //variables that will store what pieces player one has in play
-    private ArrayList<Piece> redTeamPieces;
+    private ArrayList<Rank> redTeamPieces;
     //necessary for transitioning between phases
     private boolean redTeamHasFlag;
 
@@ -39,7 +39,7 @@ public class StrategoGameState {
     private int blueTeamID;
     private int blueTeamTimer; //in milliseconds
     //variables that will store what pieces player two has in play
-    private ArrayList<Piece> blueTeamPieces;
+    private ArrayList<Rank> blueTeamPieces;
     //necessary for transitioning between phases
     private boolean blueTeamHasFlag;
 
@@ -62,7 +62,7 @@ public class StrategoGameState {
         redTeamTimer = 3000;
 
         //player one starts with no pieces on the board
-        redTeamPieces= new ArrayList<Piece>();
+        redTeamPieces= new ArrayList<Rank>();
         redTeamHasFlag = false;
 
         //player one does not get access to any of player two's information
@@ -70,7 +70,7 @@ public class StrategoGameState {
         blueTeamTimer = 0;
 
         //player one does not get to see where player two placed his pieces
-        blueTeamPieces=new ArrayList<Piece>();
+        blueTeamPieces=new ArrayList<Rank>();
         blueTeamHasFlag = false;
 
         //starts the game out in setup phase
@@ -110,9 +110,9 @@ public class StrategoGameState {
         this.redTeamTimer = trueState.redTeamTimer;
 
         //copies player one's pieces
-        redTeamPieces= new ArrayList<Piece>();
-        for(Piece p: trueState.redTeamPieces) {
-            this.redTeamPieces.add(new Piece(p));
+        redTeamPieces= new ArrayList<Rank>();
+        for(Rank r: trueState.redTeamPieces) {
+            this.redTeamPieces.add(r);
         }
 
         //sees whether player one has won yet
@@ -123,9 +123,9 @@ public class StrategoGameState {
         this.blueTeamTimer = trueState.blueTeamTimer;
 
         //copies player two's pieces
-        blueTeamPieces= new ArrayList<Piece>();
-        for(Piece p: trueState.blueTeamPieces) {
-            this.blueTeamPieces.add(new Piece(p));
+        blueTeamPieces= new ArrayList<Rank>();
+        for(Rank r: trueState.blueTeamPieces) {
+            this.blueTeamPieces.add(r);
         }
 
         //sees whether player two has won yet
@@ -152,13 +152,13 @@ public class StrategoGameState {
     public Block[][] getBoard() {
         return board;
     }
-    public ArrayList<Piece> getRedTeamPieces() {
+    public ArrayList<Rank> getRedTeamPieces() {
         return redTeamPieces;
     }
     public boolean getIsRedTeamHasFlag() {
         return redTeamHasFlag;
     }
-    public ArrayList<Piece> getBlueTeamPieces() {
+    public ArrayList<Rank> getBlueTeamPieces() {
         return blueTeamPieces;
     }
     public boolean getIsBlueTeamHasFlag() {
@@ -189,7 +189,7 @@ public class StrategoGameState {
         this.board = board;
     }
 
-    public void setRedTeamPieces(ArrayList<Piece> RedTeamPieces) {
+    public void setRedTeamPieces(ArrayList<Rank> RedTeamPieces) {
         this.redTeamPieces = RedTeamPieces;
     }
 
@@ -197,7 +197,7 @@ public class StrategoGameState {
         this.redTeamHasFlag = RedTeamHasFlag;
     }
 
-    public void setblueTeamPieces(ArrayList<Piece> blueTeamPieces) {
+    public void setblueTeamPieces(ArrayList<Rank> blueTeamPieces) {
         this.blueTeamPieces = blueTeamPieces;
     }
 
@@ -234,14 +234,14 @@ public class StrategoGameState {
         //makes sure there are not too many of the desired piece on the board
         int numOfDesiredPieceOnBoard=0;
         if(currentTeamsTurn == Team.RED_TEAM) {
-            for (Piece piece : redTeamPieces) {
-                if (piece.getPieceRank() == placedPiece.getPieceRank()) {
+            for (Rank r : redTeamPieces) {
+                if (r == placedPiece.getPieceRank()) {
                     numOfDesiredPieceOnBoard++;
                 }
             }
         } else {
-            for (Piece piece : blueTeamPieces) {
-                if (piece.getPieceRank() == placedPiece.getPieceRank()) {
+            for (Rank r : blueTeamPieces) {
+                if (r == placedPiece.getPieceRank()) {
                     numOfDesiredPieceOnBoard++;
                 }
             }
@@ -257,7 +257,7 @@ public class StrategoGameState {
         }
         //sets the piece to the desired place
         board[row][col].setContainedPiece(placedPiece);
-        this.addPieceToPlayer(currentTeamsTurn, placedPiece);
+        this.addPieceToPlayer(currentTeamsTurn, placedPiece.getPieceRank());
 
         //sets the flag variable accordingly
         if(placedPiece.getPieceRank() == Rank.FLAG) {
@@ -281,7 +281,7 @@ public class StrategoGameState {
      */
     public boolean removePieceFromGame(int row, int col) {
         //removes the piece from the board
-        this.removePieceFromPlayer(currentTeamsTurn, board[row][col].getContainedPiece());
+        this.removePieceFromPlayer(currentTeamsTurn, board[row][col].getContainedPiece().getPieceRank());
         board[row][col].setContainedPiece(null);
 
         return true;
@@ -429,6 +429,7 @@ public class StrategoGameState {
             lastTappedRow = -1;
             lastTappedCol = -1;
             transitionTurns();
+            return true;
         //procedure for moving piece
         } else if (board[row][col].isHighLighted()) {
             movePiece(lastTappedRow, lastTappedCol, row, col);
@@ -439,6 +440,7 @@ public class StrategoGameState {
             //ends the currentPlayers turn
             transitionTurns();
             //procedure for highlighting pieces
+            return true;
         } else if (board[row][col].containsPiece() &&
                 board[row][col].getContainedPiece().getPieceTeam() == currentTeamsTurn) {
             Log.i("msg", "Tapped3");
@@ -449,18 +451,21 @@ public class StrategoGameState {
                 removeHighlightedBlocks();
                 lastTappedRow = -1;
                 lastTappedCol = -1;
+                return true;
             //procedure for highlighting scouts movable squares
             } else if(board[row][col].getContainedPiece().getPieceRank() == Rank.NINE) {
                 Log.i("msg", "scout");
                 setScoutsHighlightedBlocks(row, col);
                 lastTappedRow=row;
                 lastTappedCol=col;
+                return true;
             //procedure for highlighting normal units movable squares
             } else {
                 setHighLightedBlocks(row, col);
                 Log.i("msg", "newUnit");
                 lastTappedRow=row;
                 lastTappedCol=col;
+                return true;
             }
         //removes highlights if tapping on an empty or enemy square
         } else {
@@ -468,8 +473,8 @@ public class StrategoGameState {
             removeHighlightedBlocks();
             lastTappedRow = -1;
             lastTappedCol = -1;
+            return true;
         }
-        return true;
     }
 
     /**
@@ -531,24 +536,24 @@ public class StrategoGameState {
         //if defender is a lower number/higher rank kill the attacker
         if(attacker.getPieceRank().ordinal() > defender.getPieceRank().ordinal()) {
             //removes piece from board and teams arraylist
-            removePieceFromPlayer(currentTeamsTurn, attacker);
+            removePieceFromPlayer(currentTeamsTurn, attacker.getPieceRank());
             board[row1][col1].setContainedPiece(null);
             return true;
         }
         //if defender is a higher number/lower rank kill the defender
         if(attacker.getPieceRank().ordinal() < defender.getPieceRank().ordinal()) {
             //removes defender from arraylist
-            removePieceFromPlayer(getEnemyTeam(), defender);
+            removePieceFromPlayer(getEnemyTeam(), defender.getPieceRank());
             //moves attacker to desired location
             return movePiece(row1, col1, row2, col2);
         }
         //if attacker and defender are equal rank kill both
         if(attacker.getPieceRank().ordinal() == defender.getPieceRank().ordinal()) {
             //kills attacker and removes from proper teams hand
-            removePieceFromPlayer(currentTeamsTurn, attacker);
+            removePieceFromPlayer(currentTeamsTurn, attacker.getPieceRank());
             board[row1][col1].setContainedPiece(null);
             //kills defender and removes from proper teams hand
-            removePieceFromPlayer(getEnemyTeam(), defender);
+            removePieceFromPlayer(getEnemyTeam(), defender.getPieceRank());
             board[row2][col2].setContainedPiece(null);
             return true;
         }
@@ -581,9 +586,10 @@ public class StrategoGameState {
      * @return true once pieces have been moved accordingly
      */
     private boolean spyAttacks(int row1, int col1, int row2, int col2) {
+        Log.i("msg", "spattack");
         //if spy attacks Marshall, removes marshall from board
         if(board[row2][col2].getContainedPiece().getPieceRank() == Rank.ONE) {
-            removePieceFromPlayer(getEnemyTeam(), board[row2][col2].getContainedPiece());
+            removePieceFromPlayer(getEnemyTeam(), board[row2][col2].getContainedPiece().getPieceRank());
             return movePiece(row1, col1, row2, col2);
         }
         //else treat spy like normal piece
@@ -601,14 +607,14 @@ public class StrategoGameState {
      */
     private boolean attackBomb(int row1, int col1, int row2, int col2) {
         //removes the bomb from the battlefield
-        removePieceFromPlayer(this.getEnemyTeam(), board[row2][col2].getContainedPiece());
+        removePieceFromPlayer(this.getEnemyTeam(), board[row2][col2].getContainedPiece().getPieceRank());
         //if attacker is a miner, moves it to its desired location
         if(board[row1][col1].getContainedPiece().getPieceRank() == Rank.EIGHT) {
             return movePiece(row1, col1, row2, col2);
         }
         // removes attacker from battlefield and updates board
         else {
-            removePieceFromPlayer(currentTeamsTurn, board[row1][col1].getContainedPiece());
+            removePieceFromPlayer(currentTeamsTurn, board[row1][col1].getContainedPiece().getPieceRank());
             board[row1][col1].setContainedPiece(null);
             return movePiece(row1, col1, row2, col2);
         }
@@ -736,15 +742,15 @@ public class StrategoGameState {
      * helper method that allows one to easily add pieces to players pieces
      *
      * @param targetTeam team that wishes to add a piece
-     * @param targetPiece piece that the player wishes to add
+     * @param targetRank rank that the player wishes to add
      * @return true once piece has been added
      */
-    private boolean addPieceToPlayer(Team targetTeam, Piece targetPiece) {
+    private boolean addPieceToPlayer(Team targetTeam, Rank targetRank) {
         //adds piece to the given teams's arraylist of pieces
         if(targetTeam == Team.RED_TEAM) {
-            redTeamPieces.add(targetPiece);
+            redTeamPieces.add(targetRank);
         } else {
-            blueTeamPieces.add(targetPiece);
+            blueTeamPieces.add(targetRank);
         }
         return true;
     }
@@ -753,15 +759,18 @@ public class StrategoGameState {
      * method that removes a desired piece from a players hand
      *
      * @param targetTeam team from which a piece will be removed
-     * @param targetPiece piece that they wish to be removed
+     * @param targetRank rank that they wish to be removed
      * @return true once piece has been removed
      */
-    private boolean removePieceFromPlayer(Team targetTeam, Piece targetPiece) {
+    private boolean removePieceFromPlayer(Team targetTeam, Rank targetRank) {
         //removes piece from the given team's arraylist of pieces
+        Log.i("msg", "remove");
         if(targetTeam == Team.RED_TEAM) {
-            redTeamPieces.remove(targetPiece);
+            Log.i("msg", "removeRed");
+            redTeamPieces.remove(targetRank);
         } else {
-            blueTeamPieces.remove(targetPiece);
+            Log.i("msg", "removeBlue " + targetRank);
+            blueTeamPieces.remove(targetRank);
         }
         return true;
     }
@@ -778,7 +787,7 @@ public class StrategoGameState {
         int amount=0;
 
         //will store the pieces of the team that is to be searched
-        ArrayList<Piece> currentTeamsPieces;
+        ArrayList<Rank> currentTeamsPieces;
 
         //sets the current teams pieces according to the current team
         if(desiredPlayer == Team.RED_TEAM) {
@@ -788,8 +797,8 @@ public class StrategoGameState {
         }
 
         //counts the amount of pieces matching the desired rank
-        for(Piece p: currentTeamsPieces) {
-            if(p.getPieceRank() == desiredRank) {
+        for(Rank r: currentTeamsPieces) {
+            if(r == desiredRank) {
                 amount++;
             }
         }
@@ -824,15 +833,15 @@ public class StrategoGameState {
         toReturn += "[Red Team's id: " + redTeamID + "]\n";
         toReturn += "[Red Team's Timer: " + redTeamTimer + "]\n";
         toReturn += "Red Team's Pieces:\n";
-        for(Piece p: redTeamPieces) {
-            toReturn += p.toString();
+        for(Rank r: redTeamPieces) {
+            toReturn += r.toString() + "\n";
         }
 
         toReturn += "[Blue Team's ID: " + blueTeamID + "]\n";
         toReturn += "[Blue Team's Timer: " + blueTeamTimer + "]\n";
         toReturn += "Blue Team's Pieces:\n";
-        for(Piece p: blueTeamPieces) {
-            toReturn += p.toString();
+        for(Rank r: blueTeamPieces) {
+            toReturn += r.toString() + "\n";
         }
 
         toReturn += "[Current Phase: " + currentPhase + "]\n";

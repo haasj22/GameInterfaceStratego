@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 timeClicked++;
+                Log.i("msg", "" + timeClicked);
                 runTests();
             }
         });
@@ -91,8 +92,33 @@ public class MainActivity extends AppCompatActivity {
             case 7:
                 firstInstance.tapOnSquare(6, 2);
                 changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
+                break;
             case 8:
                 firstInstance.tapOnSquare(5,2);
+                changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
+                break;
+            case 9:
+                firstInstance.tapOnSquare(3, 2);
+                changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
+                break;
+            case 10:
+                firstInstance.tapOnSquare(4, 2);
+                changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
+                break;
+            case 11:
+                firstInstance.tapOnSquare(5,2);
+                changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
+                break;
+            case 12:
+                firstInstance.tapOnSquare(4,2);
+                changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
+                break;
+            case 13:
+                firstInstance.tapOnSquare(3, 7);
+                changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
+                break;
+            case 14:
+                firstInstance.tapOnSquare(6,7);
                 changingTextView.setText(firstInstance.toString(), TextView.BufferType.SPANNABLE);
         }
 
