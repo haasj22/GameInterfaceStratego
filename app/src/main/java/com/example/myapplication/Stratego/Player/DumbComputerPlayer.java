@@ -3,6 +3,7 @@ package com.example.myapplication.Stratego.Player;
 import com.example.myapplication.Game.GameComputerPlayer;
 import com.example.myapplication.Game.GameMainActivity;
 import com.example.myapplication.Game.GamePlayer;
+import com.example.myapplication.Game.infoMsg.GameInfo;
 
 public class DumbComputerPlayer extends GameComputerPlayer {
 
@@ -32,5 +33,25 @@ public class DumbComputerPlayer extends GameComputerPlayer {
     @Override
     public void gameSetAsGui(GameMainActivity activity) {
 
+    }
+
+    @Override
+    public void sendInfo(GameInfo info) {
+
+    }
+
+    @Override
+    public void start() {
+
+    }
+
+    @Override
+    public boolean requiresGui() {
+        return false;
+    }
+
+    @Override
+    public boolean supportsGui() {
+        return false;
     }
 }
