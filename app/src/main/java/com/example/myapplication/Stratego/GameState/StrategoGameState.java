@@ -94,6 +94,7 @@ public class StrategoGameState {
             }
         }
 
+        //sets default tapped row and column
         lastTappedRow = -1;
         lastTappedCol = -1;
     }
@@ -144,6 +145,7 @@ public class StrategoGameState {
             }
         }
 
+        //copies the last tapped position
         this.lastTappedRow = trueState.lastTappedRow;
         this.lastTappedCol = trueState.lastTappedCol;
     }
@@ -479,6 +481,7 @@ public class StrategoGameState {
 
     /**
      * movePiece method
+     * helper method for tapSquare
      * allows players to move their piece during PLAY_PHASE
      * @param row1 original row of piece
      * @param col1 original col of piece
@@ -495,7 +498,7 @@ public class StrategoGameState {
     }
 
     /**
-     * helper method for movePiece that triggers
+     * helper method for tapSquare
      * when two pieces collide on game board
      * @param row1 original row of piece
      * @param col1 original col of piece
@@ -632,7 +635,7 @@ public class StrategoGameState {
         } else {
             redTeamHasFlag = false;
         }
-        return isGameOver();
+        return true;
     }
 
     /**
@@ -641,16 +644,19 @@ public class StrategoGameState {
      * @return true if either player has lost their flags
      *         false if both players have their flags
      */
-    private boolean isGameOver() {
+    private int isGameOver() {
         //if either team has lost their flag return true
-        if(redTeamHasFlag == false || blueTeamHasFlag == false) {
-            return true;
+        if(redTeamHasFlag == false) {
+            return -1;
+        } else if (blueTeamHasFlag == false) {
+            return 1;
         }
         //else return false
-        return false;
+        return 0;
     }
 
     /**
+     * helper method for tapOnSquare
      * method that highlights the blocks a normal unit could move
      *
      * @param row the row of the tap
@@ -678,6 +684,7 @@ public class StrategoGameState {
     }
 
     /**
+     * helper method for tapOnSquare
      * highlights all the possible spots a scout could move
      *
      * @param row the row of the tapped piece
@@ -718,6 +725,7 @@ public class StrategoGameState {
 
 
     /**
+     * helper method for TapOnSquare
      * method that removes all highlighted spots from the board
      *
      * @return true when all highlighted spots are removed
@@ -739,6 +747,7 @@ public class StrategoGameState {
     /**-----------------------------------General Methods-----------------------------------------*/
 
     /**
+     * helper method for addPieceToGame
      * helper method that allows one to easily add pieces to players pieces
      *
      * @param targetTeam team that wishes to add a piece
@@ -756,6 +765,7 @@ public class StrategoGameState {
     }
 
     /**
+     * helperMethod for attackPiece
      * method that removes a desired piece from a players hand
      *
      * @param targetTeam team from which a piece will be removed
@@ -776,6 +786,7 @@ public class StrategoGameState {
     }
 
     /**
+     * helper method for addPieceToGame
      * method that gets the amount of a given piece a given player has
      *
      * @param desiredPlayer player that will be searched
@@ -818,7 +829,8 @@ public class StrategoGameState {
         else {
             blueTeamHasFlag = false;
         }
-        return isGameOver();
+        isGameOver();
+        return true;
     }
 
     /**
@@ -836,6 +848,7 @@ public class StrategoGameState {
         for(Rank r: redTeamPieces) {
             toReturn += r.toString() + "\n";
         }
+        toReturn += "Red Team has Flag?: " + redTeamHasFlag + "\n";
 
         toReturn += "[Blue Team's ID: " + blueTeamID + "]\n";
         toReturn += "[Blue Team's Timer: " + blueTeamTimer + "]\n";
@@ -843,6 +856,7 @@ public class StrategoGameState {
         for(Rank r: blueTeamPieces) {
             toReturn += r.toString() + "\n";
         }
+        toReturn += "Blue Team has Flag?: " + blueTeamHasFlag + "\n";
 
         toReturn += "[Current Phase: " + currentPhase + "]\n";
 
