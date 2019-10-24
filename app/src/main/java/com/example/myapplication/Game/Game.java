@@ -3,6 +3,18 @@ package com.example.myapplication.Game;
 import com.example.myapplication.Game.actionMsg.GameAction;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 
+
+/**
+ * To support remote play, this game framework has two types of Games: local
+ * games and remote games that are represented by a proxy. Both types adhere to
+ * this common interface.
+ *
+ * @author Steven R. Vegdahl
+ * @author Andrew M. Nuxoll
+ * @version July 2013
+ * @see LocalGame
+ * @see ProxyGame
+ */
 public interface Game {
 
     /**
