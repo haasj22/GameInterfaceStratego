@@ -417,7 +417,6 @@ public class StrategoGameState {
      *         false if the given information is unusable
      */
     public boolean tapOnSquare(int row, int col) {
-        Log.i("msg", "Tapped");
         //makes sure the coordinates are valid
         if(col < 0 || col > COLMAX) {
             return false;
@@ -445,7 +444,6 @@ public class StrategoGameState {
             return true;
         } else if (board[row][col].containsPiece() &&
                 board[row][col].getContainedPiece().getPieceTeam() == currentTeamsTurn) {
-            Log.i("msg", "Tapped3");
             //does not highlight movable spots for bomb and flag
             if(board[row][col].getContainedPiece().getPieceRank() == Rank.BOMB ||
                 board[row][col].getContainedPiece().getPieceRank() == Rank.FLAG) {
@@ -456,7 +454,6 @@ public class StrategoGameState {
                 return true;
             //procedure for highlighting scouts movable squares
             } else if(board[row][col].getContainedPiece().getPieceRank() == Rank.NINE) {
-                Log.i("msg", "scout");
                 setScoutsHighlightedBlocks(row, col);
                 lastTappedRow=row;
                 lastTappedCol=col;
@@ -464,14 +461,12 @@ public class StrategoGameState {
             //procedure for highlighting normal units movable squares
             } else {
                 setHighLightedBlocks(row, col);
-                Log.i("msg", "newUnit");
                 lastTappedRow=row;
                 lastTappedCol=col;
                 return true;
             }
         //removes highlights if tapping on an empty or enemy square
         } else {
-            Log.i("msg", "TappedNotGood");
             removeHighlightedBlocks();
             lastTappedRow = -1;
             lastTappedCol = -1;
@@ -499,7 +494,7 @@ public class StrategoGameState {
 
     /**
      * helper method for tapSquare
-     * when two pieces collide on game board
+     * activates when two pieces collide on game board
      * @param row1 original row of piece
      * @param col1 original col of piece
      * @param row2 row piece will be moved to
@@ -508,18 +503,23 @@ public class StrategoGameState {
      *         false if defender wins
      */
     private boolean attackPiece(int row1, int col1, int row2, int col2) {
+        //ends the game if a flag is attacked
         if(board[row2][col2].getContainedPiece().getPieceRank() == Rank.FLAG) {
             return attackFlag();
         }
+        //runs appropriate procedure for hitting a bomb
         if(board[row2][col2].getContainedPiece().getPieceRank() == Rank.BOMB) {
             return attackBomb(row1, col1, row2, col2);
         }
+        //runs appropriate procedure for when a spy attacks
         if(board[row1][col1].getContainedPiece().getPieceRank() == Rank.SPY) {
             return spyAttacks(row1, col1, row2, col2);
         }
+        //allows scouts to make units visible
         if(board[row1][col1].getContainedPiece().getPieceRank() == Rank.NINE){
             return scoutAttacks(row1, col1, row2, col2);
         }
+        //otherwise treats all other collisions as normal unit attacks
         return unitAttacks(row1, col1, row2, col2);
     }
 
@@ -589,7 +589,6 @@ public class StrategoGameState {
      * @return true once pieces have been moved accordingly
      */
     private boolean spyAttacks(int row1, int col1, int row2, int col2) {
-        Log.i("msg", "spattack");
         //if spy attacks Marshall, removes marshall from board
         if(board[row2][col2].getContainedPiece().getPieceRank() == Rank.ONE) {
             removePieceFromPlayer(getEnemyTeam(), board[row2][col2].getContainedPiece().getPieceRank());
@@ -635,6 +634,7 @@ public class StrategoGameState {
         } else {
             redTeamHasFlag = false;
         }
+        isGameOver();
         return true;
     }
 
@@ -774,12 +774,9 @@ public class StrategoGameState {
      */
     private boolean removePieceFromPlayer(Team targetTeam, Rank targetRank) {
         //removes piece from the given team's arraylist of pieces
-        Log.i("msg", "remove");
         if(targetTeam == Team.RED_TEAM) {
-            Log.i("msg", "removeRed");
             redTeamPieces.remove(targetRank);
         } else {
-            Log.i("msg", "removeBlue " + targetRank);
             blueTeamPieces.remove(targetRank);
         }
         return true;
@@ -823,12 +820,14 @@ public class StrategoGameState {
      * @return true once game has been ended
      */
     public boolean forfeitGame() {
+        //sets the appropriate teams hasFlag variable to false
         if(currentTeamsTurn == Team.RED_TEAM) {
             redTeamHasFlag = false;
         }
         else {
             blueTeamHasFlag = false;
         }
+        //runs the procedure for ending the game
         isGameOver();
         return true;
     }
@@ -842,6 +841,7 @@ public class StrategoGameState {
         //prints all the game state information
         String toReturn = "\nStratego Game State:\n";
 
+        //prints all Red Team's information
         toReturn += "[Red Team's id: " + redTeamID + "]\n";
         toReturn += "[Red Team's Timer: " + redTeamTimer + "]\n";
         toReturn += "Red Team's Pieces:\n";
@@ -850,6 +850,7 @@ public class StrategoGameState {
         }
         toReturn += "Red Team has Flag?: " + redTeamHasFlag + "\n";
 
+        //prints all Blue Team's information
         toReturn += "[Blue Team's ID: " + blueTeamID + "]\n";
         toReturn += "[Blue Team's Timer: " + blueTeamTimer + "]\n";
         toReturn += "Blue Team's Pieces:\n";
