@@ -10,11 +10,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.myapplication.Game.GameMainActivity;
 import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends GameMainActivity {
     EditText changingTextView;
     int timeClicked=0;
     StrategoGameState firstInstance;
