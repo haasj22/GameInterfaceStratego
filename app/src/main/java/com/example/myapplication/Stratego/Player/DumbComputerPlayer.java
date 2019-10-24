@@ -15,6 +15,11 @@ public class DumbComputerPlayer extends GameComputerPlayer {
     }
     **/
 
+    @Override
+    protected void receiveInfo(GameInfo info) {
+
+    }
+
     public void chooseRandomAction(){
         // randomly chooses action
     }
