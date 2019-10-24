@@ -2,6 +2,13 @@ package com.example.myapplication.Game;
 
 import java.io.Serializable;
 
+import com.example.myapplication.Game.actionMsg.GameAction;
+import com.example.myapplication.Game.infoMsg.BindGameInfo;
+import com.example.myapplication.Game.infoMsg.GameInfo;
+import com.example.myapplication.Game.util.NetworkObjectPasser;
+import android.util.Log;
+
+
 /**
  * A Player object that is used as a proxy for the real player that is on another
  * machine on the network. Whenever a message is sent to the ProxyPlayer object,
