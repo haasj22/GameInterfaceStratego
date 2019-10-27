@@ -11,9 +11,11 @@ package com.example.myapplication.Stratego.GameState;
 
 import android.util.Log;
 
+import com.example.myapplication.Game.infoMsg.GameState;
+
 import java.util.ArrayList;
 
-public class StrategoGameState {
+public class StrategoGameState extends GameState {
 
     //max number of rows and cols in board
     private final int COLMAX = 10;
@@ -125,8 +127,8 @@ public class StrategoGameState {
 
         //copies player two's pieces
         blueTeamPieces= new ArrayList<Rank>();
-        for(Rank r: trueState.blueTeamPieces) {
-            this.blueTeamPieces.add(r);
+        for(Rank b: trueState.blueTeamPieces) {
+            this.blueTeamPieces.add(b);
         }
 
         //sees whether player two has won yet
