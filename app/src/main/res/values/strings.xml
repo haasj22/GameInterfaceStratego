@@ -1,3 +1,38 @@
 <resources>
     <string name="app_name">My Application</string>
+
+    <!--
+   Person Commenting: John Haas
+
+   External Citation
+       Date:       14 September 2019
+       Problem:    Did not know how make a readable multi-line
+                   text in a TextView with XML
+
+       Resource:   https://stackoverflow.com/questions/5040574/write-a-paragraph-using-textview-on-android
+       Solution: I followed the formatting of the code from this post
+   -->
+    <string name="enemyList">
+        <b> Enemy List </b> \n
+        1 x Marshall\n
+        0 x General\n
+        1 x Colonel\n
+        1 x Major\n
+        0 x Captain\n
+        1 x Lieutenant\n
+        1 x Sergeant\n
+        0 x Miner\n
+        1 x Scout\n
+        0 x Spy\n
+        2 x Bomb\n
+        1 x Flag
+    </string>
+
+    <string name="helpScreen">
+        <b> Help Screen</b> \n
+        Marshall\n
+        Strongest of the strong\n
+        Only piece able to\n
+        kill him is the spy.
+    </string>
 </resources>
