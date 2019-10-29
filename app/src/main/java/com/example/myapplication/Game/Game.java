@@ -5,6 +5,12 @@ import com.example.myapplication.Stratego.GameState.StrategoGameState;
 
 
 /**
+ * Todo:
+ * Jordan: work on game actions for the framework, rules if not yet finished
+ * Kavya: human player and rules
+ */
+
+/**
  * To support remote play, this game framework has two types of Games: local
  * games and remote games that are represented by a proxy. Both types adhere to
  * this common interface.
