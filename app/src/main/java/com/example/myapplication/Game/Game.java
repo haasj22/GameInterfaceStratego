@@ -7,7 +7,9 @@ import com.example.myapplication.Stratego.GameState.StrategoGameState;
 /**
  * Todo:
  * Jordan: work on game actions for the framework, rules if not yet finished
+ * sounds: bomb for running into bomb, moving pieces, attacking, victory
  * Kavya: human player and rules
+ * John: computer players
  */
 
 /**
