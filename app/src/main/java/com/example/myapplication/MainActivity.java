@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
     StrategoGameState fourthInstance;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         changingTextView = (EditText)findViewById(R.id.textEditor);
