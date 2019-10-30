@@ -15,7 +15,7 @@ import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 
-public class MainActivity extends GameMainActivity {
+public class MainActivity extends AppCompatActivity {
     EditText changingTextView;
     int timeClicked=0;
     StrategoGameState firstInstance;

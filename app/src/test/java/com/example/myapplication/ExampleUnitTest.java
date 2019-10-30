@@ -1,5 +1,9 @@
 package com.example.myapplication;
 
+import com.example.myapplication.Stratego.GameState.Piece;
+import com.example.myapplication.Stratego.GameState.Rank;
+import com.example.myapplication.Stratego.GameState.StrategoGameState;
+
 import org.junit.Test;
 
 import static org.junit.Assert.*;
@@ -11,7 +15,9 @@ import static org.junit.Assert.*;
  */
 public class ExampleUnitTest {
     @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+    public void canAddFlagToTheGame() {
+        StrategoGameState testGameState = new StrategoGameState();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.FLAG), 6, 7);
+        assertEquals(true, testGameState.getIsRedTeamHasFlag());
     }
 }
