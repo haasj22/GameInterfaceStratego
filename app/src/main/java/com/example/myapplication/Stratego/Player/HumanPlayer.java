@@ -11,6 +11,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.StandardGameBoard;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.RulesHelp;
+/**
 
 public class HumanPlayer extends GameHumanPlayer {
 
@@ -27,16 +28,15 @@ public class HumanPlayer extends GameHumanPlayer {
     public HumanPlayer(String name) {
         super(name);
     }
-    public View getTopView(){
+
+    public View getTopView() {
         return activity.findViewById(R.id.topGUI);
     }
 
 
-
-
-    public void receiveInfo(GameInfo info){
-        if (info instanceof StrategoGameState){
-            if(rulesHelpButton.getGame() == null){
+    public void receiveInfo(GameInfo info) {
+        if (info instanceof StrategoGameState) {
+            if (rulesHelpButton.getGame() == null) {
 
 
             }
@@ -44,7 +44,7 @@ public class HumanPlayer extends GameHumanPlayer {
     }
 
 
-    public void setAsGui(GameMainActivity activity){
+    public void setAsGui(GameMainActivity activity) {
         this.activity = activity;
         activity.setContentView(R.layout.stratego_rules);
 
@@ -53,40 +53,50 @@ public class HumanPlayer extends GameHumanPlayer {
 
 
     }
-    private void updateGui(){
+
+    private void updateGui() {
         // updates gui after actions are played
     }
-    private void setBoard(){
+
+    private void setBoard() {
         // sets board according to players' layout
     }
+
     @Override
     public void onClick(View v) {
-        if(v == startButton){
+        if (v == startButton) {
             // start game
         }
-        if(v == forfeitButton){
+        if (v == forfeitButton) {
             // forfeit game
         }
     }
 
-    private void writeNotes(){
+    private void writeNotes() {
         // edits notes edit text for player's game notes
     }
-    public void locateUnites(){
+
+    public void locateUnites() {
         // locates units of pieces
     }
-    public void movePiece(){
+
+    public void movePiece() {
         // moves game pieces
     }
-    public void attackPiece(){
+
+    public void attackPiece() {
         // attacks chosen adjacent enemy piece
     }
-    public void captureFlag(){
+
+    public void captureFlag() {
         // attempts to capture suspected enemy flag
     }
-    public void hitBomb(){
+
+    public void hitBomb() {
         // hits bomb upon discovery
     }
+}
+    /**
     @Override
     public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
 
