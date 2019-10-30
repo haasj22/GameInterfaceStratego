@@ -11,7 +11,7 @@ import com.example.myapplication.R;
 import com.example.myapplication.StandardGameBoard;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.RulesHelp;
-
+/**
 public class HumanPlayer extends GameHumanPlayer {
 
     private RulesHelp rulesHelpButton;
