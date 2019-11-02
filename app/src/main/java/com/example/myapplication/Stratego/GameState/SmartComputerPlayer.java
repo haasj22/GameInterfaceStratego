@@ -16,11 +16,21 @@ public class SmartComputerPlayer extends GameComputerPlayer {
         if(info instanceof  StrategoGameState) {
             gameStateCopy = (StrategoGameState)info;
 
-            /*if(gameStateCopy.getCurrentTeamsTurn() != this.playerNum) {
+            if(gameStateCopy.getCurrentTeamsTurn().getTEAMNUMBER() != this.playerNum) {
                 return;
-            }*/
+            }
 
             if(gameStateCopy.getCurrentPhase() == Phase.SETUP_PHASE) {
+                int flagRow;
+                int flagCol;
+                flagRow = (int)(Math.random() * 2);
+                flagCol = (int)(Math.random() * 10);
+
+                if(gameStateCopy.getCurrentTeamsTurn() == Team.RED_TEAM) {
+                    flagRow+=8;
+                }
+
+
 
             } else {
 

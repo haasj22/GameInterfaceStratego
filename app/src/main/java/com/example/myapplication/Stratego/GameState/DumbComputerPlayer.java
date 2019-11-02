@@ -32,7 +32,7 @@ public class DumbComputerPlayer extends GameComputerPlayer {
             } else {
                 int row = (int)(Math.random() * 10);
                 int col = (int)(Math.random() * 10);
-                gameStateCopy.tapOnSquare(row, col);
+                gameStateCopy.tapOnSquarePLAY(row, col);
             }
         }
     }

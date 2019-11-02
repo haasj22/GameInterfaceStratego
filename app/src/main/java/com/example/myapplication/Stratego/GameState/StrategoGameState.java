@@ -55,6 +55,8 @@ public class StrategoGameState extends GameState {
     private int lastTappedRow;
     private int lastTappedCol;
 
+    private Piece lastTappedPieceButton;
+
     /**
      * Constructor for objects of class StrategoGameState
      */
@@ -99,6 +101,8 @@ public class StrategoGameState extends GameState {
         //sets default tapped row and column
         lastTappedRow = -1;
         lastTappedCol = -1;
+
+        lastTappedPieceButton = null;
     }
 
     /**
@@ -150,6 +154,8 @@ public class StrategoGameState extends GameState {
         //copies the last tapped position
         this.lastTappedRow = trueState.lastTappedRow;
         this.lastTappedCol = trueState.lastTappedCol;
+
+        this.lastTappedPieceButton = trueState.lastTappedPieceButton;
     }
     /**-----------------------------------GETTER METHODS------------------------------------------*/
 
@@ -172,6 +178,7 @@ public class StrategoGameState extends GameState {
         return currentPhase;
     }
     public Team getCurrentTeamsTurn() { return currentTeamsTurn; }
+    public Piece getLastTappedPieceButton() { return lastTappedPieceButton; }
 
     /**
      * returns the team that is currently not taking their turn
@@ -185,6 +192,10 @@ public class StrategoGameState extends GameState {
         } else {
             return Team.RED_TEAM;
         }
+    }
+
+    public Piece getPieceAt(int row, int col) {
+        return board[row][col].getContainedPiece();
     }
 
     /**-----------------------------------SETTER METHODS------------------------------------------*/
@@ -213,7 +224,33 @@ public class StrategoGameState extends GameState {
         this.currentPhase = currentPhase;
     }
 
+    public void setLastTappedPieceButton(Piece lastTappedPieceButton) {
+        this.lastTappedPieceButton = lastTappedPieceButton;
+    }
+
     /**--------------------------------SETUP_PHASE METHODS----------------------------------------*/
+
+    public boolean tapOnSquareSETUP(int row, int col) {
+        if(lastTappedRow == -1 && lastTappedCol == -1) {
+            board[lastTappedRow][lastTappedCol].setHighLighted(true);
+            lastTappedRow = row;
+            lastTappedCol = col;
+        } else if(row == lastTappedRow && col == lastTappedCol) {
+            removePieceFromGame(row, col);
+            lastTappedRow = -1;
+            lastTappedCol = -1;
+        } else if(board[row][col].getContainedPiece() != null){
+            movePieceDuringSetup(lastTappedRow, lastTappedCol, row, col);
+            lastTappedRow = -1;
+            lastTappedCol = -1;
+        } else {
+            addPieceToGame(this.getLastTappedPieceButton(), row, col);
+            lastTappedRow = -1;
+            lastTappedCol = -1;
+        }
+        return true;
+    }
+
 
     /**
      * addPieceToGame method
@@ -387,10 +424,14 @@ public class StrategoGameState extends GameState {
         transitionTurns();
         //if the other players boards not full, its their turn to set up
         if(!isBoardFull(currentTeamsTurn)) {
+            lastTappedRow = -1;
+            lastTappedCol = -1;
             return false;
         }
         //transitions phases
         this.currentPhase = Phase.PLAY_PHASE;
+        this.lastTappedRow = -1;
+        this.lastTappedCol = -1;
         return true;
     }
 
@@ -418,7 +459,7 @@ public class StrategoGameState extends GameState {
      * @return true once information is handled appropriately
      *         false if the given information is unusable
      */
-    public boolean tapOnSquare(int row, int col) {
+    public boolean tapOnSquarePLAY(int row, int col) {
         //makes sure the coordinates are valid
         if(col < 0 || col > COLMAX) {
             return false;
@@ -636,7 +677,6 @@ public class StrategoGameState extends GameState {
         } else {
             redTeamHasFlag = false;
         }
-        isGameOver();
         return true;
     }
 
@@ -646,7 +686,7 @@ public class StrategoGameState extends GameState {
      * @return true if either player has lost their flags
      *         false if both players have their flags
      */
-    private int isGameOver() {
+    public int isGameOver() {
         //if either team has lost their flag return true
         if(redTeamHasFlag == false) {
             return -1;
@@ -658,7 +698,7 @@ public class StrategoGameState extends GameState {
     }
 
     /**
-     * helper method for tapOnSquare
+     * helper method for tapOnSquarePLAY
      * method that highlights the blocks a normal unit could move
      *
      * @param row the row of the tap
@@ -686,7 +726,7 @@ public class StrategoGameState extends GameState {
     }
 
     /**
-     * helper method for tapOnSquare
+     * helper method for tapOnSquarePLAY
      * highlights all the possible spots a scout could move
      *
      * @param row the row of the tapped piece
@@ -727,7 +767,7 @@ public class StrategoGameState extends GameState {
 
 
     /**
-     * helper method for TapOnSquare
+     * helper method for tapOnSquarePLAY
      * method that removes all highlighted spots from the board
      *
      * @return true when all highlighted spots are removed
@@ -747,6 +787,15 @@ public class StrategoGameState extends GameState {
     /**-------------------------------------------------------------------------------------------*/
 
     /**-----------------------------------General Methods-----------------------------------------*/
+
+    public boolean tapOnSquare(int row, int col) {
+        if(this.getCurrentPhase() == Phase.SETUP_PHASE) {
+            tapOnSquareSETUP(row, col);
+        } else {
+            tapOnSquarePLAY(row, col);
+        }
+        return true;
+    }
 
     /**
      * helper method for addPieceToGame

@@ -24,6 +24,8 @@ enum Team {
     private final int TOPBOUNDARYINDEX;
     private final int BOTTOMBOUNDARYINDEX;
 
+    private final int TEAMNUMBER;
+
     /**
      * constructor for enums of the Team type
      *
@@ -34,13 +36,16 @@ enum Team {
         if(Team == 'R') {
             TOPBOUNDARYINDEX = 6;
             BOTTOMBOUNDARYINDEX = 9;
+            TEAMNUMBER = 1;
         }
         else if(Team == 'B') {
             TOPBOUNDARYINDEX = 0;
             BOTTOMBOUNDARYINDEX = 3;
+            TEAMNUMBER = 2;
         } else {
             TOPBOUNDARYINDEX = -1;
             BOTTOMBOUNDARYINDEX = -1;
+            TEAMNUMBER = -1;
         }
     }
 
@@ -50,5 +55,6 @@ enum Team {
     public int getBOTTOMBOUNDARYINDEX() {
         return BOTTOMBOUNDARYINDEX;
     }
+    public int getTEAMNUMBER() { return TEAMNUMBER; }
 };
 

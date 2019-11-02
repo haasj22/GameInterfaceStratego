@@ -92,88 +92,88 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case 7:
                 changingTextView.append("Highlights block red team can move their spy to n\n");
-                firstInstance.tapOnSquare(6, 2);
+                firstInstance.tapOnSquarePLAY(6, 2);
                 break;
             case 8:
                 changingTextView.append("Red team moves their spy from 7:3 to 6:3\n");
-                firstInstance.tapOnSquare(5,2);
+                firstInstance.tapOnSquarePLAY(5,2);
                 break;
             case 9:
                 changingTextView.append("Highlights block blue team can move their one to\n");
-                firstInstance.tapOnSquare(3, 2);
+                firstInstance.tapOnSquarePLAY(3, 2);
                 break;
             case 10:
                 changingTextView.append("Blue team moves their one from 4:3 to 5:3\n");
-                firstInstance.tapOnSquare(4, 2);
+                firstInstance.tapOnSquarePLAY(4, 2);
                 break;
             case 11:
                 changingTextView.append("Highlights blocks red team can move their spy to\n");
-                firstInstance.tapOnSquare(5,2);
+                firstInstance.tapOnSquarePLAY(5,2);
                 break;
             case 12:
                 changingTextView.append("Red team attacks the one with their spy\n");
-                firstInstance.tapOnSquare(4,2);
+                firstInstance.tapOnSquarePLAY(4,2);
                 break;
             case 13:
                 changingTextView.append("Highlights blocks blue team can move their scout to\n");
-                firstInstance.tapOnSquare(3, 7);
+                firstInstance.tapOnSquarePLAY(3, 7);
                 break;
             case 14:
                 changingTextView.append("Red team attacks a six with their spy\n");
-                firstInstance.tapOnSquare(6,7);
+                firstInstance.tapOnSquarePLAY(6,7);
                 break;
             case 15:
                 changingTextView.append("Highlights blocks red team can move their miner to\n");
-                firstInstance.tapOnSquare(6, 3);
+                firstInstance.tapOnSquarePLAY(6, 3);
                 break;
             case 16:
                 changingTextView.append("Moves red miner from 7:4 to 6:4\n");
-                firstInstance.tapOnSquare(5, 3);
+                firstInstance.tapOnSquarePLAY(5, 3);
                 break;
             case 17:
                 changingTextView.append("Highlights blocks blue four can move to\n");
-                firstInstance.tapOnSquare(3, 6);
+                firstInstance.tapOnSquarePLAY(3, 6);
                 break;
             case 18:
                 changingTextView.append("Moves four from 4:7 to 5:7\n");
-                firstInstance.tapOnSquare(4,6);
+                firstInstance.tapOnSquarePLAY(4,6);
                 break;
             case 19:
                 changingTextView.append("Highlights blocks red team can move their miner to\n");
-                firstInstance.tapOnSquare(5,3);
+                firstInstance.tapOnSquarePLAY(5,3);
                 break;
             case 20:
                 changingTextView.append("Moves red teams from 6:4 to 5:4");
-                firstInstance.tapOnSquare(4,3);
+                firstInstance.tapOnSquarePLAY(4,3);
                 break;
             case 21:
                 changingTextView.append("Highlights blocks blue four can move to\n");
-                firstInstance.tapOnSquare(4, 6);
+                firstInstance.tapOnSquarePLAY(4, 6);
                 break;
             case 22:
                 changingTextView.append("Moves four from 5:7 to 6:7\n");
-                firstInstance.tapOnSquare(5,6);
+                firstInstance.tapOnSquarePLAY(5,6);
                 break;
             case 23:
                 changingTextView.append("Highlights blocks red team can move their miner to\n");
-                firstInstance.tapOnSquare(4,3);
+                firstInstance.tapOnSquarePLAY(4,3);
                 break;
             case 24:
                 changingTextView.append("Attacks the bomb with red team's miner\n");
-                firstInstance.tapOnSquare(3,3);
+                firstInstance.tapOnSquarePLAY(3,3);
                 break;
             case 25:
                 changingTextView.append("Highlights blocks blue four can move to\n");
-                firstInstance.tapOnSquare(5, 6);
+                firstInstance.tapOnSquarePLAY(5, 6);
                 break;
             case 26:
                 changingTextView.append("Attacks the red teams five with blue teams four\n");
-                firstInstance.tapOnSquare(6,6);
+                firstInstance.tapOnSquarePLAY(6,6);
                 break;
             case 27:
                 changingTextView.append("Red teams miner attacks the flag and wins");
-                firstInstance.tapOnSquare(3,3);
-                firstInstance.tapOnSquare(2,3);
+                firstInstance.tapOnSquarePLAY(3,3);
+                firstInstance.tapOnSquarePLAY(2,3);
                 changingTextView.setText(firstInstance.toString(),
                         TextView.BufferType.SPANNABLE);
             case 28:
