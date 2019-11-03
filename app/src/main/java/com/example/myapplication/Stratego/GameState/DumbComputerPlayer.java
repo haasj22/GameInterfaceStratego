@@ -4,6 +4,8 @@ import com.example.myapplication.Game.GameComputerPlayer;
 import com.example.myapplication.Game.GameMainActivity;
 import com.example.myapplication.Game.GamePlayer;
 import com.example.myapplication.Game.infoMsg.GameInfo;
+import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
+import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Phase;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 
@@ -23,16 +25,16 @@ public class DumbComputerPlayer extends GameComputerPlayer {
         if(info instanceof StrategoGameState) {
             gameStateCopy = (StrategoGameState)info;
 
-            /*if(gameStateCopy.getCurrentTeamsTurn() != this.playerNum) {
+            if(gameStateCopy.getCurrentTeamsTurn().getTEAMNUMBER() != this.playerNum) {
                 return;
-            }*/
+            }
 
             if(gameStateCopy.getCurrentPhase() == Phase.SETUP_PHASE) {
-                gameStateCopy.transitionPhases();
+                this.game.sendAction(new StrategoTransitionAction(this));
             } else {
                 int row = (int)(Math.random() * 10);
                 int col = (int)(Math.random() * 10);
-                gameStateCopy.tapOnSquarePLAY(row, col);
+                this.game.sendAction(new StrategoMoveAction(this, row, col));
             }
         }
     }

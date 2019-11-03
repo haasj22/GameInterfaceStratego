@@ -6,7 +6,7 @@
 
 package com.example.myapplication.Stratego.GameState;
 
-enum Team {
+public enum Team {
     RED_TEAM('R') {
         @Override
         public String toString() {
