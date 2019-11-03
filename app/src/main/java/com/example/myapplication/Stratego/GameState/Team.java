@@ -23,7 +23,6 @@ enum Team {
     //instance variables
     private final int TOPBOUNDARYINDEX;
     private final int BOTTOMBOUNDARYINDEX;
-
     private final int TEAMNUMBER;
 
     /**
