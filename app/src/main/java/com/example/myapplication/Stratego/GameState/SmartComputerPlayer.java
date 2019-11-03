@@ -30,6 +30,18 @@ public class SmartComputerPlayer extends GameComputerPlayer {
                     flagRow+=8;
                 }
 
+                gameStateCopy.setLastTappedPieceButton(Rank.FLAG);
+                gameStateCopy.tapOnSquare(flagRow, flagCol);
+                gameStateCopy.tapOnSquare(flagRow, flagCol);
+
+                gameStateCopy.setLastTappedPieceButton(Rank.BOMB);
+                if(flagRow != gameStateCopy.getCurrentTeamsTurn().getTOPBOUNDARYINDEX()) {
+                    gameStateCopy.tapOnSquare(flagRow-1, flagCol);
+                    gameStateCopy.tapOnSquare(flagRow-1, flagCol);
+                } else if(flagRow != gameStateCopy.getCurrentTeamsTurn().getBOTTOMBOUNDARYINDEX()) {
+                    gameStateCopy.tapOnSquare(flagRow + 1, flagCol);
+                    gameStateCopy.tapOnSquare(flagRow + 1, flagCol);
+                }
 
 
             } else {

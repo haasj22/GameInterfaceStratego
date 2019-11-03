@@ -55,7 +55,7 @@ public class StrategoGameState extends GameState {
     private int lastTappedRow;
     private int lastTappedCol;
 
-    private Piece lastTappedPieceButton;
+    private Rank lastTappedPieceButton;
 
     /**
      * Constructor for objects of class StrategoGameState
@@ -178,7 +178,7 @@ public class StrategoGameState extends GameState {
         return currentPhase;
     }
     public Team getCurrentTeamsTurn() { return currentTeamsTurn; }
-    public Piece getLastTappedPieceButton() { return lastTappedPieceButton; }
+    public Rank getLastTappedPieceButton() { return lastTappedPieceButton; }
 
     /**
      * returns the team that is currently not taking their turn
@@ -224,7 +224,7 @@ public class StrategoGameState extends GameState {
         this.currentPhase = currentPhase;
     }
 
-    public void setLastTappedPieceButton(Piece lastTappedPieceButton) {
+    public void setLastTappedPieceButton(Rank lastTappedPieceButton) {
         this.lastTappedPieceButton = lastTappedPieceButton;
     }
 
@@ -235,7 +235,7 @@ public class StrategoGameState extends GameState {
             board[lastTappedRow][lastTappedCol].setHighLighted(true);
             lastTappedRow = row;
             lastTappedCol = col;
-        } else if(row == lastTappedRow && col == lastTappedCol) {
+        } else if(row == lastTappedRow && col == lastTappedCol && board[row][col].getContainedPiece() != null) {
             removePieceFromGame(row, col);
             lastTappedRow = -1;
             lastTappedCol = -1;
@@ -244,7 +244,7 @@ public class StrategoGameState extends GameState {
             lastTappedRow = -1;
             lastTappedCol = -1;
         } else {
-            addPieceToGame(this.getLastTappedPieceButton(), row, col);
+            addPieceToGame(new Piece(currentTeamsTurn, this.getLastTappedPieceButton()), row, col);
             lastTappedRow = -1;
             lastTappedCol = -1;
         }
