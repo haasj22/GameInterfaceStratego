@@ -3,6 +3,9 @@ package com.example.myapplication.Stratego.StrategoFrameworkClasses;
 import com.example.myapplication.Game.GamePlayer;
 import com.example.myapplication.Game.LocalGame;
 import com.example.myapplication.Game.actionMsg.GameAction;
+import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
+import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
+import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 
 public class StrategoLocalGame extends LocalGame {

@@ -4,10 +4,11 @@ import com.example.myapplication.Game.infoMsg.GameInfo;
 import java.io.Serializable;
 
 /**
- * Informs of a capture flag action
+ * Informs of a move piece action
  */
-public class StrategoCaptureFlagInfo extends GameInfo implements Serializable {
+
+public class StrategoTransitionInfo extends GameInfo implements Serializable {
     private int playerID;
-    public StrategoCaptureFlagInfo(int playerNum){playerID = playerNum;}
+    public StrategoTransitionInfo(int playerNum){playerID = playerNum;}
     public int getPlayerID(){return playerID;}
 }

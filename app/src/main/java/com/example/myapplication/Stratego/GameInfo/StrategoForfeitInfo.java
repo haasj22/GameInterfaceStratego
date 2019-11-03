@@ -7,10 +7,10 @@ import java.io.Serializable;
  * Informs of an attack action
  */
 
-public class StrategoAttackPieceInfo extends GameInfo implements Serializable {
+public class StrategoForfeitInfo extends GameInfo implements Serializable {
     private int playerID;
 
-    public StrategoAttackPieceInfo(int playerNum){playerID = playerNum;}
+    public StrategoForfeitInfo(int playerNum){playerID = playerNum;}
 
     public int getPlayerID() {return playerID;}
 }
