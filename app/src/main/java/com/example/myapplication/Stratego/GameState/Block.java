@@ -109,6 +109,22 @@ public class Block {
         return true;
     }
 
+    public boolean canOneMoveHere(int playNum) {
+        return (this.getContainedPiece() == null && this.getBlockType() != Tile.WATER)
+                || this.getContainedPiece().getPieceTeam().getTEAMNUMBER() != playNum;
+    }
+
+    public boolean canOneMoveThis(int playNum) {
+        return this.getContainedPiece() != null
+                && this.getContainedPiece().getPieceTeam().getTEAMNUMBER() == playNum
+                && this.getContainedPiece().getPieceRank().isPieceMovable();
+    }
+
+    public boolean doesEnemyOccupyThis(int playNum) {
+        return this.getContainedPiece() != null
+                && this.getContainedPiece().getPieceTeam().getTEAMNUMBER() != playNum;
+    }
+
     /**
      * to String method for objects of the Block class
      *

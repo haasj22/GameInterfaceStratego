@@ -25,6 +25,9 @@ public class StrategoGameState extends GameState {
     private final int COLMININDEX=0;
     private final int COLMAXINDEX=9;
 
+    private final int ROWMININDEX=0;
+    private final int ROWMAXINDEX=9;
+
     //array that represents the state of the game board
     private Block[][] board = new Block[ROWMAX][COLMAX];
 
@@ -179,6 +182,10 @@ public class StrategoGameState extends GameState {
     }
     public Team getCurrentTeamsTurn() { return currentTeamsTurn; }
     public Rank getLastTappedPieceButton() { return lastTappedPieceButton; }
+    public int getCOLMININDEX() {return COLMININDEX; }
+    public int getCOLMAXINDEX() { return COLMAXINDEX; }
+    public int getROWMININDEX() { return ROWMININDEX; }
+    public int getROWMAXINDEX() { return ROWMAXINDEX; }
 
     /**
      * returns the team that is currently not taking their turn

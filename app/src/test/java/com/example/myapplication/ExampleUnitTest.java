@@ -3,6 +3,7 @@ package com.example.myapplication;
 import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
+import com.example.myapplication.Stratego.GameState.Team;
 
 import org.junit.Test;
 
@@ -101,5 +102,16 @@ public class ExampleUnitTest {
         testGameState.tapOnSquarePLAY(5,7);
         testGameState.tapOnSquarePLAY(4,7);
         assertEquals(Rank.SPY, testGameState.getPieceAt(4, 7).getPieceRank());
+    }
+
+    @Test
+    public void PieceMovable() {
+        Piece testPiece1 = new Piece(Team.RED_TEAM, Rank.BOMB);
+        Piece testPiece2 = new Piece(Team.RED_TEAM, Rank.FLAG);
+        Piece testPiece3 = new Piece(Team.RED_TEAM, Rank.EIGHT);
+
+        assertEquals(false, testPiece1.getPieceRank().isPieceMovable());
+        assertEquals(false, testPiece2.getPieceRank().isPieceMovable());
+        assertEquals(true, testPiece3.getPieceRank().isPieceMovable());
     }
 }

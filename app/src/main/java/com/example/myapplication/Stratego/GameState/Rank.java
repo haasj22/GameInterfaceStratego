@@ -95,4 +95,6 @@ public enum Rank {
     public int getMaxAmountOfPieces() {
         return maxAmountOfPieces;
     }
+
+    public boolean isPieceMovable() {return !(this.toString().equals("Bomb") || this.toString().equals("Flag"));}
 };
