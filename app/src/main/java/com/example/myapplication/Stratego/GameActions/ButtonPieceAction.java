@@ -8,10 +8,15 @@ import com.example.myapplication.Game.actionMsg.GameAction;
 import com.example.myapplication.Stratego.GameState.Rank;
 
 public class ButtonPieceAction extends GameAction {
-    Rank whichButton;
+
+    private Rank heldRank;
 
     public ButtonPieceAction(GamePlayer player, Rank buttonRank) {
         super(player);
-        whichButton=buttonRank;
+        heldRank=buttonRank;
+    }
+
+    public Rank getWhichButton() {
+        return heldRank;
     }
 }
