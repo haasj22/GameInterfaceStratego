@@ -239,19 +239,22 @@ public class StrategoGameState extends GameState {
 
     public boolean tapOnSquareSETUP(int row, int col) {
         if(lastTappedRow == -1 && lastTappedCol == -1) {
-            board[lastTappedRow][lastTappedCol].setHighLighted(true);
+            board[row][col].setHighLighted(true);
             lastTappedRow = row;
             lastTappedCol = col;
         } else if(row == lastTappedRow && col == lastTappedCol && board[row][col].getContainedPiece() != null) {
             removePieceFromGame(row, col);
+            board[row][col].setHighLighted(false);
             lastTappedRow = -1;
             lastTappedCol = -1;
         } else if(board[row][col].getContainedPiece() != null){
             movePieceDuringSetup(lastTappedRow, lastTappedCol, row, col);
+            board[row][col].setHighLighted(false);
             lastTappedRow = -1;
             lastTappedCol = -1;
         } else {
             addPieceToGame(new Piece(currentTeamsTurn, this.getLastTappedPieceButton()), row, col);
+            board[row][col].setHighLighted(false);
             lastTappedRow = -1;
             lastTappedCol = -1;
         }
@@ -747,6 +750,9 @@ public class StrategoGameState extends GameState {
                 break;
             }
             board[rowToCheck][col].setHighLighted(true);
+            if(board[rowToCheck][col].doesEnemyOccupyThis(currentTeamsTurn.getTEAMNUMBER())) {
+                break;
+            }
         }
         //checks the spots below a tapped piece
         for(int rowToCheck = row+1; rowToCheck < ROWMAX; rowToCheck++) {
@@ -754,6 +760,9 @@ public class StrategoGameState extends GameState {
                 break;
             }
             board[rowToCheck][col].setHighLighted(true);
+            if(board[rowToCheck][col].doesEnemyOccupyThis(currentTeamsTurn.getTEAMNUMBER())) {
+                break;
+            }
         }
         //checks the spots to the left of a tapped piece
         for(int colToCheck = col-1; colToCheck >= 0; colToCheck--) {
@@ -761,6 +770,9 @@ public class StrategoGameState extends GameState {
                 break;
             }
             board[row][colToCheck].setHighLighted(true);
+            if(board[row][colToCheck].doesEnemyOccupyThis(currentTeamsTurn.getTEAMNUMBER())) {
+                break;
+            }
         }
         //checks the spots to the right of a tapped piece
         for(int colToCheck = col+1; colToCheck < COLMAX; colToCheck++) {

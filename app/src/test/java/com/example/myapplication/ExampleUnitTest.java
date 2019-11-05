@@ -1,9 +1,11 @@
 package com.example.myapplication;
 
+import com.example.myapplication.Game.infoMsg.GameState;
 import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.GameState.Team;
+import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoMainActivity;
 
 import org.junit.Test;
 
@@ -105,7 +107,7 @@ public class ExampleUnitTest {
     }
 
     @Test
-    public void PieceMovable() {
+    public void pieceMovable() {
         Piece testPiece1 = new Piece(Team.RED_TEAM, Rank.BOMB);
         Piece testPiece2 = new Piece(Team.RED_TEAM, Rank.FLAG);
         Piece testPiece3 = new Piece(Team.RED_TEAM, Rank.EIGHT);
@@ -113,5 +115,68 @@ public class ExampleUnitTest {
         assertEquals(false, testPiece1.getPieceRank().isPieceMovable());
         assertEquals(false, testPiece2.getPieceRank().isPieceMovable());
         assertEquals(true, testPiece3.getPieceRank().isPieceMovable());
+    }
+
+    @Test
+    public void scoutHighlightsWork() {
+        StrategoGameState testGameState = new StrategoGameState();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.NINE), 6, 3);
+        testGameState.transitionPhases();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.SEVEN), 3, 7);
+        testGameState.transitionPhases();
+        testGameState.tapOnSquare(6,3);
+        assertEquals(false, testGameState.getBoard()[6][4].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[6][2].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[7][4].isHighLighted());
+        assertEquals(true, testGameState.getBoard()[5][3].isHighLighted());
+        assertEquals(true, testGameState.getBoard()[4][3].isHighLighted());
+        assertEquals(true, testGameState.getBoard()[3][3].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[2][3].isHighLighted());
+        testGameState.tapOnSquare(4,3);
+        testGameState.tapOnSquare(3,7);
+        testGameState.tapOnSquare(4,7);
+        testGameState.tapOnSquare(4,3);
+        assertEquals(false, testGameState.getBoard()[4][3].isHighLighted());
+        assertEquals(true, testGameState.getBoard()[5][3].isHighLighted());
+        assertEquals(true, testGameState.getBoard()[6][3].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[7][3].isHighLighted());
+        assertEquals(true, testGameState.getBoard()[3][3].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[2][3].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[4][4].isHighLighted());
+        assertEquals(true, testGameState.getBoard()[4][2].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[2][3].isHighLighted());
+    }
+
+    @Test
+    public void normalHighlightWorks() {
+        StrategoGameState testGameState = new StrategoGameState();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.SEVEN), 6, 3);
+        testGameState.transitionPhases();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.SIX), 3, 7);
+        testGameState.transitionPhases();
+        testGameState.tapOnSquare(6,3);
+        assertEquals(true, testGameState.getBoard()[5][3].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[4][3].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[7][3].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[6][4].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[6][2].isHighLighted());
+        testGameState.tapOnSquare(5, 3);
+        testGameState.tapOnSquare(3,7);
+        testGameState.tapOnSquare(4, 7);
+        testGameState.tapOnSquare(5, 3);
+        assertEquals(true, testGameState.getBoard()[4][3].isHighLighted());
+        assertEquals(true, testGameState.getBoard()[6][3].isHighLighted());
+        assertEquals(true, testGameState.getBoard()[5][2].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[5][4].isHighLighted());
+        assertEquals(false, testGameState.getBoard()[3][3].isHighLighted());
+    }
+
+    @Test
+    public void setupTapping() {
+        StrategoGameState testGameState = new StrategoGameState();
+        testGameState.setLastTappedPieceButton(Rank.BOMB);
+        testGameState.tapOnSquare(3,3);
+        testGameState.tapOnSquare(3,3);
+        assertEquals(true, testGameState.getBoard()[3][3].getContainedPiece().getPieceRank() == Rank.BOMB);
     }
 }
