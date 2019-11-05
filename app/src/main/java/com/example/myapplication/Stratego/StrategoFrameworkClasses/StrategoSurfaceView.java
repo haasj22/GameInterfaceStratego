@@ -8,12 +8,14 @@ import android.graphics.Canvas;
 import com.example.myapplication.Game.util.FlashSurfaceView;
 import com.example.myapplication.R;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
+import com.example.myapplication.Game.Game;
 
 public class StrategoSurfaceView extends FlashSurfaceView {
     //tag for logging
     private static final String TAG = "StrategoSurfaceView";
 
     protected StrategoGameState state;
+    private Game game;
 
     //bitmaps
     Bitmap baseBoard = BitmapFactory.decodeResource(getResources() , R.drawable.base_board);
@@ -50,6 +52,9 @@ public class StrategoSurfaceView extends FlashSurfaceView {
 
     public void setState() {this.state = state;}
 
+    public void setGame(Game game) {
+        this.game = game;
+    }
     public void onDraw(Canvas g) {
 
     }
