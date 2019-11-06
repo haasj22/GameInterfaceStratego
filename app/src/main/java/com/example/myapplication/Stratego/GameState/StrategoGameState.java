@@ -32,7 +32,6 @@ public class StrategoGameState extends GameState {
     private Block[][] board = new Block[ROWMAX][COLMAX];
 
     //player one's information
-    private int redTeamID;
     private int redTeamTimer; //in milliseconds
 
     //variables that will store what pieces player one has in play
@@ -41,7 +40,6 @@ public class StrategoGameState extends GameState {
     private boolean redTeamHasFlag;
 
     //player two's information
-    private int blueTeamID;
     private int blueTeamTimer; //in milliseconds
     //variables that will store what pieces player two has in play
     private ArrayList<Rank> blueTeamPieces;
@@ -65,7 +63,6 @@ public class StrategoGameState extends GameState {
      */
     public StrategoGameState(){
         //player one sets up first
-        redTeamID = 1;
         redTeamTimer = 3000;
 
         //player one starts with no pieces on the board
@@ -73,7 +70,6 @@ public class StrategoGameState extends GameState {
         redTeamHasFlag = false;
 
         //player one does not get access to any of player two's information
-        blueTeamID = 2;
         blueTeamTimer = 0;
 
         //player one does not get to see where player two placed his pieces
@@ -116,7 +112,6 @@ public class StrategoGameState extends GameState {
     public StrategoGameState(StrategoGameState trueState){
 
         //copies player one's information
-        this.redTeamID = trueState.redTeamID;
         this.redTeamTimer = trueState.redTeamTimer;
 
         //copies player one's pieces
@@ -129,7 +124,6 @@ public class StrategoGameState extends GameState {
         this.redTeamHasFlag = trueState.redTeamHasFlag;
 
         //copies player two's information
-        this.blueTeamID = trueState.blueTeamID;
         this.blueTeamTimer = trueState.blueTeamTimer;
 
         //copies player two's pieces
@@ -186,6 +180,10 @@ public class StrategoGameState extends GameState {
     public int getCOLMAXINDEX() { return COLMAXINDEX; }
     public int getROWMININDEX() { return ROWMININDEX; }
     public int getROWMAXINDEX() { return ROWMAXINDEX; }
+    public int getLastTappedRow() { return lastTappedRow; }
+    public int getLastTappedCol() { return lastTappedCol; }
+    public int getCOLMAX() { return COLMAX; }
+    public int getROWMAX() { return ROWMAX; }
 
     /**
      * returns the team that is currently not taking their turn
@@ -237,21 +235,25 @@ public class StrategoGameState extends GameState {
 
     /**--------------------------------SETUP_PHASE METHODS----------------------------------------*/
 
+    //TODO FIX CONDITIONALS
     public boolean tapOnSquareSETUP(int row, int col) {
         if(lastTappedRow == -1 && lastTappedCol == -1) {
-            board[lastTappedRow][lastTappedCol].setHighLighted(true);
+            board[row][col].setHighLighted(true);
             lastTappedRow = row;
             lastTappedCol = col;
         } else if(row == lastTappedRow && col == lastTappedCol && board[row][col].getContainedPiece() != null) {
             removePieceFromGame(row, col);
+            board[row][col].setHighLighted(false);
             lastTappedRow = -1;
             lastTappedCol = -1;
         } else if(board[row][col].getContainedPiece() != null){
             movePieceDuringSetup(lastTappedRow, lastTappedCol, row, col);
+            board[row][col].setHighLighted(false);
             lastTappedRow = -1;
             lastTappedCol = -1;
         } else {
             addPieceToGame(new Piece(currentTeamsTurn, this.getLastTappedPieceButton()), row, col);
+            board[row][col].setHighLighted(false);
             lastTappedRow = -1;
             lastTappedCol = -1;
         }
@@ -747,6 +749,9 @@ public class StrategoGameState extends GameState {
                 break;
             }
             board[rowToCheck][col].setHighLighted(true);
+            if(board[rowToCheck][col].doesEnemyOccupyThis(currentTeamsTurn.getTEAMNUMBER())) {
+                break;
+            }
         }
         //checks the spots below a tapped piece
         for(int rowToCheck = row+1; rowToCheck < ROWMAX; rowToCheck++) {
@@ -754,6 +759,9 @@ public class StrategoGameState extends GameState {
                 break;
             }
             board[rowToCheck][col].setHighLighted(true);
+            if(board[rowToCheck][col].doesEnemyOccupyThis(currentTeamsTurn.getTEAMNUMBER())) {
+                break;
+            }
         }
         //checks the spots to the left of a tapped piece
         for(int colToCheck = col-1; colToCheck >= 0; colToCheck--) {
@@ -761,6 +769,9 @@ public class StrategoGameState extends GameState {
                 break;
             }
             board[row][colToCheck].setHighLighted(true);
+            if(board[row][colToCheck].doesEnemyOccupyThis(currentTeamsTurn.getTEAMNUMBER())) {
+                break;
+            }
         }
         //checks the spots to the right of a tapped piece
         for(int colToCheck = col+1; colToCheck < COLMAX; colToCheck++) {
@@ -900,7 +911,6 @@ public class StrategoGameState extends GameState {
         String toReturn = "\nStratego Game State:\n";
 
         //prints all Red Team's information
-        toReturn += "[Red Team's id: " + redTeamID + "]\n";
         toReturn += "[Red Team's Timer: " + redTeamTimer + "]\n";
         toReturn += "Red Team's Pieces:\n";
         for(Rank r: redTeamPieces) {
@@ -909,7 +919,6 @@ public class StrategoGameState extends GameState {
         toReturn += "Red Team has Flag?: " + redTeamHasFlag + "\n";
 
         //prints all Blue Team's information
-        toReturn += "[Blue Team's ID: " + blueTeamID + "]\n";
         toReturn += "[Blue Team's Timer: " + blueTeamTimer + "]\n";
         toReturn += "Blue Team's Pieces:\n";
         for(Rank r: blueTeamPieces) {

@@ -22,7 +22,7 @@ import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfa
  * handles GUI and all actions for humanPlayer
 **/
 
-public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener {
+public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
 
     //GUI
     private TextView whosTurn;
@@ -74,7 +74,7 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
      *
      * @param name
      */
-    public HumanPlayer(String name) {
+    public StrategoHumanPlayer(String name) {
         super(name);
     }
 
@@ -87,7 +87,7 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
      */
 
     public View getTopView() {
-        return activity.findViewById(R.id.topGUI);
+        return activity.findViewById(R.id.StrategoInGameLayout);
     }
 
     /**
@@ -176,6 +176,7 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
         //TODO: if piece clashes with another, call attackPiece and it will ...
         //TODO: call unitAttacks, scoutAttacks, spyAttacks, attackBomb, or attackFlag depending
 
+        Button tappedButton = (Button)v;
 
         if (v == menuButton) {
             activity.startActivity(new Intent(activity, MenuButton.class));
@@ -237,14 +238,14 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
 
     public void setAsGui(GameMainActivity activity) {
         this.activity = activity;
-        activity.setContentView(R.layout.stratego_rules);
+        activity.setContentView(R.layout.stratego_board);
 
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.stratego);
         mediaPlayer.start();
         mediaPlayer.setLooping(true);
 
-        rulesHelpButton = new RulesHelp(this.activity.findViewById(R.id.menuButton),
-                this, this.game, this.activity);
+        //rulesHelpButton = new RulesHelp(this.activity.findViewById(R.id.menuButton),
+                //this, this.game, this.activity);
 
 
     }

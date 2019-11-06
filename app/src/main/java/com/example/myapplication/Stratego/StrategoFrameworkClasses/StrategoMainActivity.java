@@ -9,6 +9,8 @@ import com.example.myapplication.R;
 import com.example.myapplication.Stratego.GameState.DumbComputerPlayer;
 import com.example.myapplication.Stratego.GameState.SmartComputerPlayer;
 import com.example.myapplication.Stratego.Player.HumanPlayer;
+import com.example.myapplication.Stratego.Player.StrategoHumanPlayer;
+import com.example.myapplication.Stratego.Player.StrategoHumanPlayer;
 
 import java.util.ArrayList;
 
@@ -33,7 +35,7 @@ public class StrategoMainActivity extends GameMainActivity {
         playerTypes.add(new GamePlayerType("Local Human Player (red-team)") {
             @Override
             public GamePlayer createPlayer(String name) {
-                return new HumanPlayer(name);
+                return new StrategoHumanPlayer(name);
             }
         });
 
