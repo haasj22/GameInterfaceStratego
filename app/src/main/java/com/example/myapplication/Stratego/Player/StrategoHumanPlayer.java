@@ -13,6 +13,8 @@ import com.example.myapplication.Game.GameHumanPlayer;
 import com.example.myapplication.Game.infoMsg.GameInfo;
 import com.example.myapplication.R;
 import com.example.myapplication.StandardGameBoard;
+import com.example.myapplication.Stratego.GameActions.ButtonPieceAction;
+import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.RulesHelp;
 import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfaceView;
@@ -22,22 +24,17 @@ import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfa
  * handles GUI and all actions for humanPlayer
 **/
 
-public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener {
+public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
 
     private TextView whosTurn;
 
 
     private GameMainActivity activity;
-    private StrategoGameState state;
-    StrategoGameState latestState = new StrategoGameState();
     private StrategoSurfaceView surfaceView;
 
 
     MediaPlayer mediaPlayer;
 
-
-
-    private StandardGameBoard gameBoard;
 
 
 
@@ -69,7 +66,7 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
      *
      * @param name
      */
-    public HumanPlayer(String name) {
+    public StrategoHumanPlayer(String name) {
         super(name);
     }
 
@@ -82,7 +79,7 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
      */
 
     public View getTopView() {
-        return activity.findViewById(R.id.topGUI);
+        return activity.findViewById(R.id.StrategoInGameLayout);
     }
 
     /**
@@ -164,36 +161,46 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
         //TODO: if piece clashes with another, call attackPiece and it will ...
         //TODO: call unitAttacks, scoutAttacks, spyAttacks, attackBomb, or attackFlag depending
 
-        /**
-        if (v == rulesHelpButton) {
-            activity.startActivity(new Intent(activity, MenuButton.class));
-        }
-        if (v == startButton) {
-            // start game
-        }
-        if (v == forfeitButton) {
-            // forfeit game
-        }
+        Button tappedButton = (Button)v;
 
-        //buttons won't work if it's not your turn
-        if (state.playerTurn() != playerNum) {
-            return;
+        switch((String)tappedButton.getText()) {
+            case "1":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.ONE));
+                break;
+            case "2":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.TWO));
+                break;
+            case "3":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.THREE));
+                break;
+            case "4":
+                this.game.sendAction(new ButtonPieceAction(this,Rank.FOUR));
+                break;
+            case "5":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.FIVE));
+                break;
+            case "6":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.SIX));
+                break;
+            case "7":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.SEVEN));
+                break;
+            case "8":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.EIGHT));
+                break;
+            case "9":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.NINE));
+                break;
+            case "S":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.SPY));
+                break;
+            case "BOMB":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.BOMB));
+                break;
+            case "FLAG":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.FLAG));
+                break;
         }
-
-        //TODO: initialize all buttons to move onto board.
-
-        //update GUI to current piece user is choosing
-        if (gameBoard.currentPiece() != null) {
-            gameBoard.invalidate();
-        }
-
-        //disappears from side list
-        if (v == movePieceButton) {
-            //sendAction
-            //gameBoard.currentPiece(null);
-            //movePieceButton.setEnabled(false);
-        }
-        **/
     }
 
     /**
@@ -225,15 +232,41 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
 
     public void setAsGui(GameMainActivity activity) {
         this.activity = activity;
-        activity.setContentView(R.layout.stratego_rules);
+        activity.setContentView(R.layout.stratego_board);
 
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.stratego);
         mediaPlayer.start();
         mediaPlayer.setLooping(true);
 
-        rulesHelpButton = new RulesHelp(this.activity.findViewById(R.id.menuButton),
-                this, this.game, this.activity);
+        //rulesHelpButton = new RulesHelp(this.activity.findViewById(R.id.menuButton),
+                //this, this.game, this.activity);
 
+        marshallButton=(Button)activity.findViewById(R.id.marshallButton);
+        generalButton=(Button)activity.findViewById(R.id.generalButton);
+        colonelButton=(Button)activity.findViewById(R.id.colonelButton);
+        majorButton=(Button)activity.findViewById(R.id.majorButton);
+        captainButton=(Button)activity.findViewById(R.id.captainButton);
+        lieutenantButton=(Button)activity.findViewById(R.id.lieutenantButton);
+        sergeantButton=(Button)activity.findViewById(R.id.sergeantButton);
+        minerButton=(Button)activity.findViewById(R.id.minerButton);
+        scoutButton=(Button)activity.findViewById(R.id.scoutButton);
+        spyButton=(Button)activity.findViewById(R.id.spyButton);
+        bombButton=(Button)activity.findViewById(R.id.bombButton);
+        flagButton=(Button)activity.findViewById(R.id.flagButton);
+
+        marshallButton.setOnClickListener(this);
+        generalButton.setOnClickListener(this);
+        colonelButton.setOnClickListener(this);
+        majorButton.setOnClickListener(this);
+        captainButton.setOnClickListener(this);
+        lieutenantButton.setOnClickListener(this);
+        sergeantButton.setOnClickListener(this);
+        minerButton.setOnClickListener(this);
+        minerButton.setOnClickListener(this);
+        scoutButton.setOnClickListener(this);
+        spyButton.setOnClickListener(this);
+        bombButton.setOnClickListener(this);
+        flagButton.setOnClickListener(this);
 
     }
 
@@ -261,6 +294,9 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
         }
         return false;
     }
+
+    @Override
+    public void receiveInfo(GameInfo info)
 
 }
 
