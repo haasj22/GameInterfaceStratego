@@ -8,8 +8,6 @@ import com.example.myapplication.Game.gameConfiguration.GamePlayerType;
 import com.example.myapplication.R;
 import com.example.myapplication.Stratego.GameState.DumbComputerPlayer;
 import com.example.myapplication.Stratego.GameState.SmartComputerPlayer;
-import com.example.myapplication.Stratego.Player.HumanPlayer;
-import com.example.myapplication.Stratego.Player.StrategoHumanPlayer;
 import com.example.myapplication.Stratego.Player.StrategoHumanPlayer;
 
 import java.util.ArrayList;

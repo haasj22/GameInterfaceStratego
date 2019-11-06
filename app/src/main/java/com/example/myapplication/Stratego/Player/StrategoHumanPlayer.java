@@ -178,6 +178,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         Button tappedButton = (Button)v;
 
+        /**
         if (v == menuButton) {
             activity.startActivity(new Intent(activity, MenuButton.class));
         }
