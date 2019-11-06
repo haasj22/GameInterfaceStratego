@@ -24,10 +24,14 @@ import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfa
 
 public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener {
 
+    //GUI
     private TextView whosTurn;
 
 
+    //android activity
     private GameMainActivity activity;
+
+    //most recent game state;
     private StrategoGameState state;
     StrategoGameState latestState = new StrategoGameState();
     private StrategoSurfaceView surfaceView;
@@ -43,6 +47,7 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
 
     //buttons for other actions
     private RulesHelp rulesHelpButton;
+    private Button menuButton;
     private Button notepadButton;
     private Button startButton;
     private Button forfeitButton;
@@ -101,6 +106,13 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
      */
     public void receiveInfo(GameInfo info) {
         if (info instanceof StrategoGameState) {
+            //returns the same state if not updated
+            if(state != null){
+                if(state.equals(info)){
+                    return;
+                }
+            }
+            //
             if (rulesHelpButton.getGame() == null) {
 
 
@@ -164,8 +176,8 @@ public class HumanPlayer extends GameHumanPlayer implements View.OnClickListener
         //TODO: if piece clashes with another, call attackPiece and it will ...
         //TODO: call unitAttacks, scoutAttacks, spyAttacks, attackBomb, or attackFlag depending
 
-        /**
-        if (v == rulesHelpButton) {
+
+        if (v == menuButton) {
             activity.startActivity(new Intent(activity, MenuButton.class));
         }
         if (v == startButton) {
