@@ -14,6 +14,7 @@ import com.example.myapplication.Game.infoMsg.GameInfo;
 import com.example.myapplication.R;
 import com.example.myapplication.StandardGameBoard;
 import com.example.myapplication.Stratego.GameActions.ButtonPieceAction;
+import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.RulesHelp;
@@ -24,7 +25,7 @@ import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfa
  * handles GUI and all actions for humanPlayer
 **/
 
-public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
+public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClickListener, View.OnTouchListener{
 
     private TextView whosTurn;
 
@@ -96,6 +97,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      * receiveInfo method
      * @param info
      */
+    @Override
     public void receiveInfo(GameInfo info) {
         if (info instanceof StrategoGameState) {
             if (rulesHelpButton.getGame() == null) {
@@ -203,32 +205,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         }
     }
 
-    /**
-     *
-     */
-    private void writeNotes() {
-        // edits notes edit text for player's game notes
-    }
-
-    public void locateUnites() {
-        // locates units of pieces
-    }
-
-    public void movePiece() {
-        // moves game pieces
-    }
-
-    public void attackPiece() {
-        // attacks chosen adjacent enemy piece
-    }
-
-    public void captureFlag() {
-        // attempts to capture suspected enemy flag
-    }
-
-    public void hitBomb() {
-        // hits bomb upon discovery
-    }
 
     public void setAsGui(GameMainActivity activity) {
         this.activity = activity;
@@ -240,6 +216,9 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         //rulesHelpButton = new RulesHelp(this.activity.findViewById(R.id.menuButton),
                 //this, this.game, this.activity);
+
+        surfaceView=(StrategoSurfaceView)activity.findViewById(R.id.boardImageView);
+        surfaceView.setOnTouchListener(this);
 
         marshallButton=(Button)activity.findViewById(R.id.marshallButton);
         generalButton=(Button)activity.findViewById(R.id.generalButton);
@@ -275,28 +254,14 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     }
 
-    @Override
-    public boolean requiresGui() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsGui() {
-        return false;
-    }
-
 
     public boolean onTouch(View v, MotionEvent event) {
-        //player to select move
-        if (gameBoard == null)//currentpiece method) == null)
-        {
-            return false;
-        }
-        return false;
-    }
+        int row = (int)(event.getX()-surfaceView.getX())/10;
+        int col = (int)(event.getY()-surfaceView.getY())/10;
 
-    @Override
-    public void receiveInfo(GameInfo info)
+        this.game.sendAction(new StrategoMoveAction(this, row, col));
+        return true;
+    }
 
 }
 

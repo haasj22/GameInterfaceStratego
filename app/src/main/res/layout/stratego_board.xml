@@ -135,7 +135,7 @@
                     Resource: https://www.myabandonware.com/game/stratego-10u
                     Solution: We used the image from this webpage
                 -->
-                <com.example.myapplication.StandardGameBoard
+                <com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfaceView
                     android:id="@+id/boardImageView"
                     android:layout_width="match_parent"
                     android:layout_height="0dp"

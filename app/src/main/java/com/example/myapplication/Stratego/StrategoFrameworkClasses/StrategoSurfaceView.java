@@ -4,6 +4,8 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 
 import com.example.myapplication.Game.util.FlashSurfaceView;
 import com.example.myapplication.R;
@@ -18,6 +20,8 @@ public class StrategoSurfaceView extends FlashSurfaceView {
 
     protected StrategoGameState state;
     private Game game;
+
+    Paint hightlightPaint;
 
     //bitmaps
     Bitmap baseBoard = BitmapFactory.decodeResource(getResources() , R.drawable.base_board);
@@ -80,6 +84,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
 
     public StrategoSurfaceView(Context context) {
         super(context);
+        hightlightPaint = new Paint(Color.YELLOW);
     }
 
     public void setState() {this.state = state;}
@@ -154,6 +159,9 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                     continue;
                 }
                 Piece piece = state.getBoard()[row][col].getContainedPiece();
+                if(state.getBoard()[row][col].isHighLighted()) {
+                    g.drawRect((height*col)/10, (height*row)/10, (height * row + 1)/10, (height*col)/10, hightlightPaint);
+                }
                 switch(piece.getPieceTeam()) {
                     case RED_TEAM:
                         if(piece.getIsVisible()) {
