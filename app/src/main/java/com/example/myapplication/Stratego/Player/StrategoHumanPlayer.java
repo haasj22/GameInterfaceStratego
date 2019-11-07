@@ -1,6 +1,7 @@
 package com.example.myapplication.Stratego.Player;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.view.MotionEvent;
 import android.view.View;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import com.example.myapplication.Game.GameMainActivity;
 import com.example.myapplication.Game.GameHumanPlayer;
 import com.example.myapplication.Game.infoMsg.GameInfo;
+import com.example.myapplication.Game.infoMsg.IllegalMoveInfo;
+import com.example.myapplication.Game.infoMsg.NotYourTurnInfo;
 import com.example.myapplication.R;
 import com.example.myapplication.StandardGameBoard;
 import com.example.myapplication.Stratego.GameActions.ButtonPieceAction;
@@ -91,56 +94,21 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
     /**
-     * initAfterReady method
-     */
-
-    @Override
-    protected void initAfterReady() {
-        surfaceView.setGame(game);
-    }
-
-
-    /**
      * receiveInfo method
      * @param info
      */
     @Override
     public void receiveInfo(GameInfo info) {
+        if (surfaceView == null) return;
+
+        if (info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo) {
+            // if the move was out of turn or otherwise illegal, flash the screen
+            surfaceView.flash(Color.RED, 50);
+        }
         if (info instanceof StrategoGameState) {
-            if (rulesHelpButton.getGame() == null) {
-
-
-            }
+           surfaceView.setState((StrategoGameState)info);
+           surfaceView.invalidate();
         }
-    }
-
-
-    /**
-     * updateGui
-     * updates GUI
-     */
-    private void updateGui() {
-
-
-        //checks to see whos turn it is and displays in whosTurn textView
-        if(state.getCurrentTeamsTurn().getTEAMNUMBER() == playerNum){
-            this.whosTurn.setText("It's Team RED's Turn!");
-        }
-        else {
-            this.whosTurn.setText("It's Team BLUE's Turn!");
-        }
-
-        //creates an array of buttons
-        Button[] buttons = {marshallButton,generalButton,colonelButton,majorButton,captainButton,
-                lieutenantButton, sergeantButton, minerButton, scoutButton, spyButton,
-                bombButton,flagButton};
-
-        //TODO: if piece ranks the same make both disappear (add
-        //TODO: if spy attacks marshall, marshall disappears
-        //TODO: if any piece attacks spy, spy disappears
-        //TODO: bombs defeat all other pieces that attack it, except miner (defuses the bomb)
-        //TODO: if player moves into empty tile then next player turn
-
     }
 
     /**
