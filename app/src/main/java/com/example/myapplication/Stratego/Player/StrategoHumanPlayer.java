@@ -3,6 +3,7 @@ package com.example.myapplication.Stratego.Player;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -38,8 +39,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private GameMainActivity activity;
 
     //most recent game state;
-    private StrategoGameState state;
-    StrategoGameState latestState = new StrategoGameState();
+    //private StrategoGameState state;
+    //StrategoGameState latestState = new StrategoGameState(); bad
     private StrategoSurfaceView surfaceView;
 
 
@@ -99,13 +100,15 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     @Override
     public void receiveInfo(GameInfo info) {
-        if (surfaceView == null) return;
+        if (info == null) return;
 
         if (info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo) {
             // if the move was out of turn or otherwise illegal, flash the screen
             surfaceView.flash(Color.RED, 50);
         }
         if (info instanceof StrategoGameState) {
+            if (surfaceView == null)
+                return;
            surfaceView.setState((StrategoGameState)info);
            surfaceView.invalidate();
         }
@@ -250,17 +253,21 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     }
 
-    @Override
-    public void sendInfo(GameInfo info) {
-
-    }
 
 
     public boolean onTouch(View v, MotionEvent event) {
-        int row = (int)(event.getX()-surfaceView.getX())/10;
-        int col = (int)(event.getY()-surfaceView.getY())/10;
-
-        this.game.sendAction(new StrategoMoveAction(this, row, col));
+        Log.i("msg", "tapped");
+        int row = (int)(event.getX())*10/v.getWidth();
+        int col = (int)(event.getY())*10/v.getHeight();
+        Log.i("msg", "Row: " + row);
+        Log.i("msg", "Col: " + col);
+        StrategoMoveAction moveCommand = new StrategoMoveAction(this, row, col);
+        if(this.game == null) {
+            Log.i("msg", "Game Not Working");
+        }
+        else
+            this.game.sendAction(moveCommand);
+        surfaceView.invalidate();
         return true;
     }
 

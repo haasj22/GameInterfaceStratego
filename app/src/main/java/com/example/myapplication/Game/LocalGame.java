@@ -1,5 +1,6 @@
 package com.example.myapplication.Game;
 
+import com.example.myapplication.Game.actionMsg.EndTurnAction;
 import com.example.myapplication.Game.actionMsg.GameAction;
 import com.example.myapplication.Game.actionMsg.GameOverAckAction;
 import com.example.myapplication.Game.actionMsg.MyNameIsAction;
@@ -11,6 +12,7 @@ import com.example.myapplication.Game.infoMsg.IllegalMoveInfo;
 import com.example.myapplication.Game.infoMsg.NotYourTurnInfo;
 import com.example.myapplication.Game.infoMsg.StartGameInfo;
 import com.example.myapplication.Game.util.GameTimer;
+import com.example.myapplication.Game.util.Logger;
 import com.example.myapplication.Game.util.Tickable;
 import com.example.myapplication.Stratego.GameActions.AnytimeAction;
 
@@ -33,6 +35,8 @@ import android.util.Log;
  * @version July 2013
  */
 public abstract class LocalGame implements Game, Tickable {
+    //Tag for logging
+    private static final String TAG = "LocalGame";
 
     // the stage that the game is in
     private GameStage gameStage = GameStage.BEFORE_GAME;
@@ -61,6 +65,13 @@ public abstract class LocalGame implements Game, Tickable {
     // this game's timer and timer action
     private GameTimer myTimer = new GameTimer(this);
 
+    //How many setup phases we have, initially set to 0
+    private int numSetupTurns = 0;
+
+    //How many setup turns have passed, initially set to 0
+    private int currentSetupTurn = 0;
+
+
     /**
      * Returns the game's timer
      *
@@ -76,7 +87,7 @@ public abstract class LocalGame implements Game, Tickable {
      * @param players
      * 			the list of players who are playing in the game
      */
-    public synchronized void start(GamePlayer[] players) {
+    public void start(GamePlayer[] players) {
         // if the game has already started, don't restart
         if (this.players != null) return;
 
@@ -130,6 +141,7 @@ public abstract class LocalGame implements Game, Tickable {
      */
     protected abstract void sendUpdatedStateTo(GamePlayer p);
 
+
     /**
      * Notify all players that the game's state has changed. Typically this simply
      * calls the 'notifyStateChanged' method for each player.
@@ -175,20 +187,22 @@ public abstract class LocalGame implements Game, Tickable {
             if (action instanceof MyNameIsAction &&
                     gameStage == GameStage.WAITING_FOR_NAMES) {
                 MyNameIsAction mnis = (MyNameIsAction) action;
-                Log.i("LocalGame", "received 'myNameIs' ("+mnis.getName()+")");
+                Logger.debugLog(TAG, "received 'myNameIs' ("+mnis.getName()+")");
 
                 // mark that player as having given us its name
                 int playerIdx = getPlayerIdx(mnis.getPlayer());
                 if (playerIdx >= 0 && playerNames[playerIdx] == null) {
                     playerNames[playerIdx] = mnis.getName(); // store player name
-                    playerNameCount++;
+                    synchronized (this){
+                        playerNameCount++;
+                    }
                 }
 
                 // If all players have told us their name, then move onto the next
                 // game stage, and send a message to each player that the game is
                 // about to start
                 if (playerNameCount >= playerNames.length) {
-                    Log.i("LocalGame", "broadcasting player names");
+                    Logger.debugLog(TAG, "broadcasting player names");
                     gameStage = GameStage.WAITING_FOR_READY;
                     playersReady = new boolean[players.length]; // array to keep track of players responding
                     for (GamePlayer p : players) {
@@ -207,17 +221,24 @@ public abstract class LocalGame implements Game, Tickable {
 
                 // mark the given player as being ready
                 int playerIdx = getPlayerIdx(ra.getPlayer());
-                Log.i("LocalGame", "got 'ready' ("+playerNames[playerIdx]+")");
+                Logger.debugLog(TAG, "got 'ready' ("+playerNames[playerIdx]+")");
                 if (playerIdx >= 0 && !playersReady[playerIdx]) {
                     playersReady[playerIdx] = true;
-                    playerReadyCount++;
+                    synchronized (this) {
+                        playerReadyCount++;
+                    }
                 }
 
                 // if all players are ready, set the game stage to "during game", and
                 // send each player the initial state
                 if (playerReadyCount >= playerNames.length) {
-                    gameStage = GameStage.DURING_GAME;
-                    Log.i("LocalGame", "broadcasting initial state");
+                    //We initially set the stage to setup, however we are smart enough to know
+                    //If we have to actually perform a setup phase, so check for that and send out
+                    //info accordingly.
+                    gameStage = GameStage.SETUP_PHASE;
+                    if(this.numSetupTurns == 0){ gameStage = GameStage.DURING_GAME;}
+                    Logger.log(TAG, "Numof setup turns is "+ this.numSetupTurns);
+                    Logger.debugLog(TAG, "broadcasting initial state - setup phase");
                     // send each player the initial state of the game
                     sendAllUpdatedState();
                 }
@@ -239,14 +260,20 @@ public abstract class LocalGame implements Game, Tickable {
                 // CASE 4: it's during the game, and we get an action from a player
                 this.checkAndHandleAction(action);
             }
+            //CASE 5: We are setup phase and we get an action from a player
+            else if (action instanceof GameAction && gameStage == GameStage.SETUP_PHASE) {
+                this.checkAndHandleAction(action);
+            }
             else if (action instanceof GameOverAckAction && gameStage == GameStage.GAME_OVER) {
 
-                // CASE 5: the game is over, and we are waiting for each player to
+                // CASE 6: the game is over, and we are waiting for each player to
                 // acknowledge this
                 int playerIdx = getPlayerIdx(action.getPlayer());
                 if (playerIdx >= 0 && !playersFinished[playerIdx]) {
                     playersFinished[playerIdx] = true;
-                    playerFinishedCount++;
+                    synchronized (this) {
+                        playerFinishedCount++;
+                    }
                 }
             }
         }
@@ -266,9 +293,8 @@ public abstract class LocalGame implements Game, Tickable {
         int playerId = getPlayerIdx(player);
 
         // if the player is NOT a player who is presently allowed to
-        // move and the action is not an action that can be sent at any time,
-        // send the player a message
-        if (!canMove(playerId) && !(action instanceof AnytimeAction)) {;
+        // move, send the player a message
+        if (!canMove(playerId)) {;
             player.sendInfo(new NotYourTurnInfo());
             return;
         }
@@ -277,7 +303,22 @@ public abstract class LocalGame implements Game, Tickable {
         // send the player a message to that effect
         if (!makeMove(action)) {
             player.sendInfo(new IllegalMoveInfo());
+            sendUpdatedStateTo(player);
             return;
+        }
+
+        //Logging the current game phase so we know what it is.
+        Logger.debugLog("Current GAMEPHASE", " " + this.gameStage);
+
+        //The move was legal, and if we are in setup phase, and this is the last player in the list's
+        //turn then we need to increment the setup phase counter and update our phase accordingly.
+        if(this.gameStage == GameStage.SETUP_PHASE){
+            if((this.players.length-1 == playerId) && action instanceof EndTurnAction){
+                this.currentSetupTurn++;
+            }
+            if(this.currentSetupTurn >= this.numSetupTurns){
+                this.gameStage = GameStage.DURING_GAME;
+            }
         }
 
         // The move was a legal one, so presumably the state of the game was
@@ -376,8 +417,8 @@ public abstract class LocalGame implements Game, Tickable {
     }
 
     // an enum-class that itemizes the game stages
-    private static enum GameStage {
-        BEFORE_GAME, WAITING_FOR_NAMES, WAITING_FOR_READY, DURING_GAME, GAME_OVER
+    protected static enum GameStage {
+        BEFORE_GAME, WAITING_FOR_NAMES, WAITING_FOR_READY, DURING_GAME, GAME_OVER, SETUP_PHASE
     }
 
     // a handler class for the game's thread
@@ -394,6 +435,34 @@ public abstract class LocalGame implements Game, Tickable {
         public void handleMessage(Message msg) {
             game.receiveMessage(msg);
         }
+    }
+
+    /**
+     * For setting the number of setup turns in the game.
+     * To be set in the constructor of the game-specific version of LocalGame.
+     * @param setupTurnNumber
+     */
+    public void setNumSetupTurns(int setupTurnNumber){
+        this.numSetupTurns = setupTurnNumber;
+    }
+
+    /**
+     * Returns whether or not we are in setup phase.
+     * @return
+     */
+    public boolean inSetupPhase(){
+        if(this.gameStage == GameStage.SETUP_PHASE){
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Returns the current setup turn number we are on.
+     * @return The turn number of setup we are on
+     */
+    public int setupTurnNumber(){
+        return this.currentSetupTurn;
     }
 
 }// class LocalGame
