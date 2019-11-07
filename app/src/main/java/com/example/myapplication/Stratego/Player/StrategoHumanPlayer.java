@@ -13,9 +13,13 @@ import com.example.myapplication.Game.GameHumanPlayer;
 import com.example.myapplication.Game.infoMsg.GameInfo;
 import com.example.myapplication.R;
 import com.example.myapplication.StandardGameBoard;
+import com.example.myapplication.Stratego.GameActions.ButtonPieceAction;
+import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.RulesHelp;
 import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfaceView;
+
+import java.sql.BatchUpdateException;
 
 /**
  * TODO: check to see if player can make valid move and if not skip turn, going to be implemented in on
@@ -137,9 +141,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         }
 
         //creates an array of buttons
-        Button[] buttons = {marshallButton,generalButton,colonelButton,majorButton,captainButton,
-                lieutenantButton, sergeantButton, minerButton, scoutButton, spyButton,
-                bombButton,flagButton};
+
 
         //TODO: if piece ranks the same make both disappear (add
         //TODO: if spy attacks marshall, marshall disappears
@@ -162,6 +164,48 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     @Override
     public void onClick(View v) {
+        Button tappedButton = (Button)v;
+        switch((String)tappedButton.getText()){
+            case"1":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.ONE));
+                break;
+            case"2":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.TWO));
+                break;
+            case"3":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.THREE));
+                break;
+            case"4":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.FOUR));
+                break;
+            case"5":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.FIVE));
+                break;
+            case"6":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.SIX));
+                break;
+            case"7":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.SEVEN));
+                break;
+            case"8":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.EIGHT));
+                break;
+            case"9":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.NINE));
+                break;
+            case"S":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.SPY));
+                break;
+            case"BOMB":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.BOMB));
+                break;
+            case"FLAG":
+                this.game.sendAction(new ButtonPieceAction(this, Rank.FLAG));
+                break;
+
+
+        }
+
         //if player is in set up phase then show pieces while setting up
         //TODO: call tapOnSquareSETUP to be able to add pieces to board
         //TODO: then call addPieceToGame to place pieces on board
@@ -176,7 +220,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         //TODO: if piece clashes with another, call attackPiece and it will ...
         //TODO: call unitAttacks, scoutAttacks, spyAttacks, attackBomb, or attackFlag depending
 
-        Button tappedButton = (Button)v;
+
 
         /**
         if (v == menuButton) {
@@ -247,6 +291,36 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         //rulesHelpButton = new RulesHelp(this.activity.findViewById(R.id.menuButton),
                 //this, this.game, this.activity);
+        Button[] buttons = {marshallButton,generalButton,colonelButton,majorButton,captainButton,
+                lieutenantButton, sergeantButton, minerButton, scoutButton, spyButton,
+                bombButton,flagButton};
+
+
+        marshallButton = (Button)activity.findViewById(R.id.marshallButton);
+        marshallButton.setOnClickListener(this);
+        generalButton = (Button)activity.findViewById(R.id.generalButton);
+        generalButton.setOnClickListener(this);
+        colonelButton = (Button)activity.findViewById(R.id.colonelButton);
+        colonelButton.setOnClickListener(this);
+        majorButton = (Button)activity.findViewById(R.id.majorButton);
+        majorButton.setOnClickListener(this);
+        captainButton = (Button)activity.findViewById(R.id.captainButton);
+        captainButton.setOnClickListener(this);
+        lieutenantButton = (Button)activity.findViewById(R.id.lieutenantButton);
+        lieutenantButton.setOnClickListener(this);
+        sergeantButton = (Button)activity.findViewById(R.id.sergeantButton);
+        sergeantButton.setOnClickListener(this);
+        minerButton = (Button)activity.findViewById(R.id.minerButton);
+        minerButton.setOnClickListener(this);
+        scoutButton = (Button)activity.findViewById(R.id.scoutButton);
+        scoutButton.setOnClickListener(this);
+        spyButton = (Button)activity.findViewById(R.id.spyButton);
+        spyButton.setOnClickListener(this);
+        bombButton = (Button)activity.findViewById(R.id.bombButton);
+        bombButton.setOnClickListener(this);
+        flagButton = (Button)activity.findViewById(R.id.flagButton);
+        flagButton.setOnClickListener(this);
+
 
 
     }
