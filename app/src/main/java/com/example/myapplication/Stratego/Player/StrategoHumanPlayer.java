@@ -39,7 +39,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private GameMainActivity activity;
 
     //most recent game state;
-    //private StrategoGameState state;
+    private StrategoGameState state;
     //StrategoGameState latestState = new StrategoGameState(); bad
     private StrategoSurfaceView surfaceView;
 
@@ -101,10 +101,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      * initAfterReady method
      */
 
-    @Override
-    protected void initAfterReady() {
-        surfaceView.setGame(game);
-    }
 
 
     /**
