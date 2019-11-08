@@ -175,13 +175,16 @@ public class ExampleUnitTest {
     public void setupTapping() {
         StrategoGameState testGameState = new StrategoGameState();
         testGameState.setLastTappedPieceButton(Rank.BOMB);
+        assertEquals(Rank.BOMB, testGameState.getLastTappedPieceButton());
         assertEquals(-1, testGameState.getLastTappedRow());
         assertEquals(-1, testGameState.getLastTappedCol());
-        testGameState.tapOnSquare(3,3);
-        assertEquals(3, testGameState.getLastTappedRow());
-        assertEquals(3, testGameState.getLastTappedCol());
-        testGameState.tapOnSquare(3,3);
-        assertEquals(true, testGameState.getBoard()[3][3].getContainedPiece() != null &&
-                testGameState.getBoard()[3][3].getContainedPiece().getPieceRank() == Rank.BOMB);
+        assertEquals(false, testGameState.isDidLastBlockContainPiece());
+        testGameState.tapOnSquare(8,8);
+        assertEquals(8, testGameState.getLastTappedRow());
+        assertEquals(8, testGameState.getLastTappedCol());
+        assertEquals(false, testGameState.isDidLastBlockContainPiece());
+        testGameState.tapOnSquare(8,8);
+        assertEquals(true, testGameState.getBoard()[8][8].getContainedPiece() != null
+                && testGameState.getBoard()[8][8].getContainedPiece().getPieceRank() == Rank.BOMB);
     }
 }

@@ -55,6 +55,7 @@ public class StrategoGameState extends GameState {
     //used for making moves and attacks
     private int lastTappedRow;
     private int lastTappedCol;
+    private boolean didLastBlockContainPiece;
 
     private Rank lastTappedPieceButton;
 
@@ -100,6 +101,7 @@ public class StrategoGameState extends GameState {
         //sets default tapped row and column
         lastTappedRow = -1;
         lastTappedCol = -1;
+        didLastBlockContainPiece = false;
 
         lastTappedPieceButton = null;
     }
@@ -151,6 +153,7 @@ public class StrategoGameState extends GameState {
         //copies the last tapped position
         this.lastTappedRow = trueState.lastTappedRow;
         this.lastTappedCol = trueState.lastTappedCol;
+        this.didLastBlockContainPiece = trueState.didLastBlockContainPiece;
 
         this.lastTappedPieceButton = trueState.lastTappedPieceButton;
     }
@@ -184,6 +187,7 @@ public class StrategoGameState extends GameState {
     public int getLastTappedCol() { return lastTappedCol; }
     public int getCOLMAX() { return COLMAX; }
     public int getROWMAX() { return ROWMAX; }
+    public boolean isDidLastBlockContainPiece() { return didLastBlockContainPiece; }
 
     /**
      * returns the team that is currently not taking their turn
@@ -237,23 +241,33 @@ public class StrategoGameState extends GameState {
 
     //TODO FIX CONDITIONALS
     public boolean tapOnSquareSETUP(int row, int col) {
-        if(lastTappedRow == -1 && lastTappedCol == -1) {
+
+        if(board[row][col].getContainedPiece() == null && didLastBlockContainPiece == false
+                && lastTappedRow != row && lastTappedCol != col) {
             board[row][col].setHighLighted(true);
+            //Log.i("msg", "normalTap");
             lastTappedRow = row;
             lastTappedCol = col;
-        } else if(row == lastTappedRow && col == lastTappedCol && board[row][col].getContainedPiece() != null) {
+            didLastBlockContainPiece=false;
+        }
+        else if(row == lastTappedRow && col == lastTappedCol && didLastBlockContainPiece==true) {
             removePieceFromGame(row, col);
             board[row][col].setHighLighted(false);
+            Log.i("msg", "remove");
             lastTappedRow = -1;
             lastTappedCol = -1;
-        } else if(board[row][col].getContainedPiece() != null){
+            didLastBlockContainPiece=false;
+        } else if(didLastBlockContainPiece){
             movePieceDuringSetup(lastTappedRow, lastTappedCol, row, col);
             board[row][col].setHighLighted(false);
+            Log.i("msg", "move/swap");
             lastTappedRow = -1;
             lastTappedCol = -1;
+            didLastBlockContainPiece=false;
         } else {
             addPieceToGame(new Piece(currentTeamsTurn, this.getLastTappedPieceButton()), row, col);
             board[row][col].setHighLighted(false);
+//            Log.i("msg", "add");
             lastTappedRow = -1;
             lastTappedCol = -1;
         }

@@ -4,8 +4,13 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.util.AttributeSet;
+import android.util.Log;
 
 import com.example.myapplication.Game.util.FlashSurfaceView;
+import com.example.myapplication.Game.util.Logger;
 import com.example.myapplication.R;
 import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
@@ -17,7 +22,9 @@ public class StrategoSurfaceView extends FlashSurfaceView {
     private static final String TAG = "StrategoSurfaceView";
 
     protected StrategoGameState state;
-    private Game game;
+    //private Game game;
+
+    Paint hightlightPaint;
 
     //bitmaps
     Bitmap baseBoard = BitmapFactory.decodeResource(getResources() , R.drawable.base_board);
@@ -80,14 +87,26 @@ public class StrategoSurfaceView extends FlashSurfaceView {
 
     public StrategoSurfaceView(Context context) {
         super(context);
+        setWillNotDraw(false);
+        init();
     }
 
-    public void setState() {this.state = state;}
+    public StrategoSurfaceView(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        setWillNotDraw(false);
+        init();
+    }
+
+
+    public void init() { hightlightPaint = new Paint(Color.YELLOW); }
+
+    public void setState(StrategoGameState sgt) {this.state = sgt;}
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         width=w;
         height=h;
+
         scaledBaseBoard=Bitmap.createScaledBitmap(baseBoard, w, h, false);
         scaledBaseBluePiece=
                 Bitmap.createScaledBitmap(baseBluePiece, h * 4/50, h/10, false);
@@ -143,17 +162,26 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                 Bitmap.createScaledBitmap(baseRedPieceFlag, h * 4/50, h/10, false);
     }
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
+    //public void setGame(Game game) {
+    //    this.game = game;
+    //}
 
     public void onDraw(Canvas g) {
+        if(state == null)
+        {
+            Log.i("msg","trying to draw but have no state");
+            return;
+        }
+        g.drawBitmap(baseBoard, 0, 0, null);
         for(int row=0; row<state.getROWMAX(); row++) {
             for(int col=0; col<state.getCOLMAX(); col++) {
                 if(state.getBoard()[row][col].getContainedPiece() == null) {
                     continue;
                 }
                 Piece piece = state.getBoard()[row][col].getContainedPiece();
+                if(state.getBoard()[row][col].isHighLighted()) {
+                    g.drawRect((height*col)/10, (height*row)/10, (height * row + 1)/10, (height*col)/10, hightlightPaint);
+                }
                 switch(piece.getPieceTeam()) {
                     case RED_TEAM:
                         if(piece.getIsVisible()) {

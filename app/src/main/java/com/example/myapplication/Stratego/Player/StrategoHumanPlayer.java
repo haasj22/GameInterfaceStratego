@@ -1,7 +1,9 @@
 package com.example.myapplication.Stratego.Player;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -11,22 +13,23 @@ import android.widget.TextView;
 import com.example.myapplication.Game.GameMainActivity;
 import com.example.myapplication.Game.GameHumanPlayer;
 import com.example.myapplication.Game.infoMsg.GameInfo;
+import com.example.myapplication.Game.infoMsg.IllegalMoveInfo;
+import com.example.myapplication.Game.infoMsg.NotYourTurnInfo;
 import com.example.myapplication.R;
 import com.example.myapplication.StandardGameBoard;
 import com.example.myapplication.Stratego.GameActions.ButtonPieceAction;
+import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.RulesHelp;
 import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfaceView;
-
-import java.sql.BatchUpdateException;
 
 /**
  * TODO: check to see if player can make valid move and if not skip turn, going to be implemented in on
  * handles GUI and all actions for humanPlayer
 **/
 
-public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClickListener {
+public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClickListener, View.OnTouchListener{
 
     //GUI
     private TextView whosTurn;
@@ -36,8 +39,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private GameMainActivity activity;
 
     //most recent game state;
-    private StrategoGameState state;
-    StrategoGameState latestState = new StrategoGameState();
+    //private StrategoGameState state;
+    //StrategoGameState latestState = new StrategoGameState(); bad
     private StrategoSurfaceView surfaceView;
 
 
@@ -108,19 +111,19 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      * receiveInfo method
      * @param info
      */
+    @Override
     public void receiveInfo(GameInfo info) {
+        if (info == null) return;
+
+        if (info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo) {
+            // if the move was out of turn or otherwise illegal, flash the screen
+            surfaceView.flash(Color.RED, 50);
+        }
         if (info instanceof StrategoGameState) {
-            //returns the same state if not updated
-            if(state != null){
-                if(state.equals(info)){
-                    return;
-                }
-            }
-            //
-            if (rulesHelpButton.getGame() == null) {
-
-
-            }
+            if (surfaceView == null)
+                return;
+           surfaceView.setState((StrategoGameState)info);
+           surfaceView.invalidate();
         }
     }
 
@@ -295,6 +298,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 lieutenantButton, sergeantButton, minerButton, scoutButton, spyButton,
                 bombButton,flagButton};
 
+        surfaceView = (StrategoSurfaceView)activity.findViewById(R.id.boardImageView);
+        surfaceView.setOnClickListener(this);
 
         marshallButton = (Button)activity.findViewById(R.id.marshallButton);
         marshallButton.setOnClickListener(this);
@@ -330,24 +335,22 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     }
 
-    @Override
-    public boolean requiresGui() {
-        return false;
-    }
-
-    @Override
-    public boolean supportsGui() {
-        return false;
-    }
 
 
     public boolean onTouch(View v, MotionEvent event) {
-        //player to select move
-        if (gameBoard == null)//currentpiece method) == null)
-        {
-            return false;
+        Log.i("msg", "tapped");
+        int row = (int)(event.getX())*10/v.getWidth();
+        int col = (int)(event.getY())*10/v.getHeight();
+        Log.i("msg", "Row: " + row);
+        Log.i("msg", "Col: " + col);
+        StrategoMoveAction moveCommand = new StrategoMoveAction(this, row, col);
+        if(this.game == null) {
+            Log.i("msg", "Game Not Working");
         }
-        return false;
+        else
+            this.game.sendAction(moveCommand);
+        surfaceView.invalidate();
+        return true;
     }
 
 }
