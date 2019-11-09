@@ -1,13 +1,11 @@
 package com.example.myapplication.Stratego.Player;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.example.myapplication.Game.GameMainActivity;
@@ -17,7 +15,7 @@ import com.example.myapplication.Game.infoMsg.IllegalMoveInfo;
 import com.example.myapplication.Game.infoMsg.NotYourTurnInfo;
 import com.example.myapplication.R;
 import com.example.myapplication.StandardGameBoard;
-import com.example.myapplication.Stratego.GameActions.ButtonPieceAction;
+import com.example.myapplication.Stratego.GameActions.StrategoButtonPieceAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
@@ -165,40 +163,40 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         Button tappedButton = (Button)v;
         switch((String)tappedButton.getText()){
             case"1":
-                this.game.sendAction(new ButtonPieceAction(this, Rank.ONE));
+                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.ONE));
                 break;
             case"2":
-                this.game.sendAction(new ButtonPieceAction(this, Rank.TWO));
+                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.TWO));
                 break;
             case"3":
-                this.game.sendAction(new ButtonPieceAction(this, Rank.THREE));
+                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.THREE));
                 break;
             case"4":
-                this.game.sendAction(new ButtonPieceAction(this, Rank.FOUR));
+                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.FOUR));
                 break;
             case"5":
-                this.game.sendAction(new ButtonPieceAction(this, Rank.FIVE));
+                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.FIVE));
                 break;
             case"6":
-                this.game.sendAction(new ButtonPieceAction(this, Rank.SIX));
+                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.SIX));
                 break;
             case"7":
-                this.game.sendAction(new ButtonPieceAction(this, Rank.SEVEN));
+                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.SEVEN));
                 break;
             case"8":
-                this.game.sendAction(new ButtonPieceAction(this, Rank.EIGHT));
+                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.EIGHT));
                 break;
             case"9":
-                this.game.sendAction(new ButtonPieceAction(this, Rank.NINE));
+                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.NINE));
                 break;
             case"S":
-                this.game.sendAction(new ButtonPieceAction(this, Rank.SPY));
+                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.SPY));
                 break;
             case"BOMB":
-                this.game.sendAction(new ButtonPieceAction(this, Rank.BOMB));
+                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.BOMB));
                 break;
             case"FLAG":
-                this.game.sendAction(new ButtonPieceAction(this, Rank.FLAG));
+                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.FLAG));
                 break;
 
 

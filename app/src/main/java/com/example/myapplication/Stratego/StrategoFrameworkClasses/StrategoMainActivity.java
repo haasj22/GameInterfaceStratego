@@ -73,6 +73,5 @@ public class StrategoMainActivity extends GameMainActivity {
      *
      * @return a new, game-specific instance of the LocalGame class
      */
-    @Override
-    public LocalGame createLocalGame() { return new StrategoLocalGame();}
+    public LocalGame createLocalGame(int numPlayers) { return new StrategoLocalGame(numPlayers);}
 }
