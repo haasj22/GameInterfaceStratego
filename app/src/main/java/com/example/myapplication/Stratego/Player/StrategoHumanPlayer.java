@@ -31,17 +31,24 @@ import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfa
 
 public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClickListener, View.OnTouchListener{
 
+    //tag for logging
+    private static final String TAG = "StrategoHumanPlayer";
     //GUI
+
     private TextView whosTurn;
 
 
-    //android activity
-    private GameMainActivity activity;
+    //android current activity
+    private GameMainActivity myActivity;
 
     //most recent game state;
     private StrategoGameState state;
-    //StrategoGameState latestState = new StrategoGameState(); bad
+
+    //surface view
     private StrategoSurfaceView surfaceView;
+
+    private int gameBoardLayout;
+
 
 
     MediaPlayer mediaPlayer;
@@ -81,8 +88,9 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      *
      * @param name
      */
-    public StrategoHumanPlayer(String name) {
+    public StrategoHumanPlayer(String name, int gameBoardLayout) {
         super(name);
+        this.gameBoardLayout = gameBoardLayout;
     }
 
     /**
@@ -94,12 +102,17 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
 
     public View getTopView() {
-        return activity.findViewById(R.id.StrategoInGameLayout);
+        return myActivity.findViewById(R.id.StrategoInGameLayout);
     }
 
     /**
-     * initAfterReady method
+     * GameMainAcitivity
+     *
+     * @return activity
      */
+    public GameMainActivity getActivity(){
+        return myActivity;
+    }
 
 
 
@@ -124,20 +137,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
 
-    /**
-     * updateGui
-     * updates GUI
-     */
-    private void updateGui() {
-
-
-        //checks to see whos turn it is and displays in whosTurn textView
-        if(state.getCurrentTeamsTurn().getTEAMNUMBER() == playerNum){
-            this.whosTurn.setText("It's Team RED's Turn!");
-        }
-        else {
-            this.whosTurn.setText("It's Team BLUE's Turn!");
-        }
 
         //creates an array of buttons
 
@@ -148,7 +147,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         //TODO: bombs defeat all other pieces that attack it, except miner (defuses the bomb)
         //TODO: if player moves into empty tile then next player turn
 
-    }
+
 
     /**
      * setBoard method
@@ -201,6 +200,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             case"FLAG":
                 this.game.sendAction(new ButtonPieceAction(this, Rank.FLAG));
                 break;
+
+                case R.id
 
 
         }
@@ -280,9 +281,18 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         // hits bomb upon discovery
     }
 
+    /**
+     * setAsGui sets the current player as the activity's GUI
+     * @param activity
+     */
     public void setAsGui(GameMainActivity activity) {
-        this.activity = activity;
+
+        //remember the activity
+        myActivity = activity;
+
+        //loads the layout for stratego GUI
         activity.setContentView(R.layout.stratego_board);
+
 
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.stratego);
         mediaPlayer.start();
@@ -290,46 +300,46 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         //rulesHelpButton = new RulesHelp(this.activity.findViewById(R.id.menuButton),
                 //this, this.game, this.activity);
-        Button[] buttons = {marshallButton,generalButton,colonelButton,majorButton,captainButton,
-                lieutenantButton, sergeantButton, minerButton, scoutButton, spyButton,
-                bombButton,flagButton};
 
-        surfaceView = (StrategoSurfaceView)activity.findViewById(R.id.boardImageView);
-        surfaceView.setOnClickListener(this);
 
-        marshallButton = (Button)activity.findViewById(R.id.marshallButton);
+        surfaceView = activity.findViewById(R.id.boardImageView);
+        //surfaceView.setOnClickListener(this);
+
+        if(state != null){
+            receiveInfo(state);
+        }
+
+        whosTurn = activity.findViewById(R.id.turnText);
+
+        marshallButton = activity.findViewById(R.id.marshallButton);
         marshallButton.setOnClickListener(this);
-        generalButton = (Button)activity.findViewById(R.id.generalButton);
+        generalButton = activity.findViewById(R.id.generalButton);
         generalButton.setOnClickListener(this);
-        colonelButton = (Button)activity.findViewById(R.id.colonelButton);
+        colonelButton = activity.findViewById(R.id.colonelButton);
         colonelButton.setOnClickListener(this);
-        majorButton = (Button)activity.findViewById(R.id.majorButton);
+        majorButton = activity.findViewById(R.id.majorButton);
         majorButton.setOnClickListener(this);
-        captainButton = (Button)activity.findViewById(R.id.captainButton);
+        captainButton = activity.findViewById(R.id.captainButton);
         captainButton.setOnClickListener(this);
-        lieutenantButton = (Button)activity.findViewById(R.id.lieutenantButton);
+        lieutenantButton = activity.findViewById(R.id.lieutenantButton);
         lieutenantButton.setOnClickListener(this);
-        sergeantButton = (Button)activity.findViewById(R.id.sergeantButton);
+        sergeantButton = activity.findViewById(R.id.sergeantButton);
         sergeantButton.setOnClickListener(this);
-        minerButton = (Button)activity.findViewById(R.id.minerButton);
+        minerButton = activity.findViewById(R.id.minerButton);
         minerButton.setOnClickListener(this);
-        scoutButton = (Button)activity.findViewById(R.id.scoutButton);
+        scoutButton = activity.findViewById(R.id.scoutButton);
         scoutButton.setOnClickListener(this);
-        spyButton = (Button)activity.findViewById(R.id.spyButton);
+        spyButton = activity.findViewById(R.id.spyButton);
         spyButton.setOnClickListener(this);
-        bombButton = (Button)activity.findViewById(R.id.bombButton);
+        bombButton = activity.findViewById(R.id.bombButton);
         bombButton.setOnClickListener(this);
-        flagButton = (Button)activity.findViewById(R.id.flagButton);
+        flagButton = activity.findViewById(R.id.flagButton);
         flagButton.setOnClickListener(this);
 
 
 
     }
 
-    @Override
-    public void sendInfo(GameInfo info) {
-
-    }
 
 
 

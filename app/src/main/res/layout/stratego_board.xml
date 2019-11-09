@@ -428,7 +428,7 @@
             <Space
                 android:id="@+id/rightSpace"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="223dp"
                 android:layout_weight="1" />
 
             <TextView
@@ -448,15 +448,67 @@
                 android:textColor="#FFFFFF"
                 android:textSize="30sp" />
 
-            <Button
-                android:id="@+id/menuButton"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/actionButtons"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="casual"
-                android:gravity="center"
-                android:text="Menu"
-                android:textSize="30sp" />
+                android:orientation="horizontal">
+
+                <Space
+                    android:id="@+id/buttonSpace13"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
+
+                <ImageButton
+                    android:id="@+id/infoButton"
+                    android:layout_width="50dp"
+                    android:layout_height="80dp"
+                    android:adjustViewBounds="true"
+                    android:background="#200200"
+                    android:scaleType="fitCenter"
+                    android:tint="#FFFFFF"
+                    app:srcCompat="@drawable/info4" />
+
+                <Space
+                    android:id="@+id/buttonSpace15"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5" />
+
+                <ImageButton
+                    android:id="@+id/muteButton"
+                    android:layout_width="55dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="#200200"
+                    android:scaleType="fitCenter"
+                    android:tint="#FFFFFF"
+                    app:srcCompat="@drawable/mute" />
+
+                <Space
+                    android:id="@+id/buttonSpace16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5" />
+
+                <Button
+                    android:id="@+id/forfeitButton"
+                    android:layout_width="64dp"
+                    android:layout_height="80dp"
+                    android:backgroundTint="#200200"
+                    android:text="FORFEIT"
+                    android:textColor="#FFFFFF"
+                    android:textSize="10sp" />
+                <Space
+                    android:id="@+id/buttonSpace17"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.5" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
