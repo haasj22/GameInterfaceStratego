@@ -201,7 +201,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 this.game.sendAction(new ButtonPieceAction(this, Rank.FLAG));
                 break;
 
-                case R.id
 
 
         }
