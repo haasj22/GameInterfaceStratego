@@ -254,12 +254,12 @@ public class StrategoGameState extends GameState {
         Log.i("setupmsg", "lastTappedRow: " + lastTappedRow);
         Log.i("setupmsg", "LastTappedCol: " + lastTappedCol);
         if(board[row][col].getContainedPiece() == null && didLastBlockContainPiece == false
-                && lastTappedRow != row && lastTappedCol != col) {
-            board[row][col].setHighLighted(true);
-            Log.i("setupmsg", "normalTap");
-            lastTappedRow = row;
-            lastTappedCol = col;
-            didLastBlockContainPiece=false;
+                && lastTappedRow == row && lastTappedCol == col) {
+            addPieceToGame(new Piece(currentTeamsTurn, this.getLastTappedPieceButton()), row, col);
+            board[row][col].setHighLighted(false);
+            Log.i("setupmsg", "add");
+            lastTappedRow = -1;
+            lastTappedCol = -1;
         }
         else if(row == lastTappedRow && col == lastTappedCol && didLastBlockContainPiece==true) {
             removePieceFromGame(row, col);
@@ -276,11 +276,11 @@ public class StrategoGameState extends GameState {
             lastTappedCol = -1;
             didLastBlockContainPiece=false;
         } else {
-            addPieceToGame(new Piece(currentTeamsTurn, this.getLastTappedPieceButton()), row, col);
-            board[row][col].setHighLighted(false);
-            Log.i("setupmsg", "add");
-            lastTappedRow = -1;
-            lastTappedCol = -1;
+            board[row][col].setHighLighted(true);
+            Log.i("setupmsg", "normalTap");
+            lastTappedRow = row;
+            lastTappedCol = col;
+            didLastBlockContainPiece=false;
         }
         return true;
     }
