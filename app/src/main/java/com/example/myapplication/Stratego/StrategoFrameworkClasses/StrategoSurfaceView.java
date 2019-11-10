@@ -207,6 +207,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
 
             case RED_TEAM:
 
+                //TODO: remove this clause for dubugging
                 if(currentTeam != Team.RED_TEAM && drawThisPiece.getIsVisible() == false) {
                     canvas.drawBitmap(scaledBaseRedPiece, canvas.getWidth() * 2 / 100 +
                             canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
@@ -267,6 +268,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                 break;
             case BLUE_TEAM:
 
+                //TODO: remove this clause for debugging
                 if(currentTeam != Team.BLUE_TEAM && drawThisPiece.getIsVisible() == false) {
                     Log.i("drawmsg", "got here somehow");
                     canvas.drawBitmap(scaledBaseBluePiece, canvas.getWidth() * 2 / 100 +
