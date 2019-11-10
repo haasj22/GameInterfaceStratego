@@ -71,14 +71,14 @@ public class StrategoGameState extends GameState {
 
         //player one starts with no pieces on the board
         redTeamPieces= new ArrayList<Rank>();
-        redTeamHasFlag = false;
+        redTeamHasFlag = true;
 
         //player one does not get access to any of player two's information
         blueTeamTimer = 0;
         this.numPlayers = numPlayers;
         //player one does not get to see where player two placed his pieces
         blueTeamPieces=new ArrayList<Rank>();
-        blueTeamHasFlag = false;
+        blueTeamHasFlag = true;
 
         //starts the game out in setup phase
         currentPhase = Phase.SETUP_PHASE;
