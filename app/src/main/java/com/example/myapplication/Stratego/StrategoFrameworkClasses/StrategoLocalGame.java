@@ -28,14 +28,14 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
     /**
      * Constructor for StrategoLocalGame
      */
-    public StrategoLocalGame(int numPlayers) {
+    public StrategoLocalGame() {
+        super();
         Log.i("SJLocalGame", "creating game");
         // create the state for the beginning of the game
-        state = new StrategoGameState(numPlayers);
+        state = new StrategoGameState();
         //perform superclass initialization
         //super();
 
-        startRound();
     }
 
     /**
@@ -54,7 +54,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
             return;
         }
         StrategoGameState stateForPlayer;
-        stateForPlayer = new StrategoGameState(state, this.getPlayerIdx(p));
+        stateForPlayer = new StrategoGameState(state);
 
         p.sendInfo((stateForPlayer));
     }
@@ -77,7 +77,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
      */
     @Override
     protected String checkIfGameOver() {
-        int check;
+        /*int check;
         synchronized (state){
             check = state.isGameOver();
         }
@@ -87,7 +87,14 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         if(check == -1 || check == 1){
             return this.playerNames[check] + " is the winner!";
         }
-        return null;
+        return null;*/
+        if(state.isGameOver() == -1) {
+            return "Blue team wins";
+        } else if(state.isGameOver() == 1) {
+            return "Red team wins";
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -98,6 +105,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
      */
     @Override
     protected boolean makeMove(GameAction action) {
+        /*
         // check if GameAction object is nul
         if(action == null){
             Log.i("StrategoMainAct.java", "GameAction object is null");
@@ -106,9 +114,11 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         int playerID = getPlayerIdx(action.getPlayer());
         boolean isValid = false; // by default, we return false
         boolean nextTurn = false; // by default, we return false
+        */
+
 
         // TODO: incorporate actions to use the playerID
-        synchronized (state){
+        /*synchronized (state){
             // GameActions
             // ButtonPiece
             if(action instanceof StrategoButtonPieceAction){
@@ -157,7 +167,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
                 }
 
                 state.transitionPhases();
-            }
+            //}
             // Transition
             else if (action instanceof StrategoTransitionAction) {
                 StrategoTransitionAction sta = (StrategoTransitionAction)action;
@@ -168,13 +178,16 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
                 return true;
             }
             return true;
-        }
+        }*/
 
 
 
-        /*
+
         if(action instanceof StrategoMoveAction) {
+            Log.i("setupmsg", "action received");
             StrategoMoveAction sma = (StrategoMoveAction)action;
+            Log.i("setupmsg", "" + sma.getRow());
+            Log.i("setupmsg", "" + sma.getCol());
             state.tapOnSquare(sma.getRow(), sma.getCol());
         } else if (action instanceof StrategoForfeitAction) {
             StrategoForfeitAction sfa = (StrategoForfeitAction)action;
@@ -216,21 +229,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
             state.transitionPhases();
         }
         return true;
-
-         */
     }
 
-    /**
-     * Sets up the game for the next phase
-     */
-    private void nextPhase() {
 
-    }
-
-    /**
-     * Starts the next round
-     */
-    private void startRound(){
-
-    }
 }

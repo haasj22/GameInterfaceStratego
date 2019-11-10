@@ -16,6 +16,9 @@ import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Game.Game;
+import com.example.myapplication.Stratego.GameState.Team;
+
+import java.util.ArrayList;
 
 public class StrategoSurfaceView extends FlashSurfaceView {
     //tag for logging
@@ -82,6 +85,8 @@ public class StrategoSurfaceView extends FlashSurfaceView {
     Bitmap scaledBaseRedPieceSpy;
     Bitmap scaledBaseRedPieceFlag;
 
+    ArrayList<Bitmap> strategoBitmaps;
+
     int width=0;
     int height=0;
 
@@ -98,12 +103,17 @@ public class StrategoSurfaceView extends FlashSurfaceView {
     }
 
 
-    public void init() { hightlightPaint = new Paint(Color.YELLOW); }
+    public void init() {
+        hightlightPaint = new Paint(Color.YELLOW);
+    }
 
     public void setState(StrategoGameState sgt) {this.state = sgt;}
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
+
+        width=w;
+        height=h;
 
         scaledBaseBoard=Bitmap.createScaledBitmap(baseBoard, w, h, false);
         scaledBaseBluePiece=
@@ -160,148 +170,162 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                 Bitmap.createScaledBitmap(baseRedPieceFlag, h * 4/50, h/10, false);
     }
 
-    //public void setGame(Game game) {
-    //    this.game = game;
-    //}
-
     public void onDraw(Canvas g) {
         if(state == null)
         {
             Log.i("msg","trying to draw but have no state");
             return;
         }
-        Log.i("msg", "drawing board now");
-        scaledBaseBoard=Bitmap.createScaledBitmap(baseBoard, g.getWidth(), g.getHeight(), false);
+        Log.i("msg", "drawing board now!");
         g.drawBitmap(scaledBaseBoard, 0, 0, null);
         for(int row=0; row<state.getROWMAX(); row++) {
             for(int col=0; col<state.getCOLMAX(); col++) {
                 Log.i("msg", "Row: " + row);
                 Log.i("msg", "Col: " + col);
                 Log.i("msg", "" + state.getBoard()[row][col].containsPiece());
-                if(state.getBoard()[row][col].getContainedPiece() == null) {
-                    continue;
-                }
+                    if(state.getBoard()[row][col].getContainedPiece() == null) {
+                        continue;
+                    }
                 Piece piece = state.getBoard()[row][col].getContainedPiece();
-                if(state.getBoard()[row][col].isHighLighted()) {
-                    g.drawRect((height*col)/10, (height*row)/10, (height * row + 1)/10, (height*col)/10, hightlightPaint);
+                    if(state.getBoard()[row][col].isHighLighted()) {
+                        g.drawRect((height*col)/10, (height*row)/10,
+                                (height * row + 1)/10, (height*col)/10, hightlightPaint);
+                    }
+
+                drawPiece(g, state.getCurrentTeamsTurn(), piece, row, col);
                 }
-                switch(piece.getPieceTeam()) {
-                    case RED_TEAM:
-                        if(piece.getIsVisible()) {
-                            switch(piece.getPieceRank()) {
-                                case ONE:
-                                    g.drawBitmap(scaledBaseRedPiece1, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                            g.getHeight() * row/10, null);
-                                    break;
-                                case TWO:
-                                    g.drawBitmap(scaledBaseRedPiece2, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                            g.getHeight() * row/10, null);
-                                    break;
-                                case THREE:
-                                    g.drawBitmap(scaledBaseRedPiece3, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                            g.getHeight() * row/10, null);
-                                    break;
-                                case FOUR:
-                                    g.drawBitmap(scaledBaseRedPiece4, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                            g.getHeight() * row/10, null);
-                                    break;
-                                case FIVE:
-                                    g.drawBitmap(scaledBaseRedPiece5, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                            g.getHeight() * row/10, null);
-                                    break;
-                                case SIX:
-                                    g.drawBitmap(scaledBaseRedPiece6, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                            g.getHeight() * row/10, null);
-                                    break;
-                                case SEVEN:
-                                    g.drawBitmap(scaledBaseRedPiece7, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                            g.getHeight() * row/10, null);
-                                    break;
-                                case EIGHT:
-                                    g.drawBitmap(scaledBaseRedPiece8, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                            g.getHeight() * row/10, null);
-                                    break;
-                                case NINE:
-                                    g.drawBitmap(scaledBaseRedPiece9, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                            g.getHeight() * row/10, null);
-                                    break;
-                                case BOMB:
-                                    g.drawBitmap(scaledBaseRedPieceBomb, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                            g.getHeight() * row/10, null);
-                                    break;
-                                case SPY:
-                                    g.drawBitmap(scaledBaseRedPieceSpy, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                            g.getHeight() * row/10, null);
-                                    break;
-                                case FLAG:
-                                    g.drawBitmap(scaledBaseRedPieceFlag, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                            g.getHeight() * row/10, null);
-                                    break;
-                            }
-                        } else {
-                            g.drawBitmap(scaledBaseRedPiece, g.getWidth()*2/100 + g.getWidth() * col/10,
-                                    g.getHeight() * row/10, null);
-                        }
+
+        }
+    }
+
+    public void drawPiece(Canvas canvas, Team currentTeam, Piece drawThisPiece, int row, int col) {
+        Log.i("drawmsg", "Team: " + drawThisPiece.getPieceTeam());
+        Log.i("drawmsg", "Row: " + row);
+        Log.i("drawmsg", "Col: " + col);
+
+        switch(drawThisPiece.getPieceTeam()) {
+
+            case RED_TEAM:
+
+                if(currentTeam != Team.RED_TEAM && drawThisPiece.getIsVisible() == false) {
+                    canvas.drawBitmap(scaledBaseRedPiece, canvas.getWidth() * 2 / 100 +
+                            canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
+                    break;
+                }
+
+                switch(drawThisPiece.getPieceRank()) {
+                    case ONE:
+                        canvas.drawBitmap(scaledBaseRedPiece1, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
-                    case BLUE_TEAM:
-                        if(piece.getIsVisible()) {
-                            switch(piece.getPieceRank()) {
-                                case ONE:
-                                    g.drawBitmap(scaledBaseBluePiece1, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
-                                    break;
-                                case TWO:
-                                    g.drawBitmap(scaledBaseBluePiece2, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
-                                    break;
-                                case THREE:
-                                    g.drawBitmap(scaledBaseBluePiece3, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
-                                    break;
-                                case FOUR:
-                                    g.drawBitmap(scaledBaseBluePiece4, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
-                                    break;
-                                case FIVE:
-                                    g.drawBitmap(scaledBaseBluePiece5, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
-                                    break;
-                                case SIX:
-                                    g.drawBitmap(scaledBaseBluePiece6, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
-                                    break;
-                                case SEVEN:
-                                    g.drawBitmap(scaledBaseBluePiece7, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
-                                    break;
-                                case EIGHT:
-                                    g.drawBitmap(scaledBaseBluePiece8, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
-                                    break;
-                                case NINE:
-                                    g.drawBitmap(scaledBaseBluePiece9, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
-                                    break;
-                                case BOMB:
-                                    g.drawBitmap(scaledBaseBluePieceBomb, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
-                                    break;
-                                case SPY:
-                                    g.drawBitmap(scaledBaseBluePieceSpy, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
-                                    break;
-                                case FLAG:
-                                    g.drawBitmap(scaledBaseBluePieceFlag, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
-                                    break;
-                            }
-                        } else {
-                            g.drawBitmap(scaledBaseBluePiece, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                    g.getHeight() * col/10, null);
-                        }
+                    case TWO:
+                        canvas.drawBitmap(scaledBaseRedPiece2, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
+                        break;
+                    case THREE:
+                        canvas.drawBitmap(scaledBaseRedPiece3, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
+                        break;
+                    case FOUR:
+                        canvas.drawBitmap(scaledBaseRedPiece4, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
+                        break;
+                    case FIVE:
+                        canvas.drawBitmap(scaledBaseRedPiece5, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
+                        break;
+                    case SIX:
+                        canvas.drawBitmap(scaledBaseRedPiece6, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
+                        break;
+                    case SEVEN:
+                        canvas.drawBitmap(scaledBaseRedPiece7, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
+                        break;
+                    case EIGHT:
+                        canvas.drawBitmap(scaledBaseRedPiece8, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
+                        break;
+                    case NINE:
+                        Log.i("drawmsg", "Drew a nine");
+                        canvas.drawBitmap(scaledBaseRedPiece9, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
+                        break;
+                    case BOMB:
+                        canvas.drawBitmap(scaledBaseRedPieceBomb, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
+                        break;
+                    case SPY:
+                        canvas.drawBitmap(scaledBaseRedPieceSpy, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
+                        break;
+                    case FLAG:
+                        canvas.drawBitmap(scaledBaseRedPieceFlag, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                 }
-            }
+                break;
+            case BLUE_TEAM:
+
+                if(currentTeam != Team.BLUE_TEAM && drawThisPiece.getIsVisible() == false) {
+                    Log.i("drawmsg", "got here somehow");
+                    canvas.drawBitmap(scaledBaseBluePiece, canvas.getWidth() * 2 / 100 +
+                            canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
+                    break;
+                }
+
+                switch (drawThisPiece.getPieceRank()) {
+                    case ONE:
+                        canvas.drawBitmap(scaledBaseBluePiece1, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                        break;
+                    case TWO:
+                        canvas.drawBitmap(scaledBaseBluePiece2, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                        break;
+                    case THREE:
+                        canvas.drawBitmap(scaledBaseBluePiece3, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                        break;
+                    case FOUR:
+                        canvas.drawBitmap(scaledBaseBluePiece4, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                        break;
+                    case FIVE:
+                        canvas.drawBitmap(scaledBaseBluePiece5, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                        break;
+                    case SIX:
+                        canvas.drawBitmap(scaledBaseBluePiece6, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                        break;
+                    case SEVEN:
+                        canvas.drawBitmap(scaledBaseBluePiece7, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                        break;
+                    case EIGHT:
+                        canvas.drawBitmap(scaledBaseBluePiece8, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                        break;
+                    case NINE:
+                        canvas.drawBitmap(scaledBaseBluePiece9, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                        break;
+                    case BOMB:
+                        canvas.drawBitmap(scaledBaseBluePieceBomb, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                        break;
+                    case SPY:
+                        canvas.drawBitmap(scaledBaseBluePieceSpy, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                        break;
+                    case FLAG:
+                        canvas.drawBitmap(scaledBaseBluePieceFlag, canvas.getWidth() * 2 / 100 +
+                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                        break;
+                    }
+                break;
+
         }
     }
 }

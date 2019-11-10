@@ -35,12 +35,12 @@ public enum Team {
         if(Team == 'R') {
             TOPBOUNDARYINDEX = 6;
             BOTTOMBOUNDARYINDEX = 9;
-            TEAMNUMBER = 1;
+            TEAMNUMBER = 0;
         }
         else if(Team == 'B') {
             TOPBOUNDARYINDEX = 0;
             BOTTOMBOUNDARYINDEX = 3;
-            TEAMNUMBER = 2;
+            TEAMNUMBER = 1;
         } else {
             TOPBOUNDARYINDEX = -1;
             BOTTOMBOUNDARYINDEX = -1;

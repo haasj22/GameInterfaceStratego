@@ -47,24 +47,12 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     //android current activity
     private GameMainActivity myActivity;
 
-    //most recent game state;
-    private StrategoGameState state;
-
     //surface view
     private StrategoSurfaceView surfaceView;
-
-    private GameHumanPlayer ourPlayer = null;
-    private Game ourGame;
-    private int gameBoardLayout;
 
 
 
     MediaPlayer mediaPlayer;
-
-
-
-    private StandardGameBoard gameBoard;
-
 
 
     //buttons and or image buttons for other actions
@@ -96,9 +84,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      *
      * @param name
      */
-    public StrategoHumanPlayer(String name, int gameBoardLayout) {
+    public StrategoHumanPlayer(String name) {
         super(name);
-        this.gameBoardLayout = gameBoardLayout;
     }
 
     /**
@@ -113,31 +100,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         return myActivity.findViewById(R.id.StrategoInGameLayout);
     }
 
-    /**
-     * GameMainAcitivity
-     *
-     * @return activity
-     */
-    public GameMainActivity getActivity(){
-        return myActivity;
-    }
-
-    /**
-     * setUpdatedState method
-     * @param state
-     */
-    public void setUpdatedState(StrategoGameState state) {
-        this.state = state;
-    }
-
-    /**
-     * setGame method
-     * @param local
-     */
-    public void setGame(Game local) {
-        ourGame = local;
-    }
-
 
     /**
      * receiveInfo method
@@ -145,46 +107,19 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     @Override
     public void receiveInfo(GameInfo info) {
+        if(info == null) return;
 
-        //ignore the message if not StrategoGameState message
-        if(!(info instanceof StrategoGameState)) {
-            return;
-        }
-            else if(surfaceView == null){
-                return;
-        }
-
-        if (info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo) {
-            // if the move was out of turn or otherwise illegal, flash the screen
+        if(info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo) {
             surfaceView.flash(Color.RED, 50);
         }
 
-        //update state and update gui
-        this.state = (StrategoGameState) info;
-
-        //to make sure that the state isn't null
-        setUpdatedState(this.state);
-        setGame(this.game);
-
-
-         updateGui();
-         surfaceView.setState((StrategoGameState)info);
-         surfaceView.invalidate();
-
-
+        if(info instanceof StrategoGameState) {
+            if (surfaceView == null) return;
+            surfaceView.setState((StrategoGameState) info);
+            surfaceView.invalidate();
         }
+    }
 
-
-
-
-        //creates an array of buttons
-
-
-        //TODO: if piece ranks the same make both disappear (add
-        //TODO: if spy attacks marshall, marshall disappears
-        //TODO: if any piece attacks spy, spy disappears
-        //TODO: bombs defeat all other pieces that attack it, except miner (defuses the bomb)
-        //TODO: if player moves into empty tile then next player turn
 
 
 
@@ -195,18 +130,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         // sets board according to players' layout
     }
 
-    protected void updateGui(){
-
-        //updates the whosTurn textView with who's turn it currently is
-        if(state.getCurrentTeamsTurn() == Team.BLUE_TEAM){
-            this.whosTurn.setText("It's Team BLUE's turn!");
-        }
-        else{
-            this.whosTurn.setText("It's Team RED's turn!");
-        }
-
-
-    }
     /**
      *
      * @param v
@@ -256,20 +179,20 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         //action type - send action
         switch (v.getId()){
             case R.id.forfeitButton:
-                StrategoForfeitAction forfeitAction = new StrategoForfeitAction(ourPlayer);
-                ourGame.sendAction(forfeitAction);
+                StrategoForfeitAction forfeitAction = new StrategoForfeitAction(this);
+                this.game.sendAction(forfeitAction);
                 break;
             case R.id.muteButton:
-                StrategoMuteAction muteAction = new StrategoMuteAction(ourPlayer);
-                ourGame.sendAction(muteAction);
+                StrategoMuteAction muteAction = new StrategoMuteAction(this);
+                this.game.sendAction(muteAction);
                 break;
             case R.id.infoButton:
-                StrategoHelpAction helpAction = new StrategoHelpAction(ourPlayer);
-                ourGame.sendAction(helpAction);
+                StrategoHelpAction helpAction = new StrategoHelpAction(this);
+                this.game.sendAction(helpAction);
                 break;
             case R.id.notepadButton:
-                StrategoNotepadAction notepadAction = new StrategoNotepadAction(ourPlayer);
-                ourGame.sendAction(notepadAction);
+                StrategoNotepadAction notepadAction = new StrategoNotepadAction(this);
+                this.game.sendAction(notepadAction);
                 break;
                 default:
                     break;
@@ -355,11 +278,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         surfaceView = activity.findViewById(R.id.boardImageView);
         surfaceView.setOnTouchListener(this);
 
-        if(state != null){
-            receiveInfo(state);
-        }
-
-
 
         whosTurn = (TextView)activity.findViewById(R.id.turnText);
 
@@ -410,15 +328,13 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     public boolean onTouch(View v, MotionEvent event) {
         //if empty then return true
-        if(state == null || ourGame == null){
-            return true;
-        }
+
         Log.i("msg", "tapped");
         //finds out where on the board is being tapped
-        int row = (int)(event.getX())*10/v.getWidth();
-        int col = (int)(event.getY())*10/v.getHeight();
-        Log.i("msg", "Row: " + row);
-        Log.i("msg", "Col: " + col);
+        int row = (int)(event.getY())*10/v.getHeight();
+        int col = (int)(event.getX())*10/v.getWidth();
+        Log.i("setupmsg", "Row: " + row);
+        Log.i("setupmsg", "Col: " + col);
         StrategoMoveAction moveCommand = new StrategoMoveAction(this, row, col);
 
         //tell game we want to make move

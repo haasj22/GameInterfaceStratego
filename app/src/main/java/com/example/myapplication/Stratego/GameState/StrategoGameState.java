@@ -33,7 +33,7 @@ public class StrategoGameState extends GameState {
     private Block[][] board = new Block[ROWMAX][COLMAX];
 
     //player one's information
-    private int redTeamTimer; //in milliseconds
+    //private int redTeamTimer; //in milliseconds
 
     //variables that will store what pieces player one has in play
     private ArrayList<Rank> redTeamPieces;
@@ -41,7 +41,7 @@ public class StrategoGameState extends GameState {
     private boolean redTeamHasFlag;
 
     //player two's information
-    private int blueTeamTimer; //in milliseconds
+    //private int blueTeamTimer; //in milliseconds
     //variables that will store what pieces player two has in play
     private ArrayList<Rank> blueTeamPieces;
     //necessary for transitioning between phases
@@ -59,23 +59,20 @@ public class StrategoGameState extends GameState {
     private boolean didLastBlockContainPiece;
 
     private Rank lastTappedPieceButton;
-    // the number of players in the game
-    private int numPlayers;
 
     /**
      * Constructor for objects of class StrategoGameState
      */
-    public StrategoGameState(int numPlayers){
+    public StrategoGameState(){
         //player one sets up first
-        redTeamTimer = 3000;
+        //redTeamTimer = 300000;
 
         //player one starts with no pieces on the board
         redTeamPieces= new ArrayList<Rank>();
         redTeamHasFlag = true;
 
         //player one does not get access to any of player two's information
-        blueTeamTimer = 0;
-        this.numPlayers = numPlayers;
+        //blueTeamTimer = 0;
         //player one does not get to see where player two placed his pieces
         blueTeamPieces=new ArrayList<Rank>();
         blueTeamHasFlag = true;
@@ -114,10 +111,10 @@ public class StrategoGameState extends GameState {
      *
      * @param trueState the one true state of the game that would be copied.
      */
-    public StrategoGameState(StrategoGameState trueState, int playerID){
+    public StrategoGameState(StrategoGameState trueState){
 
         //copies player one's information
-        this.redTeamTimer = trueState.redTeamTimer;
+        //this.redTeamTimer = trueState.redTeamTimer;
 
         //copies player one's pieces
         redTeamPieces= new ArrayList<Rank>();
@@ -129,7 +126,7 @@ public class StrategoGameState extends GameState {
         this.redTeamHasFlag = trueState.redTeamHasFlag;
 
         //copies player two's information
-        this.blueTeamTimer = trueState.blueTeamTimer;
+        //this.blueTeamTimer = trueState.blueTeamTimer;
 
         //copies player two's pieces
         blueTeamPieces= new ArrayList<Rank>();
@@ -239,19 +236,24 @@ public class StrategoGameState extends GameState {
     }
 
     public void setLastTappedPieceButton(Rank lastTappedPieceButton) {
-        // TODO: might want to incorporate playerID and GameInfo action
         this.lastTappedPieceButton = lastTappedPieceButton;
     }
 
     /**--------------------------------SETUP_PHASE METHODS----------------------------------------*/
 
-    //TODO FIX CONDITIONALS
+    /**
+     * method that acts as a hub of all the human players setup methods
+     *
+     * @param row the row of the previous tap
+     * @param col the col of the previous tap
+     * @return true when the tap has been handled
+     */
     public boolean tapOnSquareSETUP(int row, int col) {
-
+        Log.i("setupmsg", "setup method entered");
         if(board[row][col].getContainedPiece() == null && didLastBlockContainPiece == false
                 && lastTappedRow != row && lastTappedCol != col) {
             board[row][col].setHighLighted(true);
-            //Log.i("msg", "normalTap");
+            Log.i("setupmsg", "normalTap");
             lastTappedRow = row;
             lastTappedCol = col;
             didLastBlockContainPiece=false;
@@ -259,21 +261,21 @@ public class StrategoGameState extends GameState {
         else if(row == lastTappedRow && col == lastTappedCol && didLastBlockContainPiece==true) {
             removePieceFromGame(row, col);
             board[row][col].setHighLighted(false);
-            Log.i("msg", "remove");
+            Log.i("setupmsg", "remove");
             lastTappedRow = -1;
             lastTappedCol = -1;
             didLastBlockContainPiece=false;
         } else if(didLastBlockContainPiece){
             movePieceDuringSetup(lastTappedRow, lastTappedCol, row, col);
             board[row][col].setHighLighted(false);
-            Log.i("msg", "move/swap");
+            Log.i("setupmsg", "move/swap");
             lastTappedRow = -1;
             lastTappedCol = -1;
             didLastBlockContainPiece=false;
         } else {
             addPieceToGame(new Piece(currentTeamsTurn, this.getLastTappedPieceButton()), row, col);
             board[row][col].setHighLighted(false);
-//            Log.i("msg", "add");
+            Log.i("setupmsg", "add");
             lastTappedRow = -1;
             lastTappedCol = -1;
         }
@@ -291,6 +293,10 @@ public class StrategoGameState extends GameState {
      *         false if the piece cannot be placed at the desired location
      */
     public boolean addPieceToGame(Piece placedPiece, int row, int col) {
+        if(placedPiece.getPieceRank() == null) {
+            Log.i("setupmsg", "no selected piece");
+            return false;
+        }
         //makes sure x is a legal value
         if(col < COLMININDEX || col > COLMAXINDEX ) {
             return false;
@@ -931,7 +937,7 @@ public class StrategoGameState extends GameState {
         String toReturn = "\nStratego Game State:\n";
 
         //prints all Red Team's information
-        toReturn += "[Red Team's Timer: " + redTeamTimer + "]\n";
+        //toReturn += "[Red Team's Timer: " + redTeamTimer + "]\n";
         toReturn += "Red Team's Pieces:\n";
         for(Rank r: redTeamPieces) {
             toReturn += r.toString() + "\n";
@@ -939,7 +945,7 @@ public class StrategoGameState extends GameState {
         toReturn += "Red Team has Flag?: " + redTeamHasFlag + "\n";
 
         //prints all Blue Team's information
-        toReturn += "[Blue Team's Timer: " + blueTeamTimer + "]\n";
+        //toReturn += "[Blue Team's Timer: " + blueTeamTimer + "]\n";
         toReturn += "Blue Team's Pieces:\n";
         for(Rank r: blueTeamPieces) {
             toReturn += r.toString() + "\n";
