@@ -250,6 +250,9 @@ public class StrategoGameState extends GameState {
      */
     public boolean tapOnSquareSETUP(int row, int col) {
         Log.i("setupmsg", "setup method entered");
+        Log.i("setupmsg", "LastTappedPiece: " + lastTappedPieceButton);
+        Log.i("setupmsg", "lastTappedRow: " + lastTappedRow);
+        Log.i("setupmsg", "LastTappedCol: " + lastTappedCol);
         if(board[row][col].getContainedPiece() == null && didLastBlockContainPiece == false
                 && lastTappedRow != row && lastTappedCol != col) {
             board[row][col].setHighLighted(true);

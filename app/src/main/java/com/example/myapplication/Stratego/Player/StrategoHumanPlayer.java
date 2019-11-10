@@ -328,22 +328,23 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     public boolean onTouch(View v, MotionEvent event) {
         //if empty then return true
+        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+            Log.i("setupmsg", "tapped");
+            //finds out where on the board is being tapped
+            int row = (int) (event.getY()) * 10 / v.getHeight();
+            int col = (int) (event.getX()) * 10 / v.getWidth();
+            Log.i("setupmsg", "Row: " + row);
+            Log.i("setupmsg", "Col: " + col);
+            StrategoMoveAction moveCommand = new StrategoMoveAction(this, row, col);
 
-        Log.i("msg", "tapped");
-        //finds out where on the board is being tapped
-        int row = (int)(event.getY())*10/v.getHeight();
-        int col = (int)(event.getX())*10/v.getWidth();
-        Log.i("setupmsg", "Row: " + row);
-        Log.i("setupmsg", "Col: " + col);
-        StrategoMoveAction moveCommand = new StrategoMoveAction(this, row, col);
 
-        //tell game we want to make move
-        if(this.game == null) {
-            Log.i("msg", "Game Not Working");
+            //tell game we want to make move
+            if (this.game == null) {
+                Log.i("msg", "Game Not Working");
+            } else
+                this.game.sendAction(moveCommand);
+            surfaceView.invalidate();
         }
-        else
-            this.game.sendAction(moveCommand);
-        surfaceView.invalidate();
         return true;
     }//onTouch
 
