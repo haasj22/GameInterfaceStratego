@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.example.myapplication.Game.Game;
@@ -18,15 +19,20 @@ import com.example.myapplication.R;
 import com.example.myapplication.StandardGameBoard;
 import com.example.myapplication.Stratego.GameActions.StrategoButtonPieceAction;
 import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
+import com.example.myapplication.Stratego.GameActions.StrategoHelpAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
+import com.example.myapplication.Stratego.GameActions.StrategoMuteAction;
+import com.example.myapplication.Stratego.GameActions.StrategoNotepadAction;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
-import com.example.myapplication.Stratego.RulesHelp;
+import com.example.myapplication.Stratego.GameState.Team;
 import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfaceView;
 
 /**
  * TODO: check to see if player can make valid move and if not skip turn, going to be implemented in on
  * handles GUI and all actions for humanPlayer
+ *
+ * NOTE: I think receiveInfo, setAsGui, and  is done a
 **/
 
 public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClickListener, View.OnTouchListener{
@@ -61,12 +67,12 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
 
 
-    //buttons for other actions
-    private RulesHelp rulesHelpButton;
-    private Button menuButton;
+    //buttons and or image buttons for other actions
     private Button notepadButton;
     private Button startButton;
     private Button forfeitButton;
+    private ImageButton helpButton;
+    private ImageButton muteButton;
 
 
 
@@ -116,6 +122,21 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         return myActivity;
     }
 
+    /**
+     * setUpdatedState method
+     * @param state
+     */
+    public void setUpdatedState(StrategoGameState state) {
+        this.state = state;
+    }
+
+    /**
+     * setGame method
+     * @param local
+     */
+    public void setGame(Game local) {
+        ourGame = local;
+    }
 
 
     /**
@@ -124,19 +145,35 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     @Override
     public void receiveInfo(GameInfo info) {
-        if (info == null) return;
+
+        //ignore the message if not StrategoGameState message
+        if(!(info instanceof StrategoGameState)) {
+            return;
+        }
+            else if(surfaceView == null){
+                return;
+        }
 
         if (info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo) {
             // if the move was out of turn or otherwise illegal, flash the screen
             surfaceView.flash(Color.RED, 50);
         }
-        if (info instanceof StrategoGameState) {
-            if (surfaceView == null)
-                return;
-           surfaceView.setState((StrategoGameState)info);
-           surfaceView.invalidate();
+
+        //update state and update gui
+        this.state = (StrategoGameState) info;
+
+        //to make sure that the state isn't null
+        setUpdatedState(this.state);
+        setGame(this.game);
+
+
+         updateGui();
+         surfaceView.setState((StrategoGameState)info);
+         surfaceView.invalidate();
+
+
         }
-    }
+
 
 
 
@@ -158,6 +195,18 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         // sets board according to players' layout
     }
 
+    protected void updateGui(){
+
+        //updates the whosTurn textView with who's turn it currently is
+        if(state.getCurrentTeamsTurn() == Team.BLUE_TEAM){
+            this.whosTurn.setText("It's Team BLUE's turn!");
+        }
+        else{
+            this.whosTurn.setText("It's Team RED's turn!");
+        }
+
+
+    }
     /**
      *
      * @param v
@@ -210,8 +259,22 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 StrategoForfeitAction forfeitAction = new StrategoForfeitAction(ourPlayer);
                 ourGame.sendAction(forfeitAction);
                 break;
-            default:
+            case R.id.muteButton:
+                StrategoMuteAction muteAction = new StrategoMuteAction(ourPlayer);
+                ourGame.sendAction(muteAction);
                 break;
+            case R.id.infoButton:
+                StrategoHelpAction helpAction = new StrategoHelpAction(ourPlayer);
+                ourGame.sendAction(helpAction);
+                break;
+            case R.id.notepadButton:
+                StrategoNotepadAction notepadAction = new StrategoNotepadAction(ourPlayer);
+                ourGame.sendAction(notepadAction);
+                break;
+                default:
+                    break;
+
+
         }
 
         //if player is in set up phase then show pieces while setting up
@@ -277,6 +340,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         myActivity = activity;
 
         //loads the layout for stratego GUI
+
         activity.setContentView(R.layout.stratego_board);
 
 
@@ -289,39 +353,50 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
 
         surfaceView = activity.findViewById(R.id.boardImageView);
-        //surfaceView.setOnClickListener(this);
+        surfaceView.setOnTouchListener(this);
 
         if(state != null){
             receiveInfo(state);
         }
 
-        whosTurn = activity.findViewById(R.id.turnText);
 
-        marshallButton = activity.findViewById(R.id.marshallButton);
+
+        whosTurn = (TextView)activity.findViewById(R.id.turnText);
+
+        marshallButton = (Button)activity.findViewById(R.id.marshallButton);
         marshallButton.setOnClickListener(this);
-        generalButton = activity.findViewById(R.id.generalButton);
+        generalButton = (Button)activity.findViewById(R.id.generalButton);
         generalButton.setOnClickListener(this);
-        colonelButton = activity.findViewById(R.id.colonelButton);
+        colonelButton = (Button)activity.findViewById(R.id.colonelButton);
         colonelButton.setOnClickListener(this);
-        majorButton = activity.findViewById(R.id.majorButton);
+        majorButton = (Button)activity.findViewById(R.id.majorButton);
         majorButton.setOnClickListener(this);
-        captainButton = activity.findViewById(R.id.captainButton);
+        captainButton = (Button)activity.findViewById(R.id.captainButton);
         captainButton.setOnClickListener(this);
-        lieutenantButton = activity.findViewById(R.id.lieutenantButton);
+        lieutenantButton = (Button)activity.findViewById(R.id.lieutenantButton);
         lieutenantButton.setOnClickListener(this);
-        sergeantButton = activity.findViewById(R.id.sergeantButton);
+        sergeantButton = (Button)activity.findViewById(R.id.sergeantButton);
         sergeantButton.setOnClickListener(this);
-        minerButton = activity.findViewById(R.id.minerButton);
+        minerButton = (Button)activity.findViewById(R.id.minerButton);
         minerButton.setOnClickListener(this);
-        scoutButton = activity.findViewById(R.id.scoutButton);
+        scoutButton = (Button)activity.findViewById(R.id.scoutButton);
         scoutButton.setOnClickListener(this);
-        spyButton = activity.findViewById(R.id.spyButton);
+        spyButton = (Button)activity.findViewById(R.id.spyButton);
         spyButton.setOnClickListener(this);
-        bombButton = activity.findViewById(R.id.bombButton);
+        bombButton = (Button)activity.findViewById(R.id.bombButton);
         bombButton.setOnClickListener(this);
-        flagButton = activity.findViewById(R.id.flagButton);
+        flagButton = (Button)activity.findViewById(R.id.flagButton);
         flagButton.setOnClickListener(this);
 
+        //action buttons on GUI
+        helpButton = (ImageButton)activity.findViewById(R.id.infoButton);
+        helpButton.setOnClickListener(this);
+        muteButton = (ImageButton)activity.findViewById(R.id.muteButton);
+        muteButton.setOnClickListener(this);
+        forfeitButton = (Button)activity.findViewById(R.id.forfeitButton);
+        forfeitButton.setOnClickListener(this);
+        notepadButton = (Button)activity.findViewById(R.id.notepadButton);
+        notepadButton.setOnClickListener(this);
 
 
     }
@@ -346,6 +421,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         Log.i("msg", "Col: " + col);
         StrategoMoveAction moveCommand = new StrategoMoveAction(this, row, col);
 
+        //tell game we want to make move
         if(this.game == null) {
             Log.i("msg", "Game Not Working");
         }
@@ -353,7 +429,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             this.game.sendAction(moveCommand);
         surfaceView.invalidate();
         return true;
-    }
+    }//onTouch
 
     private void writeNotes() {
         // edits notes edit text for player's game notes
