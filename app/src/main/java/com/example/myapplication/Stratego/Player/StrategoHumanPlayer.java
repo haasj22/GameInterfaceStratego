@@ -23,6 +23,7 @@ import com.example.myapplication.Stratego.GameActions.StrategoHelpAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMuteAction;
 import com.example.myapplication.Stratego.GameActions.StrategoNotepadAction;
+import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.GameState.Team;
@@ -61,6 +62,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private Button forfeitButton;
     private ImageButton helpButton;
     private ImageButton muteButton;
+    private Button endTurnButton;
 
 
 
@@ -77,6 +79,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private Button spyButton;
     private Button bombButton;
     private Button flagButton;
+
 
 
     /**
@@ -193,6 +196,11 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             case R.id.notepadButton:
                 StrategoNotepadAction notepadAction = new StrategoNotepadAction(this);
                 this.game.sendAction(notepadAction);
+                break;
+            case R.id.endTurnButton:
+                StrategoTransitionAction transitionAction =
+                        new StrategoTransitionAction(this);
+                this.game.sendAction(transitionAction);
                 break;
                 default:
                     break;
@@ -315,6 +323,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         forfeitButton.setOnClickListener(this);
         notepadButton = (Button)activity.findViewById(R.id.notepadButton);
         notepadButton.setOnClickListener(this);
+        endTurnButton = (Button)activity.findViewById(R.id.endTurnButton);
+        endTurnButton.setOnClickListener(this);
 
 
     }
