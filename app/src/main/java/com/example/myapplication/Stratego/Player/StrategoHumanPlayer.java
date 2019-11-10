@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.myapplication.Game.Game;
 import com.example.myapplication.Game.GameMainActivity;
 import com.example.myapplication.Game.GameHumanPlayer;
 import com.example.myapplication.Game.infoMsg.GameInfo;
@@ -16,6 +17,7 @@ import com.example.myapplication.Game.infoMsg.NotYourTurnInfo;
 import com.example.myapplication.R;
 import com.example.myapplication.StandardGameBoard;
 import com.example.myapplication.Stratego.GameActions.StrategoButtonPieceAction;
+import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
@@ -45,6 +47,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     //surface view
     private StrategoSurfaceView surfaceView;
 
+    private GameHumanPlayer ourPlayer = null;
+    private Game ourGame;
     private int gameBoardLayout;
 
 
@@ -198,9 +202,16 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             case"FLAG":
                 this.game.sendAction(new StrategoButtonPieceAction(this, Rank.FLAG));
                 break;
+        }
 
-
-
+        //action type - send action
+        switch (v.getId()){
+            case R.id.forfeitButton:
+                StrategoForfeitAction forfeitAction = new StrategoForfeitAction(ourPlayer);
+                ourGame.sendAction(forfeitAction);
+                break;
+            default:
+                break;
         }
 
         //if player is in set up phase then show pieces while setting up
@@ -254,29 +265,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     /**
      *
      */
-    private void writeNotes() {
-        // edits notes edit text for player's game notes
-    }
 
-    public void locateUnites() {
-        // locates units of pieces
-    }
-
-    public void movePiece() {
-        // moves game pieces
-    }
-
-    public void attackPiece() {
-        // attacks chosen adjacent enemy piece
-    }
-
-    public void captureFlag() {
-        // attempts to capture suspected enemy flag
-    }
-
-    public void hitBomb() {
-        // hits bomb upon discovery
-    }
 
     /**
      * setAsGui sets the current player as the activity's GUI
@@ -338,15 +327,25 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
 
-
-
+    /**
+     * onTouch method
+     * @param v
+     * @param event
+     * @return
+     */
     public boolean onTouch(View v, MotionEvent event) {
+        //if empty then return true
+        if(state == null || ourGame == null){
+            return true;
+        }
         Log.i("msg", "tapped");
+        //finds out where on the board is being tapped
         int row = (int)(event.getX())*10/v.getWidth();
         int col = (int)(event.getY())*10/v.getHeight();
         Log.i("msg", "Row: " + row);
         Log.i("msg", "Col: " + col);
         StrategoMoveAction moveCommand = new StrategoMoveAction(this, row, col);
+
         if(this.game == null) {
             Log.i("msg", "Game Not Working");
         }
@@ -354,6 +353,30 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             this.game.sendAction(moveCommand);
         surfaceView.invalidate();
         return true;
+    }
+
+    private void writeNotes() {
+        // edits notes edit text for player's game notes
+    }
+
+    public void locateUnites() {
+        // locates units of pieces
+    }
+
+    public void movePiece() {
+        // moves game pieces
+    }
+
+    public void attackPiece() {
+        // attacks chosen adjacent enemy piece
+    }
+
+    public void captureFlag() {
+        // attempts to capture suspected enemy flag
+    }
+
+    public void hitBomb() {
+        // hits bomb upon discovery
     }
 
 }
