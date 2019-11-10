@@ -104,8 +104,6 @@ public class StrategoSurfaceView extends FlashSurfaceView {
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-        width=w;
-        height=h;
 
         scaledBaseBoard=Bitmap.createScaledBitmap(baseBoard, w, h, false);
         scaledBaseBluePiece=
@@ -172,9 +170,14 @@ public class StrategoSurfaceView extends FlashSurfaceView {
             Log.i("msg","trying to draw but have no state");
             return;
         }
-        g.drawBitmap(baseBoard, 0, 0, null);
+        Log.i("msg", "drawing board now");
+        scaledBaseBoard=Bitmap.createScaledBitmap(baseBoard, g.getWidth(), g.getHeight(), false);
+        g.drawBitmap(scaledBaseBoard, 0, 0, null);
         for(int row=0; row<state.getROWMAX(); row++) {
             for(int col=0; col<state.getCOLMAX(); col++) {
+                Log.i("msg", "Row: " + row);
+                Log.i("msg", "Col: " + col);
+                Log.i("msg", "" + state.getBoard()[row][col].containsPiece());
                 if(state.getBoard()[row][col].getContainedPiece() == null) {
                     continue;
                 }
@@ -187,113 +190,113 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                         if(piece.getIsVisible()) {
                             switch(piece.getPieceRank()) {
                                 case ONE:
-                                    g.drawBitmap(baseRedPiece1, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
+                                    g.drawBitmap(scaledBaseRedPiece1, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                            g.getHeight() * row/10, null);
                                     break;
                                 case TWO:
-                                    g.drawBitmap(baseRedPiece2, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
+                                    g.drawBitmap(scaledBaseRedPiece2, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                            g.getHeight() * row/10, null);
                                     break;
                                 case THREE:
-                                    g.drawBitmap(baseRedPiece3, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
+                                    g.drawBitmap(scaledBaseRedPiece3, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                            g.getHeight() * row/10, null);
                                     break;
                                 case FOUR:
-                                    g.drawBitmap(baseRedPiece4, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
+                                    g.drawBitmap(scaledBaseRedPiece4, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                            g.getHeight() * row/10, null);
                                     break;
                                 case FIVE:
-                                    g.drawBitmap(baseRedPiece5, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
+                                    g.drawBitmap(scaledBaseRedPiece5, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                            g.getHeight() * row/10, null);
                                     break;
                                 case SIX:
-                                    g.drawBitmap(baseRedPiece6, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
+                                    g.drawBitmap(scaledBaseRedPiece6, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                            g.getHeight() * row/10, null);
                                     break;
                                 case SEVEN:
-                                    g.drawBitmap(baseRedPiece7, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
+                                    g.drawBitmap(scaledBaseRedPiece7, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                            g.getHeight() * row/10, null);
                                     break;
                                 case EIGHT:
-                                    g.drawBitmap(baseRedPiece8, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
+                                    g.drawBitmap(scaledBaseRedPiece8, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                            g.getHeight() * row/10, null);
                                     break;
                                 case NINE:
-                                    g.drawBitmap(baseRedPiece9, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
+                                    g.drawBitmap(scaledBaseRedPiece9, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                            g.getHeight() * row/10, null);
                                     break;
                                 case BOMB:
-                                    g.drawBitmap(baseRedPieceBomb, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
+                                    g.drawBitmap(scaledBaseRedPieceBomb, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                            g.getHeight() * row/10, null);
                                     break;
                                 case SPY:
-                                    g.drawBitmap(baseRedPieceSpy, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
+                                    g.drawBitmap(scaledBaseRedPieceSpy, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                            g.getHeight() * row/10, null);
                                     break;
                                 case FLAG:
-                                    g.drawBitmap(baseRedPieceFlag, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                            g.getHeight() * col/10, null);
+                                    g.drawBitmap(scaledBaseRedPieceFlag, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                            g.getHeight() * row/10, null);
                                     break;
                             }
                         } else {
-                            g.drawBitmap(baseRedPiece, g.getWidth()*2/100 + g.getWidth() * row/10,
-                                    g.getHeight() * col/10, null);
+                            g.drawBitmap(scaledBaseRedPiece, g.getWidth()*2/100 + g.getWidth() * col/10,
+                                    g.getHeight() * row/10, null);
                         }
                         break;
                     case BLUE_TEAM:
                         if(piece.getIsVisible()) {
                             switch(piece.getPieceRank()) {
                                 case ONE:
-                                    g.drawBitmap(baseBluePiece1, g.getWidth()*2/100 + g.getWidth() * row/10,
+                                    g.drawBitmap(scaledBaseBluePiece1, g.getWidth()*2/100 + g.getWidth() * row/10,
                                             g.getHeight() * col/10, null);
                                     break;
                                 case TWO:
-                                    g.drawBitmap(baseBluePiece2, g.getWidth()*2/100 + g.getWidth() * row/10,
+                                    g.drawBitmap(scaledBaseBluePiece2, g.getWidth()*2/100 + g.getWidth() * row/10,
                                             g.getHeight() * col/10, null);
                                     break;
                                 case THREE:
-                                    g.drawBitmap(baseBluePiece3, g.getWidth()*2/100 + g.getWidth() * row/10,
+                                    g.drawBitmap(scaledBaseBluePiece3, g.getWidth()*2/100 + g.getWidth() * row/10,
                                             g.getHeight() * col/10, null);
                                     break;
                                 case FOUR:
-                                    g.drawBitmap(baseBluePiece4, g.getWidth()*2/100 + g.getWidth() * row/10,
+                                    g.drawBitmap(scaledBaseBluePiece4, g.getWidth()*2/100 + g.getWidth() * row/10,
                                             g.getHeight() * col/10, null);
                                     break;
                                 case FIVE:
-                                    g.drawBitmap(baseBluePiece5, g.getWidth()*2/100 + g.getWidth() * row/10,
+                                    g.drawBitmap(scaledBaseBluePiece5, g.getWidth()*2/100 + g.getWidth() * row/10,
                                             g.getHeight() * col/10, null);
                                     break;
                                 case SIX:
-                                    g.drawBitmap(baseBluePiece6, g.getWidth()*2/100 + g.getWidth() * row/10,
+                                    g.drawBitmap(scaledBaseBluePiece6, g.getWidth()*2/100 + g.getWidth() * row/10,
                                             g.getHeight() * col/10, null);
                                     break;
                                 case SEVEN:
-                                    g.drawBitmap(baseBluePiece7, g.getWidth()*2/100 + g.getWidth() * row/10,
+                                    g.drawBitmap(scaledBaseBluePiece7, g.getWidth()*2/100 + g.getWidth() * row/10,
                                             g.getHeight() * col/10, null);
                                     break;
                                 case EIGHT:
-                                    g.drawBitmap(baseBluePiece8, g.getWidth()*2/100 + g.getWidth() * row/10,
+                                    g.drawBitmap(scaledBaseBluePiece8, g.getWidth()*2/100 + g.getWidth() * row/10,
                                             g.getHeight() * col/10, null);
                                     break;
                                 case NINE:
-                                    g.drawBitmap(baseBluePiece9, g.getWidth()*2/100 + g.getWidth() * row/10,
+                                    g.drawBitmap(scaledBaseBluePiece9, g.getWidth()*2/100 + g.getWidth() * row/10,
                                             g.getHeight() * col/10, null);
                                     break;
                                 case BOMB:
-                                    g.drawBitmap(baseBluePieceBomb, g.getWidth()*2/100 + g.getWidth() * row/10,
+                                    g.drawBitmap(scaledBaseBluePieceBomb, g.getWidth()*2/100 + g.getWidth() * row/10,
                                             g.getHeight() * col/10, null);
                                     break;
                                 case SPY:
-                                    g.drawBitmap(baseBluePieceSpy, g.getWidth()*2/100 + g.getWidth() * row/10,
+                                    g.drawBitmap(scaledBaseBluePieceSpy, g.getWidth()*2/100 + g.getWidth() * row/10,
                                             g.getHeight() * col/10, null);
                                     break;
                                 case FLAG:
-                                    g.drawBitmap(baseBluePieceFlag, g.getWidth()*2/100 + g.getWidth() * row/10,
+                                    g.drawBitmap(scaledBaseBluePieceFlag, g.getWidth()*2/100 + g.getWidth() * row/10,
                                             g.getHeight() * col/10, null);
                                     break;
                             }
                         } else {
-                            g.drawBitmap(baseBluePiece, g.getWidth()*2/100 + g.getWidth() * row/10,
+                            g.drawBitmap(scaledBaseBluePiece, g.getWidth()*2/100 + g.getWidth() * row/10,
                                     g.getHeight() * col/10, null);
                         }
                         break;
