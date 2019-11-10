@@ -11,6 +11,7 @@ package com.example.myapplication.Stratego.GameState;
 
 import android.util.Log;
 
+import com.example.myapplication.Game.infoMsg.GameInfo;
 import com.example.myapplication.Game.infoMsg.GameState;
 
 import java.util.ArrayList;
@@ -58,11 +59,13 @@ public class StrategoGameState extends GameState {
     private boolean didLastBlockContainPiece;
 
     private Rank lastTappedPieceButton;
+    // the number of players in the game
+    private int numPlayers;
 
     /**
      * Constructor for objects of class StrategoGameState
      */
-    public StrategoGameState(){
+    public StrategoGameState(int numPlayers){
         //player one sets up first
         redTeamTimer = 3000;
 
@@ -72,7 +75,7 @@ public class StrategoGameState extends GameState {
 
         //player one does not get access to any of player two's information
         blueTeamTimer = 0;
-
+        this.numPlayers = numPlayers;
         //player one does not get to see where player two placed his pieces
         blueTeamPieces=new ArrayList<Rank>();
         blueTeamHasFlag = true;
@@ -111,7 +114,7 @@ public class StrategoGameState extends GameState {
      *
      * @param trueState the one true state of the game that would be copied.
      */
-    public StrategoGameState(StrategoGameState trueState){
+    public StrategoGameState(StrategoGameState trueState, int playerID){
 
         //copies player one's information
         this.redTeamTimer = trueState.redTeamTimer;
@@ -140,6 +143,8 @@ public class StrategoGameState extends GameState {
         //copies the phase of the game
         this.currentPhase = trueState.currentPhase;
 
+        // copies the number of players
+        //numPlayers = toCopy.numPlayers;
         //finds who's turn it is
         this.currentTeamsTurn = trueState.currentTeamsTurn;
 
@@ -234,6 +239,7 @@ public class StrategoGameState extends GameState {
     }
 
     public void setLastTappedPieceButton(Rank lastTappedPieceButton) {
+        // TODO: might want to incorporate playerID and GameInfo action
         this.lastTappedPieceButton = lastTappedPieceButton;
     }
 
