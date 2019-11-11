@@ -119,6 +119,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         if(info instanceof StrategoGameState) {
             if (surfaceView == null) return;
             surfaceView.setState((StrategoGameState) info);
+            Log.i("setupmsg", "surface view invalidated");
             surfaceView.invalidate();
         }
     }

@@ -27,7 +27,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
     protected StrategoGameState state;
     //private Game game;
 
-    Paint hightlightPaint;
+    Paint highlightPaint;
 
     //bitmaps
     Bitmap baseBoard = BitmapFactory.decodeResource(getResources() , R.drawable.base_board);
@@ -104,7 +104,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
 
 
     public void init() {
-        hightlightPaint = new Paint(Color.YELLOW);
+        highlightPaint = new Paint(Color.YELLOW);
     }
 
     public void setState(StrategoGameState sgt) {this.state = sgt;}
@@ -180,17 +180,21 @@ public class StrategoSurfaceView extends FlashSurfaceView {
         g.drawBitmap(scaledBaseBoard, 0, 0, null);
         for(int row=0; row<state.getROWMAX(); row++) {
             for(int col=0; col<state.getCOLMAX(); col++) {
-                Log.i("msg", "Row: " + row);
-                Log.i("msg", "Col: " + col);
-                Log.i("msg", "" + state.getBoard()[row][col].containsPiece());
-                    if(state.getBoard()[row][col].getContainedPiece() == null) {
-                        continue;
-                    }
+                Log.i("msg", "Contains Piece:" + state.getBoard()[row][col].containsPiece());
+
+                Log.i("setupmsg", "Row: " + row);
+                Log.i("setupmsg", "Col: " + col);
+                Log.i("setupmsg", "IsThisPieceHighlighted: " + state.getBoard()[row][col].isHighLighted());
+                if(state.getBoard()[row][col].isHighLighted()) {
+                    g.drawRect((width*col)/10, (height*row)/10,
+                            (width * (col + 1))/10, (height*(row+1))/10, highlightPaint);
+                }
+
+                if(state.getBoard()[row][col].getContainedPiece() == null) {
+                    continue;
+                }
+
                 Piece piece = state.getBoard()[row][col].getContainedPiece();
-                    if(state.getBoard()[row][col].isHighLighted()) {
-                        g.drawRect((height*col)/10, (height*row)/10,
-                                (height * row + 1)/10, (height*col)/10, hightlightPaint);
-                    }
 
                 drawPiece(g, state.getCurrentTeamsTurn(), piece, row, col);
                 }

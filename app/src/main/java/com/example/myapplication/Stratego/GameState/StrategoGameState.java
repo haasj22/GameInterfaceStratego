@@ -270,7 +270,7 @@ public class StrategoGameState extends GameState {
             didLastBlockContainPiece=false;
         } else if(didLastBlockContainPiece){
             movePieceDuringSetup(lastTappedRow, lastTappedCol, row, col);
-            board[row][col].setHighLighted(false);
+            board[lastTappedRow][lastTappedCol].setHighLighted(false);
             Log.i("setupmsg", "move/swap");
             lastTappedRow = -1;
             lastTappedCol = -1;
