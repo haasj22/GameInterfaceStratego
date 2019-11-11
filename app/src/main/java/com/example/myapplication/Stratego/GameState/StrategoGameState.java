@@ -282,6 +282,9 @@ public class StrategoGameState extends GameState {
             lastTappedCol=col;
             didLastBlockContainPiece=true;
         } else {
+            if(lastTappedRow != -1 && lastTappedCol != -1) {
+                board[lastTappedRow][lastTappedCol].setHighLighted(false);
+            }
             Log.i("setupmsg", "normalTap");
             board[row][col].setHighLighted(true);
             lastTappedRow = row;
@@ -460,6 +463,7 @@ public class StrategoGameState extends GameState {
         if(currentPhase != Phase.SETUP_PHASE) {
             return false;
         }
+        removeHighlightedBlocks();
         //fills the current players side of the board if not full
         if(!isBoardFull(currentTeamsTurn)) {
             randomizeRemainingPieces();
