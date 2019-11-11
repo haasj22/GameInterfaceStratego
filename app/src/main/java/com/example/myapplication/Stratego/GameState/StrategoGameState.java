@@ -275,9 +275,15 @@ public class StrategoGameState extends GameState {
             lastTappedRow = -1;
             lastTappedCol = -1;
             didLastBlockContainPiece=false;
-        } else {
+        } else if(board[row][col].containsPiece()) {
+            Log.i("setupmsg", "initializeRemove");
             board[row][col].setHighLighted(true);
+            lastTappedRow=row;
+            lastTappedCol=col;
+            didLastBlockContainPiece=true;
+        } else {
             Log.i("setupmsg", "normalTap");
+            board[row][col].setHighLighted(true);
             lastTappedRow = row;
             lastTappedCol = col;
             didLastBlockContainPiece=false;
