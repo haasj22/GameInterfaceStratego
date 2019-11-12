@@ -819,6 +819,9 @@ public class StrategoGameState extends GameState {
                 break;
             }
             board[row][colToCheck].setHighLighted(true);
+            if(board[row][colToCheck].doesEnemyOccupyThis(currentTeamsTurn.getTEAMNUMBER())) {
+                break;
+            }
         }
         return true;
     }
