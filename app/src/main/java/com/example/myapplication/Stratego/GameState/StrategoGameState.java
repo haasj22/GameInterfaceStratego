@@ -419,11 +419,12 @@ public class StrategoGameState extends GameState {
                         currentTeamsTurn.getTOPBOUNDARYINDEX());
 
                 //places piece if possible or adds another iteration to the loop
-                    boolean isPiecePlace = addPieceToGame(new Piece(currentTeamsTurn, r),
-                            randomRowValue, randomColValue);
-                    if(isPiecePlace == false) {
-                        x--;
-                    }
+
+                boolean isPiecePlace = addPieceToGame(new Piece(currentTeamsTurn, r),
+                        randomRowValue, randomColValue);
+                if(isPiecePlace == false) {
+                    x--;
+                }
 
             }
         }

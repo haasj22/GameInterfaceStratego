@@ -206,17 +206,19 @@ public class StrategoSurfaceView extends FlashSurfaceView {
         Log.i("drawmsg", "Team: " + drawThisPiece.getPieceTeam());
         Log.i("drawmsg", "Row: " + row);
         Log.i("drawmsg", "Col: " + col);
+        Log.i("drawmsg", "Piece Drawn" + state.getBoard()[row][col].getContainedPiece().getPieceRank());
+        Log.i("drawmsg", "Piece:" + state.getBoard()[row][col].containsPiece());
 
         switch(drawThisPiece.getPieceTeam()) {
 
             case RED_TEAM:
 
                 //TODO: remove this clause for dubugging
-                if(currentTeam != Team.RED_TEAM && drawThisPiece.getIsVisible() == false) {
+                /*if(currentTeam != Team.RED_TEAM && drawThisPiece.getIsVisible() == false) {
                     canvas.drawBitmap(scaledBaseRedPiece, canvas.getWidth() * 2 / 100 +
                             canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                     break;
-                }
+                }*/
 
                 switch(drawThisPiece.getPieceRank()) {
                     case ONE:
@@ -273,61 +275,61 @@ public class StrategoSurfaceView extends FlashSurfaceView {
             case BLUE_TEAM:
 
                 //TODO: remove this clause for debugging
-                if(currentTeam != Team.BLUE_TEAM && drawThisPiece.getIsVisible() == false) {
+                /*if(currentTeam != Team.BLUE_TEAM && drawThisPiece.getIsVisible() == false) {
                     Log.i("drawmsg", "got here somehow");
                     canvas.drawBitmap(scaledBaseBluePiece, canvas.getWidth() * 2 / 100 +
                             canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                     break;
-                }
+                }*/
 
                 switch (drawThisPiece.getPieceRank()) {
                     case ONE:
                         canvas.drawBitmap(scaledBaseBluePiece1, canvas.getWidth() * 2 / 100 +
-                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     case TWO:
                         canvas.drawBitmap(scaledBaseBluePiece2, canvas.getWidth() * 2 / 100 +
-                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     case THREE:
                         canvas.drawBitmap(scaledBaseBluePiece3, canvas.getWidth() * 2 / 100 +
-                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     case FOUR:
                         canvas.drawBitmap(scaledBaseBluePiece4, canvas.getWidth() * 2 / 100 +
-                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     case FIVE:
                         canvas.drawBitmap(scaledBaseBluePiece5, canvas.getWidth() * 2 / 100 +
-                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     case SIX:
                         canvas.drawBitmap(scaledBaseBluePiece6, canvas.getWidth() * 2 / 100 +
-                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     case SEVEN:
                         canvas.drawBitmap(scaledBaseBluePiece7, canvas.getWidth() * 2 / 100 +
-                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     case EIGHT:
                         canvas.drawBitmap(scaledBaseBluePiece8, canvas.getWidth() * 2 / 100 +
-                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     case NINE:
                         canvas.drawBitmap(scaledBaseBluePiece9, canvas.getWidth() * 2 / 100 +
-                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     case BOMB:
                         canvas.drawBitmap(scaledBaseBluePieceBomb, canvas.getWidth() * 2 / 100 +
-                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     case SPY:
                         canvas.drawBitmap(scaledBaseBluePieceSpy, canvas.getWidth() * 2 / 100 +
-                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     case FLAG:
                         canvas.drawBitmap(scaledBaseBluePieceFlag, canvas.getWidth() * 2 / 100 +
-                                canvas.getWidth() * row / 10, canvas.getHeight() * col / 10, null);
+                                canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     }
                 break;
