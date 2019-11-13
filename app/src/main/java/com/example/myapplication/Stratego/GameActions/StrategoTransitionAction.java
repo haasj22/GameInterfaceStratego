@@ -1,3 +1,8 @@
+/**
+ * action that tells the game to transition phases
+ *
+ * @author John Haas
+ */
 package com.example.myapplication.Stratego.GameActions;
 
 import com.example.myapplication.Game.GamePlayer;

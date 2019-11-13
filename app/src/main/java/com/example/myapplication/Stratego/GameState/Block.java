@@ -44,11 +44,13 @@ public class Block {
      * @param trueBlock the block that  contains the true data
      */
     public Block(Block trueBlock) {
+        //if block is empty creates empty block
         if(trueBlock == null) {
             this.blockType=null;
             this.containedPiece = null;
             this.isHighLighted = false;
         }
+        //else copies everything over
         this.blockType=trueBlock.blockType;
         if(trueBlock.containedPiece != null) {
             this.containedPiece = new Piece(trueBlock.containedPiece);
@@ -109,17 +111,38 @@ public class Block {
         return true;
     }
 
+    /**
+     * returns whether the given player could move to this block
+     *
+     * @param playNum the player that wants to move to this block
+     * @return true if the player could move here
+     *         false if the player can not
+     */
     public boolean canOneMoveHere(int playNum) {
         return (this.getContainedPiece() == null && this.getBlockType() != Tile.WATER)
                 || this.getContainedPiece().getPieceTeam().getTEAMNUMBER() != playNum;
     }
 
+    /**
+     * returns whether the given player could move the piece contained in this block
+     *
+     * @param playNum the player that wants to move the piece
+     * @return true if the player can move the piece
+     *         false if the piece does not exist or is not of the desired team
+     */
     public boolean canOneMoveThis(int playNum) {
         return this.getContainedPiece() != null
                 && this.getContainedPiece().getPieceTeam().getTEAMNUMBER() == playNum
                 && this.getContainedPiece().getPieceRank().isPieceMovable();
     }
 
+    /**
+     * returns whether if the block is occupied by an enemy piece
+     *
+     * @param playNum the player that is not the enemy
+     * @return true if a player other than the current player owns the piece
+     *         false if the block contains no piece or if the piece is not the enemies
+     */
     public boolean doesEnemyOccupyThis(int playNum) {
         return this.getContainedPiece() != null
                 && this.getContainedPiece().getPieceTeam().getTEAMNUMBER() != playNum;

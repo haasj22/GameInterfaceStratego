@@ -1,3 +1,8 @@
+/**
+ * action that allows the user to mute the tablet
+ *
+ * @author Kavya Mandla
+ */
 package com.example.myapplication.Stratego.GameActions;
 
 import com.example.myapplication.Game.GamePlayer;

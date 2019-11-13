@@ -1,3 +1,8 @@
+/**
+ * action that allows the user to read the rules
+ *
+ * @author Kavya Mandla
+ */
 package com.example.myapplication.Stratego.GameActions;
 
 import com.example.myapplication.Game.GamePlayer;
