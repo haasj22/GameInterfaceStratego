@@ -9,7 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Stratego.StrategoFrameworkClasses.StrategoMainActivity">
+        <!--
+            External Citation
+            Date: November 12, 2019
+            Problem: Did not know how to lock the screen in landscape
+            Resource: https://stackoverflow.com/questions/15718869/how-to-lock-android-apps-orientation-to-portrait-mode
+            Solution: Implemented the solution in manifest file
+-->
+        <activity
+            android:name=".Stratego.StrategoFrameworkClasses.StrategoMainActivity"
+            android:screenOrientation="sensorLandscape"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
