@@ -320,7 +320,7 @@ public class StrategoGameState extends GameState {
         }
 
         //makes sure there are not too many of the desired piece on the board
-        int numOfDesiredPieceOnBoard = calculateRedsNumberOfPieces(placedPiece.getPieceRank());
+        int numOfDesiredPieceOnBoard = calculateNumberOfPieces(placedPiece.getPieceRank());
         Log.i("placemsg", "" + numOfDesiredPieceOnBoard);
         Log.i("placemsg", "" + placedPiece.getPieceRank().getMaxAmountOfPieces());
 
@@ -349,7 +349,7 @@ public class StrategoGameState extends GameState {
         return true;
     }
 
-    public int calculateRedsNumberOfPieces(Rank pieceRank) {
+    public int calculateNumberOfPieces(Rank pieceRank) {
         int numOfDesiredPieceOnBoard=0;
         if(currentTeamsTurn == Team.RED_TEAM) {
             for (Rank r : redTeamPieces) {
@@ -367,6 +367,23 @@ public class StrategoGameState extends GameState {
         return numOfDesiredPieceOnBoard;
     }
 
+    public int calculateNumberOfEnemyPieces(Rank pieceRank) {
+        int numOfDesiredPieceOnBoard=0;
+        if(currentTeamsTurn == Team.BLUE_TEAM) {
+            for (Rank r : redTeamPieces) {
+                if (r == pieceRank) {
+                    numOfDesiredPieceOnBoard++;
+                }
+            }
+        } else {
+            for (Rank r : blueTeamPieces) {
+                if (r == pieceRank) {
+                    numOfDesiredPieceOnBoard++;
+                }
+            }
+        }
+        return numOfDesiredPieceOnBoard;
+    }
 
     /**
      * removePieceFromGame method

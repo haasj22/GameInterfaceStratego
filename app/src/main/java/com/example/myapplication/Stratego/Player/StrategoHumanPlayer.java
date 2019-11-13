@@ -45,6 +45,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     private TextView whosTurn;
     private TextView unitText;
+    private TextView lastButtonText;
 
 
     //android current activity
@@ -124,40 +125,64 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             Log.i("setupmsg", "surface view invalidated");
             if(surfaceView.getState().getCurrentPhase() == Phase.SETUP_PHASE) {
                 this.setUnitText(surfaceView.getState());
+            } else {
+                this.setEnemyLeft(surfaceView.getState());
             }
+            this.setLastTappedButtonText(surfaceView.getState());
             surfaceView.invalidate();
         }
     }
 
     public void setUnitText(StrategoGameState gsc) {
         String unitsLeftToPlace = "Pieces left to Setup\n";
-        unitsLeftToPlace += Rank.ONE.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.ONE)
+        unitsLeftToPlace += Rank.ONE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.ONE)
                 + " x Marshalls/1\n";
-        unitsLeftToPlace += Rank.TWO.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.TWO)
+        unitsLeftToPlace += Rank.TWO.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.TWO)
                 + " x Generals/2\n";
-        unitsLeftToPlace += Rank.THREE.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.THREE)
+        unitsLeftToPlace += Rank.THREE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.THREE)
                 + " x Colonels/3\n";
-        unitsLeftToPlace += Rank.FOUR.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.FOUR)
+        unitsLeftToPlace += Rank.FOUR.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.FOUR)
                 + " x Majors/4\n";
-        unitsLeftToPlace += Rank.FIVE.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.FIVE)
+        unitsLeftToPlace += Rank.FIVE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.FIVE)
                 + " x Captains/5\n";
-        unitsLeftToPlace += Rank.SIX.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.SIX)
+        unitsLeftToPlace += Rank.SIX.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.SIX)
                 + " x Lieutenants/6\n";
-        unitsLeftToPlace += Rank.SEVEN.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.SEVEN)
+        unitsLeftToPlace += Rank.SEVEN.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.SEVEN)
                 + " x Sergeants/7\n";
-        unitsLeftToPlace += Rank.EIGHT.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.EIGHT)
+        unitsLeftToPlace += Rank.EIGHT.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.EIGHT)
                 + " x Miners/8\n";
-        unitsLeftToPlace += Rank.NINE.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.NINE)
+        unitsLeftToPlace += Rank.NINE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.NINE)
                 + " x Scouts/9\n";
-        unitsLeftToPlace += Rank.SPY.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.SPY)
+        unitsLeftToPlace += Rank.SPY.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.SPY)
                 + " x Spys/S\n";
-        unitsLeftToPlace += Rank.BOMB.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.BOMB)
+        unitsLeftToPlace += Rank.BOMB.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.BOMB)
                 + " x Bombs\n";
-        unitsLeftToPlace += Rank.FLAG.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.FLAG)
+        unitsLeftToPlace += Rank.FLAG.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.FLAG)
                 + " x Flags\n";
         unitText.setText(unitsLeftToPlace);
     }
 
+    public void setEnemyLeft(StrategoGameState gsc) {
+        String unitsLeftToPlace = "Enemy Pieces Left\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.ONE) + " x Marshalls/1\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.TWO) + " x Generals/2\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.THREE) + " x Colonels/3\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.FOUR) + " x Majors/4\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.FIVE) + " x Captains/5\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.SIX) + " x Lieutenants/6\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.SEVEN) + " x Sergeants/7\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.EIGHT) + " x Miners/8\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.NINE) + " x Scouts/9\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.SPY) + " x Spys/S\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.BOMB) + " x Bombs\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.FLAG) + " x Flags\n";
+        unitText.setText(unitsLeftToPlace);
+    }
+
+    public void setLastTappedButtonText(StrategoGameState gsc) {
+        String buttonText = "Last Tapped Button: " + gsc.getLastTappedPieceButton();
+        lastButtonText.setText(buttonText);
+    }
 
     /**
      * setBoard method
@@ -322,6 +347,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         whosTurn = (TextView)activity.findViewById(R.id.turnText);
         unitText = (TextView)activity.findViewById(R.id.unitTextView);
+        lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
 
         marshallButton = (Button)activity.findViewById(R.id.marshallButton);
         marshallButton.setOnClickListener(this);
