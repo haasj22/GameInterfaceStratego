@@ -15,7 +15,7 @@ package com.example.myapplication.Stratego.GameState;
  * Resource: https://www.java67.com/2014/12/2-ways-to-print-custom-string-value-of.html
  * Solution: I used the sample code found on this site
  */
-enum Phase {
+public enum Phase {
     SETUP_PHASE {
         @Override
         public String toString() {

@@ -24,6 +24,7 @@ import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMuteAction;
 import com.example.myapplication.Stratego.GameActions.StrategoNotepadAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
+import com.example.myapplication.Stratego.GameState.Phase;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.GameState.Team;
@@ -43,6 +44,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     //GUI
 
     private TextView whosTurn;
+    private TextView unitText;
 
 
     //android current activity
@@ -120,11 +122,41 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             if (surfaceView == null) return;
             surfaceView.setState((StrategoGameState) info);
             Log.i("setupmsg", "surface view invalidated");
+            if(surfaceView.getState().getCurrentPhase() == Phase.SETUP_PHASE) {
+                this.setUnitText(surfaceView.getState());
+            }
             surfaceView.invalidate();
         }
     }
 
-
+    public void setUnitText(StrategoGameState gsc) {
+        String unitsLeftToPlace = "Pieces left to Setup\n";
+        unitsLeftToPlace += Rank.ONE.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.ONE)
+                + " x Marshalls/1\n";
+        unitsLeftToPlace += Rank.TWO.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.TWO)
+                + " x Generals/2\n";
+        unitsLeftToPlace += Rank.THREE.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.THREE)
+                + " x Colonels/3\n";
+        unitsLeftToPlace += Rank.FOUR.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.FOUR)
+                + " x Majors/4\n";
+        unitsLeftToPlace += Rank.FIVE.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.FIVE)
+                + " x Captains/5\n";
+        unitsLeftToPlace += Rank.SIX.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.SIX)
+                + " x Lieutenants/6\n";
+        unitsLeftToPlace += Rank.SEVEN.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.SEVEN)
+                + " x Sergeants/7\n";
+        unitsLeftToPlace += Rank.EIGHT.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.EIGHT)
+                + " x Miners/8\n";
+        unitsLeftToPlace += Rank.NINE.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.NINE)
+                + " x Scouts/9\n";
+        unitsLeftToPlace += Rank.SPY.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.SPY)
+                + " x Spys/S\n";
+        unitsLeftToPlace += Rank.BOMB.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.BOMB)
+                + " x Bombs\n";
+        unitsLeftToPlace += Rank.FLAG.getMaxAmountOfPieces() - gsc.calculateRedsNumberOfPieces(Rank.FLAG)
+                + " x Flags\n";
+        unitText.setText(unitsLeftToPlace);
+    }
 
 
     /**
@@ -199,6 +231,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 this.game.sendAction(notepadAction);
                 break;
             case R.id.endTurnButton:
+                endTurnButton.setVisibility(View.INVISIBLE);
                 StrategoTransitionAction transitionAction =
                         new StrategoTransitionAction(this);
                 this.game.sendAction(transitionAction);
@@ -287,8 +320,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         surfaceView = activity.findViewById(R.id.boardImageView);
         surfaceView.setOnTouchListener(this);
 
-
         whosTurn = (TextView)activity.findViewById(R.id.turnText);
+        unitText = (TextView)activity.findViewById(R.id.unitTextView);
 
         marshallButton = (Button)activity.findViewById(R.id.marshallButton);
         marshallButton.setOnClickListener(this);
