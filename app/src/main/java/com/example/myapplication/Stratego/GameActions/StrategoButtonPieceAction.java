@@ -16,6 +16,8 @@ import java.io.Serializable;
 
 public class StrategoButtonPieceAction extends GameAction implements Serializable {
 
+    //to satisfy the serializable interface
+    private static final long serialVersionUID = 37297362L;
     //rank that the user is sending
     private Rank heldRank;
 

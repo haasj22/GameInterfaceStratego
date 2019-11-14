@@ -12,6 +12,10 @@ import com.example.myapplication.Game.actionMsg.GameAction;
  * StrategoForfeitAction
  */
 public class StrategoForfeitAction extends GameAction {
+
+    //to satisfy the serializable interface
+    private static final long serialVersionUID = 327383223L;
+
     public StrategoForfeitAction(GamePlayer player) {
         super(player);
     }

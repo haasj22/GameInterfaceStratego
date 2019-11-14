@@ -14,6 +14,8 @@ import com.example.myapplication.Game.actionMsg.GameAction;
 public class StrategoMoveAction extends GameAction {
     //Tag for logging
     private static final String TAG = "StrategoMoveAction";
+
+    //to satisfy the serializable interface
     private static final long serialVersionUID = -2242980258970485343L;
 
     //variables that store the row and column of the tap

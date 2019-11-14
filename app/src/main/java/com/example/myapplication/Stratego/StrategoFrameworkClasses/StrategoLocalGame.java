@@ -10,6 +10,7 @@ import com.example.myapplication.Game.actionMsg.GameAction;
 import com.example.myapplication.Stratego.GameActions.StrategoButtonPieceAction;
 import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
+import com.example.myapplication.Stratego.GameActions.StrategoMuteAction;
 import com.example.myapplication.Stratego.GameActions.StrategoSmartComputerSetupAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Rank;
@@ -118,6 +119,10 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         else if (action instanceof StrategoButtonPieceAction) {
             StrategoButtonPieceAction bpa = (StrategoButtonPieceAction)action;
             state.setLastTappedPieceButton(bpa.getWhichButton());
+        }
+        else if (action instanceof StrategoMuteAction){
+            StrategoMuteAction ma = (StrategoMuteAction)action;
+            state.muteGame();
         }
         //handles a computers setup action by setting up the board
         else if (action instanceof StrategoSmartComputerSetupAction) {

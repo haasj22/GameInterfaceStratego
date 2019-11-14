@@ -497,13 +497,15 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5" />
 
-                <ImageButton
+                <Button
                     android:id="@+id/muteButton"
                     android:layout_width="55dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#200200"
                     android:scaleType="fitCenter"
+                    android:text="Mute"
+                    android:textColor="#FFFFFF"
                     android:tint="#FFFFFF"
                     app:srcCompat="@drawable/mute" />
 

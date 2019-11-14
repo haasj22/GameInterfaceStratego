@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.example.myapplication.Game.infoMsg.GameInfo;
 import com.example.myapplication.Game.infoMsg.GameState;
+import com.example.myapplication.Stratego.Player.StrategoHumanPlayer;
 
 import java.util.ArrayList;
 
@@ -52,6 +53,8 @@ public class StrategoGameState extends GameState {
 
     //id of the player whose turn it is
     private Team currentTeamsTurn;
+
+    private StrategoHumanPlayer player;
 
     //used for making moves and attacks
     private int lastTappedRow;
@@ -1004,6 +1007,10 @@ public class StrategoGameState extends GameState {
         isGameOver();
         return true;
     }
+    public boolean muteGame(){
+        player.stopPlaying();
+        return true;
+    }
 
     /**
      * method that prints class information as a String
@@ -1057,6 +1064,7 @@ public class StrategoGameState extends GameState {
         //return information
         return toReturn;
     }
+
 
     /**-------------------------------------------------------------------------------------------*/
 

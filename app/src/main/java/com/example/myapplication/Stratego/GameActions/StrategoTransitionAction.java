@@ -9,6 +9,10 @@ import com.example.myapplication.Game.GamePlayer;
 import com.example.myapplication.Game.actionMsg.GameAction;
 
 public class StrategoTransitionAction extends GameAction {
+
+    //to satisfy the serializable interface
+    private static final long serialVersionUID = 3468418744343L;
+
     public StrategoTransitionAction(GamePlayer player) {
         super(player);
     }

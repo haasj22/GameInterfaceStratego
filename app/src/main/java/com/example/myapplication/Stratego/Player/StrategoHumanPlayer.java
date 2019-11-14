@@ -69,7 +69,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private Button startButton;
     private Button forfeitButton;
     private ImageButton helpButton;
-    private ImageButton muteButton;
+    private Button muteButton;
     private Button endTurnButton;
 
 
@@ -219,52 +219,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     @Override
     public void onClick(View v) {
-        Button tappedButton = (Button)v;
-        //send actions of pieces from player side to game state
-        //TODO: change switch statement
-        switch((String)tappedButton.getText()){
-//            case"1":
-//                //tappedButton.setBackgroundColor(Color.BLUE);
-//
-//                //surfaceView.getState().lastappedbutton.
-//                //state.getLastTappedPieceButton()
-//
-//                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.ONE));
-//                break;
-            case"2":
-                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.TWO));
-                break;
-            case"3":
-                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.THREE));
-                break;
-            case"4":
-                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.FOUR));
-                break;
-            case"5":
-                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.FIVE));
-                break;
-            case"6":
-                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.SIX));
-                break;
-            case"7":
-                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.SEVEN));
-                break;
-            case"8":
-                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.EIGHT));
-                break;
-            case"9":
-                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.NINE));
-                break;
-            case"S":
-                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.SPY));
-                break;
-            case"BOMB":
-                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.BOMB));
-                break;
-            case"FLAG":
-                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.FLAG));
-                break;
-        }
 
         //action type - send action
         switch (v.getId()){
@@ -405,7 +359,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         //action buttons on GUI
         helpButton = (ImageButton)activity.findViewById(R.id.infoButton);
         helpButton.setOnClickListener(this);
-        muteButton = (ImageButton)activity.findViewById(R.id.muteButton);
+        muteButton = (Button)activity.findViewById(R.id.muteButton);
         muteButton.setOnClickListener(this);
         forfeitButton = (Button)activity.findViewById(R.id.forfeitButton);
         forfeitButton.setOnClickListener(this);
@@ -418,6 +372,10 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
 
+    /**
+     * stopPlaying Method
+     * stops music from playing when mute button is tapped
+     */
     public void stopPlaying(){
         mediaPlayer.stop();
     }
@@ -451,9 +409,37 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 this.game.sendAction(moveCommand);
             surfaceView.invalidate();
         }
+
         return true;
     }//onTouch
 
+    public boolean muteGame(){
+        stopPlaying();
+        return true;
+    }
+    private void writeNotes() {
+        // edits notes edit text for player's game notes
+    }
+
+    public void locateUnites() {
+        // locates units of pieces
+    }
+
+    public void movePiece() {
+        // moves game pieces
+    }
+
+    public void attackPiece() {
+        // attacks chosen adjacent enemy piece
+    }
+
+    public void captureFlag() {
+        // attempts to capture suspected enemy flag
+    }
+
+    public void hitBomb() {
+        // hits bomb upon discovery
+    }
 
 }
 
