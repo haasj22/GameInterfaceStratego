@@ -13,6 +13,7 @@ import com.example.myapplication.Stratego.GameState.Rank;
 
 import java.io.Serializable;
 
+
 public class StrategoButtonPieceAction extends GameAction implements Serializable {
 
     //rank that the user is sending

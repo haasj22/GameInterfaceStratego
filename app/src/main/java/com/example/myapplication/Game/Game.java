@@ -5,14 +5,6 @@ import com.example.myapplication.Stratego.GameState.StrategoGameState;
 
 
 /**
- * Todo:
- * Jordan: work on game actions for the framework, rules if not yet finished
- * sounds: bomb for running into bomb, moving pieces, attacking, victory
- * Kavya: human player and rules
- * John: computer players
- */
-
-/**
  * To support remote play, this game framework has two types of Games: local
  * games and remote games that are represented by a proxy. Both types adhere to
  * this common interface.
