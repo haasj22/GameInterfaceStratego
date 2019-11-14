@@ -8,6 +8,9 @@ package com.example.myapplication.Stratego.GameActions;
 import com.example.myapplication.Game.GamePlayer;
 import com.example.myapplication.Game.actionMsg.GameAction;
 
+/**
+ * StrategoMoveAction
+ */
 public class StrategoMoveAction extends GameAction {
     //Tag for logging
     private static final String TAG = "StrategoMoveAction";

@@ -5,10 +5,12 @@ import java.io.Serializable;
 
 /**
  * Informs of an anytime action
+ *
+ * @author Jordan HO
  */
 public class StrategoAnytimeInfo extends GameInfo implements Serializable {
+    // creates a playerID to send data
     private int playerID;
-
     public StrategoAnytimeInfo(int playerNum){playerID = playerNum;}
     public int getPlayerID(){return playerID;}
 }

@@ -77,17 +77,6 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
      */
     @Override
     protected String checkIfGameOver() {
-        /*int check;
-        synchronized (state){
-            check = state.isGameOver();
-        }
-        if(check == 0){
-            return null;
-        }
-        if(check == -1 || check == 1){
-            return this.playerNames[check] + " is the winner!";
-        }
-        return null;*/
         if(state.isGameOver() == -1) {
             return "Blue team wins";
         } else if(state.isGameOver() == 1) {
@@ -105,84 +94,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
      */
     @Override
     protected boolean makeMove(GameAction action) {
-        /*
-        // check if GameAction object is nul
-        if(action == null){
-            Log.i("StrategoMainAct.java", "GameAction object is null");
-            return false;
-        }
-        int playerID = getPlayerIdx(action.getPlayer());
-        boolean isValid = false; // by default, we return false
-        boolean nextTurn = false; // by default, we return false
-        */
-
-
-        // TODO: incorporate actions to use the playerID
-        /*synchronized (state){
-            // GameActions
-            // ButtonPiece
-            if(action instanceof StrategoButtonPieceAction){
-                StrategoButtonPieceAction bpa = (StrategoButtonPieceAction)action;
-                nextTurn = true;
-                state.setLastTappedPieceButton(bpa.getWhichButton());
-            }
-
-            // Forfeit
-            else if(action instanceof StrategoForfeitAction){
-                StrategoForfeitAction sfa = (StrategoForfeitAction)action;
-                state.forfeitGame();
-            }
-            // Move
-            else if(action instanceof StrategoMoveAction){
-                StrategoMoveAction sma = (StrategoMoveAction)action;
-                state.tapOnSquare(sma.getRow(), sma.getCol());
-            }
-            // SmartComputer
-            else if(action instanceof StrategoSmartComputerSetupAction){
-                StrategoSmartComputerSetupAction ssca = (StrategoSmartComputerSetupAction)action;
-                int randomRow = (int)(Math.random() * 2);
-                int randomCol = (int)(Math.random() * 10);
-
-                if(state.getCurrentTeamsTurn().getTEAMNUMBER() == 1) {
-                    randomRow += 8;
-                }
-
-                state.setLastTappedPieceButton(Rank.FLAG);
-                state.tapOnSquare(randomRow, randomCol);
-                state.tapOnSquare(randomRow, randomCol);
-
-                state.setLastTappedPieceButton(Rank.BOMB);
-                if(randomRow != 0) {
-                    state.tapOnSquare(randomRow - 1, randomCol);
-                    state.tapOnSquare(randomRow - 1, randomCol);
-                } else if(randomRow != 9) {
-                    state.tapOnSquare(randomRow + 1, randomCol);
-                    state.tapOnSquare(randomRow + 1, randomCol);
-                } else if(randomCol != 0) {
-                    state.tapOnSquare(randomRow, randomCol -1);
-                    state.tapOnSquare(randomRow, randomCol -1);
-                } else if(randomCol != 9) {
-                    state.tapOnSquare(randomRow, randomCol + 1);
-                    state.tapOnSquare(randomRow, randomCol + 1);
-                }
-
-                state.transitionPhases();
-            //}
-            // Transition
-            else if (action instanceof StrategoTransitionAction) {
-                StrategoTransitionAction sta = (StrategoTransitionAction)action;
-                state.transitionPhases();
-            }
-            // if the turn was valid, set up the state for the next player
-            if(nextTurn){
-                return true;
-            }
-            return true;
-        }*/
-
-
-
-
+        // uses the actions to check instances of player actions
         if(action instanceof StrategoMoveAction) {
             Log.i("setupmsg", "action received");
             StrategoMoveAction sma = (StrategoMoveAction)action;
