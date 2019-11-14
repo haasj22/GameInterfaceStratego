@@ -20,7 +20,7 @@
             Problem: Did not know how to lock the screen in landscape
             Resource: https://stackoverflow.com/questions/15718869/how-to-lock-android-apps-orientation-to-portrait-mode
             Solution: Implemented the solution in manifest file
--->
+        -->
         <activity
             android:name=".Stratego.StrategoFrameworkClasses.StrategoMainActivity"
             android:screenOrientation="sensorLandscape"
