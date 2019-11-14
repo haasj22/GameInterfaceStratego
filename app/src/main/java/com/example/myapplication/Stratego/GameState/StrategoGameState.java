@@ -804,6 +804,7 @@ public class StrategoGameState extends GameState {
      * @return true once all possible blocks have been highlighted
      */
     private boolean setHighLightedBlocks(int row, int col) {
+        this.removeHighlightedBlocks();
         //highlights the spot above the tap if possible
         if(row != 0 && board[row-1][col].isBlockHighlightable(currentTeamsTurn)) {
             board[row-1][col].setHighLighted(true);
@@ -832,6 +833,7 @@ public class StrategoGameState extends GameState {
      * @return true once all proper pieces have been highlighted
      */
     private boolean setScoutsHighlightedBlocks(int row, int col) {
+        this.removeHighlightedBlocks();
         //checks the spots above the tapped piece
         for(int rowToCheck = row-1; rowToCheck >= 0; rowToCheck--) {
             if(!board[rowToCheck][col].isBlockHighlightable(currentTeamsTurn)) {

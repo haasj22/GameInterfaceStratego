@@ -96,34 +96,48 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
     @Override
     protected boolean makeMove(GameAction action) {
         // uses the actions to check instances of player actions
+        //handles a move action by tapping on a square
         if(action instanceof StrategoMoveAction) {
             Log.i("setupmsg", "action received");
             StrategoMoveAction sma = (StrategoMoveAction)action;
             Log.i("setupmsg", "" + sma.getRow());
             Log.i("setupmsg", "" + sma.getCol());
             state.tapOnSquare(sma.getRow(), sma.getCol());
-        } else if (action instanceof StrategoForfeitAction) {
+        }
+        //handles a forfeit action by telling the game state to end the game
+        else if (action instanceof StrategoForfeitAction) {
             StrategoForfeitAction sfa = (StrategoForfeitAction)action;
             state.forfeitGame();
-        } else if (action instanceof StrategoTransitionAction) {
+        }
+        //handles a transition action by telling the game to transition phases
+        else if (action instanceof StrategoTransitionAction) {
             StrategoTransitionAction sta = (StrategoTransitionAction)action;
             state.transitionPhases();
-        } else if (action instanceof StrategoButtonPieceAction) {
+        }
+        //handles a button press by updating the proper game state variable
+        else if (action instanceof StrategoButtonPieceAction) {
             StrategoButtonPieceAction bpa = (StrategoButtonPieceAction)action;
             state.setLastTappedPieceButton(bpa.getWhichButton());
-        } else if (action instanceof StrategoSmartComputerSetupAction) {
+        }
+        //handles a computers setup action by setting up the board
+        else if (action instanceof StrategoSmartComputerSetupAction) {
             StrategoSmartComputerSetupAction ssca = (StrategoSmartComputerSetupAction)action;
+
+            //generates a random spot for the flag
             int randomRow = (int)(Math.random() * 2);
             int randomCol = (int)(Math.random() * 10);
 
+            //adjusts the flag for the proper team
             if(state.getCurrentTeamsTurn().getTEAMNUMBER() == 1) {
                 randomRow += 8;
             }
 
+            //adds the flag to the board
             state.setLastTappedPieceButton(Rank.FLAG);
             state.tapOnSquare(randomRow, randomCol);
             state.tapOnSquare(randomRow, randomCol);
 
+            //places bombs around the flag if possible
             state.setLastTappedPieceButton(Rank.BOMB);
             if(randomRow != 0) {
                 state.tapOnSquare(randomRow - 1, randomCol);
@@ -139,6 +153,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
                 state.tapOnSquare(randomRow, randomCol + 1);
             }
 
+            //transitions the player to play phase
             state.transitionPhases();
         }
         return true;
