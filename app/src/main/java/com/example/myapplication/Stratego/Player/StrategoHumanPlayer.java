@@ -455,29 +455,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         return true;
     }//onTouch
 
-    private void writeNotes() {
-        // edits notes edit text for player's game notes
-    }
-
-    public void locateUnites() {
-        // locates units of pieces
-    }
-
-    public void movePiece() {
-        // moves game pieces
-    }
-
-    public void attackPiece() {
-        // attacks chosen adjacent enemy piece
-    }
-
-    public void captureFlag() {
-        // attempts to capture suspected enemy flag
-    }
-
-    public void hitBomb() {
-        // hits bomb upon discovery
-    }
 
 }
 
