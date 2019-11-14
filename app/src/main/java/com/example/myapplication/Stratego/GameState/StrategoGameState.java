@@ -253,6 +253,8 @@ public class StrategoGameState extends GameState {
         Log.i("setupmsg", "LastTappedPiece: " + lastTappedPieceButton);
         Log.i("setupmsg", "lastTappedRow: " + lastTappedRow);
         Log.i("setupmsg", "LastTappedCol: " + lastTappedCol);
+
+        //if tapped piece is empty and highlighted adds a piece to the game
         if(board[row][col].getContainedPiece() == null && didLastBlockContainPiece == false
                 && lastTappedRow == row && lastTappedCol == col) {
             addPieceToGame(new Piece(currentTeamsTurn, this.getLastTappedPieceButton()), row, col);
@@ -261,6 +263,7 @@ public class StrategoGameState extends GameState {
             lastTappedRow = -1;
             lastTappedCol = -1;
         }
+        //if the player taps a spot containing a piece twice removes it from board
         else if(row == lastTappedRow && col == lastTappedCol && didLastBlockContainPiece==true) {
             removePieceFromGame(row, col);
             board[row][col].setHighLighted(false);
@@ -268,20 +271,26 @@ public class StrategoGameState extends GameState {
             lastTappedRow = -1;
             lastTappedCol = -1;
             didLastBlockContainPiece=false;
-        } else if(didLastBlockContainPiece){
+        }
+        //if the player taps a placed piece then another piece moves it around
+        else if(didLastBlockContainPiece){
             movePieceDuringSetup(lastTappedRow, lastTappedCol, row, col);
             board[lastTappedRow][lastTappedCol].setHighLighted(false);
             Log.i("setupmsg", "move/swap");
             lastTappedRow = -1;
             lastTappedCol = -1;
             didLastBlockContainPiece=false;
-        } else if(board[row][col].containsPiece()) {
+        }
+        //if piece contains piece but there is no previous tap readies the piece for deletion
+        else if(board[row][col].containsPiece()) {
             Log.i("setupmsg", "initializeRemove");
             board[row][col].setHighLighted(true);
             lastTappedRow=row;
             lastTappedCol=col;
             didLastBlockContainPiece=true;
-        } else {
+        }
+        //else primes the piece to be added
+        else {
             if(lastTappedRow != -1 && lastTappedCol != -1) {
                 board[lastTappedRow][lastTappedCol].setHighLighted(false);
             }
@@ -349,8 +358,15 @@ public class StrategoGameState extends GameState {
         return true;
     }
 
+    /**
+     * method that calculates the given number of pieces of a given rank
+     *
+     * @param pieceRank the rank that one wishes to count the pieces of
+     * @return the number of pieces of the desired rank on the board
+     */
     public int calculateNumberOfPieces(Rank pieceRank) {
         int numOfDesiredPieceOnBoard=0;
+        //looks through the current team's array of pieces and counts the ones of the desired rank
         if(currentTeamsTurn == Team.RED_TEAM) {
             for (Rank r : redTeamPieces) {
                 if (r == pieceRank) {
@@ -367,8 +383,15 @@ public class StrategoGameState extends GameState {
         return numOfDesiredPieceOnBoard;
     }
 
+    /**
+     * method that calculates the number of enemy pieces of the given rank
+     *
+     * @param pieceRank rank to look for in the player arrays
+     * @return
+     */
     public int calculateNumberOfEnemyPieces(Rank pieceRank) {
         int numOfDesiredPieceOnBoard=0;
+        //finds the enemy team array and counts the number of times the desired piece recurs
         if(currentTeamsTurn == Team.BLUE_TEAM) {
             for (Rank r : redTeamPieces) {
                 if (r == pieceRank) {
@@ -875,10 +898,20 @@ public class StrategoGameState extends GameState {
 
     /**-----------------------------------General Methods-----------------------------------------*/
 
+    /**
+     * hub mehthod for all square taps
+     *
+     * @param row row of the tap
+     * @param col col of the tap
+     * @return true once tap has been handled
+     */
     public boolean tapOnSquare(int row, int col) {
+        //if its setup phase redirect to setup helper method
         if(this.getCurrentPhase() == Phase.SETUP_PHASE) {
             tapOnSquareSETUP(row, col);
-        } else {
+        }
+        //otherwise redirect to the play phase helper method
+        else {
             tapOnSquarePLAY(row, col);
         }
         return true;
