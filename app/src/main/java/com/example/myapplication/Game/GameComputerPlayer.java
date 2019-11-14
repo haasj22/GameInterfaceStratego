@@ -277,7 +277,8 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
         milliseconds = (long)(seconds * 1000);
 
         try {
-            Logger.debugLog(TAG, "" + this.name + "Is sleeping on the thread for " + seconds + "seconds.");
+            Logger.debugLog(TAG, "" + this.name + "Is sleeping on the thread for " +
+                    seconds + "seconds.");
             Thread.sleep(milliseconds);
             Logger.debugLog(TAG, "Sleeping on the thread complete.");
         }
@@ -299,7 +300,8 @@ public abstract class GameComputerPlayer implements GamePlayer, Tickable {
         milliseconds = (long)(seconds * 1000);
 
         try {
-            Logger.debugLog(TAG, "" + this.name + "Is sleeping on the thread for " + seconds + "seconds and " + nanoseconds + "nanoseconds.");
+            Logger.debugLog(TAG, "" + this.name + "Is sleeping on the thread for " +
+                    seconds + "seconds and " + nanoseconds + "nanoseconds.");
             Thread.sleep(milliseconds, nanoseconds);
             Logger.debugLog(TAG, "Sleeping on the thread complete.");
         }
