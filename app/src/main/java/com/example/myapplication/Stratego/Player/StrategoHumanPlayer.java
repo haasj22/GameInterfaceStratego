@@ -1,4 +1,7 @@
 package com.example.myapplication.Stratego.Player;
+/**
+ *
+ */
 
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -33,22 +36,22 @@ import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfa
 /**
  * TODO: check to see if player can make valid move and if not skip turn, going to be implemented in on
  * handles GUI and all actions for humanPlayer
- *
- * NOTE: I think receiveInfo, setAsGui, and  is done a
 **/
 
 public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClickListener, View.OnTouchListener{
 
     //tag for logging
     private static final String TAG = "StrategoHumanPlayer";
-    //GUI
 
+
+    //GUI text views
     private TextView whosTurn;
     private TextView unitText;
     private TextView lastButtonText;
 
     // state object
     private StrategoGameState state;
+
 
     //android current activity
     private GameMainActivity myActivity;
@@ -58,6 +61,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
 
 
+    //music
     MediaPlayer mediaPlayer;
 
 
@@ -103,7 +107,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      *
      * @return topGUI
      */
-
     public View getTopView() {
         return myActivity.findViewById(R.id.StrategoInGameLayout);
     }
@@ -115,26 +118,39 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     @Override
     public void receiveInfo(GameInfo info) {
+
         if(info == null) return;
 
+        //if move is illegal or if it's not your turn, flash red lights
         if(info instanceof IllegalMoveInfo || info instanceof NotYourTurnInfo) {
             surfaceView.flash(Color.RED, 50);
         }
 
+        //set game state onto surface view
         if(info instanceof StrategoGameState) {
             if (surfaceView == null) return;
             surfaceView.setState((StrategoGameState) info);
             Log.i("setupmsg", "surface view invalidated");
+
+            //show unit text during set up phase
             if(surfaceView.getState().getCurrentPhase() == Phase.SETUP_PHASE) {
                 this.setUnitText(surfaceView.getState());
-            } else {
+            }
+            // show
+            else {
                 this.setEnemyLeft(surfaceView.getState());
             }
+            //
             this.setLastTappedButtonText(surfaceView.getState());
             surfaceView.invalidate();
         }
     }
 
+    /**
+     * setUnitText method
+     * implementing the enemy List on the GUI
+     * @param gsc
+     */
     public void setUnitText(StrategoGameState gsc) {
         String unitsLeftToPlace = "Pieces left to Setup\n";
         unitsLeftToPlace += Rank.ONE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.ONE)
@@ -164,6 +180,12 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         unitText.setText(unitsLeftToPlace);
     }
 
+
+    /**
+     * setEnemyLeft method
+     * set how many enemy pieces are left
+     * @param gsc
+     */
     public void setEnemyLeft(StrategoGameState gsc) {
         String unitsLeftToPlace = "Enemy Pieces Left\n";
         unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.ONE) + " x Marshalls/1\n";
@@ -181,6 +203,11 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         unitText.setText(unitsLeftToPlace);
     }
 
+    /**
+     * setLastTappedButtonText method
+     * shows player last tapped Button because game works on taps
+     * @param gsc
+     */
     public void setLastTappedButtonText(StrategoGameState gsc) {
         String buttonText = "Last Tapped Button: " + gsc.getLastTappedPieceButton();
         lastButtonText.setText(buttonText);
@@ -273,58 +300,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
 
         }
-
-        //if player is in set up phase then show pieces while setting up
-        //TODO: call tapOnSquareSETUP to be able to add pieces to board
-        //TODO: then call addPieceToGame to place pieces on board
-        //TODO: if player wants to remove piece, call removePieceFromGame
-        //TODO: if player wants to move piece, call movePieceDuringSetup
-        //TODO: if player doesn't want to set up board, call randomizeRemainingPieces
-        //TODO: then do a final check to see if the player's side is full with isBoardFull
-
-        //if player is in play phase then don't show pieces of enemy (hide your pieces as well)
-        //TODO: call tapOnSquarePLAY to be able to add piece to board
-        //TODO: if player wants to move piece, call movePiece
-        //TODO: if piece clashes with another, call attackPiece and it will ...
-        //TODO: call unitAttacks, scoutAttacks, spyAttacks, attackBomb, or attackFlag depending
-
-
-
-        /**
-        if (v == menuButton) {
-            activity.startActivity(new Intent(activity, MenuButton.class));
-        }
-        if (v == startButton) {
-            // start game
-        }
-        if (v == forfeitButton) {
-            // forfeit game
-        }
-
-        //buttons won't work if it's not your turn
-        if (state.playerTurn() != playerNum) {
-            return;
-        }
-
-        //TODO: initialize all buttons to move onto board.
-
-        //update GUI to current piece user is choosing
-        if (gameBoard.currentPiece() != null) {
-            gameBoard.invalidate();
-        }
-
-        //disappears from side list
-        if (v == movePieceButton) {
-            //sendAction
-            //gameBoard.currentPiece(null);
-            //movePieceButton.setEnabled(false);
-        }
-        **/
     }
-
-    /**
-     *
-     */
 
 
     /**
@@ -343,6 +319,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.stratego);
         mediaPlayer.start();
+
+
         mediaPlayer.setLooping(true);
 
         //rulesHelpButton = new RulesHelp(this.activity.findViewById(R.id.menuButton),
@@ -353,8 +331,11 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         surfaceView.setOnTouchListener(this);
 
         whosTurn = (TextView)activity.findViewById(R.id.turnText);
-        unitText = (TextView)activity.findViewById(R.id.unitTextView);
-        lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
+        /**
+         * TODO: ERROR IN FINDING ID FOR TEXT VIEW'S
+         */
+       unitText = (TextView)activity.findViewById(R.id.unitTextView);
+       lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
 
         marshallButton = (Button)activity.findViewById(R.id.marshallButton);
         marshallButton.setOnClickListener(this);
@@ -397,12 +378,19 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
 
+    public void stopPlaying(){
+        mediaPlayer.stop();
+    }
+
+
+
     /**
      * onTouch method
      * @param v
      * @param event
      * @return
      */
+    @Override
     public boolean onTouch(View v, MotionEvent event) {
         //if empty then return true
         if(event.getAction() == MotionEvent.ACTION_DOWN) {

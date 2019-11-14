@@ -8,6 +8,9 @@ package com.example.myapplication.Stratego.GameActions;
 import com.example.myapplication.Game.GamePlayer;
 import com.example.myapplication.Game.actionMsg.GameAction;
 
+/**
+ * StrategoSmartComputerSetupAction
+ */
 public class StrategoSmartComputerSetupAction extends GameAction {
     public StrategoSmartComputerSetupAction(GamePlayer player) {
         super(player);

@@ -1,7 +1,7 @@
 /**
  * action that tells the game to transition phases
  *
- * @author John Haas
+ * @author John Haas, Kavya Mandla, Jordan Ho
  */
 package com.example.myapplication.Stratego.GameActions;
 
