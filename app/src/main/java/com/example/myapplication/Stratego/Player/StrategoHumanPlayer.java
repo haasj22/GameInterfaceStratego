@@ -136,11 +136,11 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             if(surfaceView.getState().getCurrentPhase() == Phase.SETUP_PHASE) {
                 this.setUnitText(surfaceView.getState());
             }
-            // show
+            // show enemy list during play phase
             else {
                 this.setEnemyLeft(surfaceView.getState());
             }
-            //
+            //show last tapped button on surface view
             this.setLastTappedButtonText(surfaceView.getState());
             surfaceView.invalidate();
         }
@@ -213,12 +213,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         lastButtonText.setText(buttonText);
     }
 
-    /**
-     * setBoard method
-     */
-    private void setBoard() {
-        // sets board according to players' layout
-    }
 
     /**
      *
@@ -227,6 +221,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     @Override
     public void onClick(View v) {
         Button tappedButton = (Button)v;
+        //send actions of pieces from player side to game state
+        //TODO: change switch statement
         switch((String)tappedButton.getText()){
             case"1":
                 //tappedButton.setBackgroundColor(Color.BLUE);
@@ -337,6 +333,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
        unitText = (TextView)activity.findViewById(R.id.unitTextView);
        lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
 
+       //piece buttons
         marshallButton = (Button)activity.findViewById(R.id.marshallButton);
         marshallButton.setOnClickListener(this);
         generalButton = (Button)activity.findViewById(R.id.generalButton);
@@ -382,6 +379,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         mediaPlayer.stop();
     }
 
+    //TODO: mute Button must call stopPlaying()
 
 
     /**
