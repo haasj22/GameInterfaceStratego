@@ -153,7 +153,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     public void setUnitText(StrategoGameState gsc) {
         String unitsLeftToPlace = "Pieces left to Setup:\n";
         unitsLeftToPlace += Rank.ONE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.ONE)
-                + " x Marshalls (1)\n";
+                + " x Marshals (1)\n";
         unitsLeftToPlace += Rank.TWO.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.TWO)
                 + " x Generals (2)\n";
         unitsLeftToPlace += Rank.THREE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.THREE)
@@ -171,7 +171,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         unitsLeftToPlace += Rank.NINE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.NINE)
                 + " x Scouts (9)\n";
         unitsLeftToPlace += Rank.SPY.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.SPY)
-                + " x Spys (S)\n";
+                + " x Spies (S)\n";
         unitsLeftToPlace += Rank.BOMB.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.BOMB)
                 + " x Bomb\n";
         unitsLeftToPlace += Rank.FLAG.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.FLAG)
@@ -187,18 +187,18 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     public void setEnemyLeft(StrategoGameState gsc) {
         String unitsLeftToPlace = "Enemy Pieces Left\n";
-        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.ONE) + " x Marshalls/1\n";
-        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.TWO) + " x Generals/2\n";
-        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.THREE) + " x Colonels/3\n";
-        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.FOUR) + " x Majors/4\n";
-        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.FIVE) + " x Captains/5\n";
-        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.SIX) + " x Lieutenants/6\n";
-        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.SEVEN) + " x Sergeants/7\n";
-        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.EIGHT) + " x Miners/8\n";
-        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.NINE) + " x Scouts/9\n";
-        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.SPY) + " x Spys/S\n";
-        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.BOMB) + " x Bombs\n";
-        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.FLAG) + " x Flags\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.ONE) + " x Marshals (1)\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.TWO) + " x Generals (2)\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.THREE) + " x Colonels (3)\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.FOUR) + " x Majors (4)\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.FIVE) + " x Captains (5)\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.SIX) + " x Lieutenants (6)\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.SEVEN) + " x Sergeants (7)\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.EIGHT) + " x Miners (8)\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.NINE) + " x Scouts (9)\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.SPY) + " x Spies (S)\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.BOMB) + " x Bomb\n";
+        unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.FLAG) + " x Flag\n";
         unitText.setText(unitsLeftToPlace);
     }
 
