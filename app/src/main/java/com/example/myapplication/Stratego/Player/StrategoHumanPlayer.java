@@ -324,9 +324,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         surfaceView.setOnTouchListener(this);
 
         whosTurn = (TextView)activity.findViewById(R.id.turnText);
-        /**
-         * TODO: ERROR IN FINDING ID FOR TEXT VIEW'S
-         */
+
        unitText = (TextView)activity.findViewById(R.id.unitTextView);
        lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
 
