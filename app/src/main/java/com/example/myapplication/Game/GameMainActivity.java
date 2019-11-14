@@ -428,7 +428,8 @@ public abstract class GameMainActivity extends Activity implements
 
             // set up our spinner so that when its last element ("Network Player") is selected,
             // the corresponding EditText (the player name) is disabled.
-            typeSpinner.setOnItemSelectedListener(new SpinnerListListener(playerName, availTypes.length-1));
+            typeSpinner.setOnItemSelectedListener(new SpinnerListListener(playerName,
+                    availTypes.length-1));
 
         }// for
 

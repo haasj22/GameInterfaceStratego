@@ -18,6 +18,7 @@ import com.example.myapplication.Stratego.GameState.StrategoGameState;
 
 /**
  * The local game to control the master StrategoGameState
+ * @author Jordan Ho
  */
 public class StrategoLocalGame extends LocalGame implements Serializable {
     //tag for logging
