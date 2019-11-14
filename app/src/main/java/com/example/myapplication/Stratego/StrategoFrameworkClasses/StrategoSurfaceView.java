@@ -107,6 +107,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
         highlightPaint = new Paint(Color.YELLOW);
     }
 
+    public StrategoGameState getState() { return state; }
     public void setState(StrategoGameState sgt) {this.state = sgt;}
 
     @Override

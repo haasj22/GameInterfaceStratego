@@ -1,6 +1,9 @@
+/**
+ * creates an action that changes the lastTappedButton
+ *
+ * @author John Haas
+ */
 package com.example.myapplication.Stratego.GameActions;
-
-import android.widget.Button;
 
 import com.example.myapplication.Game.Game;
 import com.example.myapplication.Game.GamePlayer;
@@ -12,22 +15,19 @@ import java.io.Serializable;
 
 public class StrategoButtonPieceAction extends GameAction implements Serializable {
 
+    //rank that the user is sending
     private Rank heldRank;
 
     /**
      * constructor for StrategoButtonPieceAction
-     * @param player
-     * @param buttonRank
+     * @param player player that sent the action
+     * @param buttonRank rank of the button that the user wants to change lastTappedButton to
      */
     public StrategoButtonPieceAction(GamePlayer player, Rank buttonRank) {
         super(player);
         heldRank=buttonRank;
     }
-    /**
-    public StrategoButtonInfo getGameInfo(int playerID){
-        return new StrategoButtonInfo(playerID);
-    }
-     **/
+
     public Rank getWhichButton() {
         return heldRank;
     }

@@ -320,25 +320,15 @@ public class StrategoGameState extends GameState {
         }
 
         //makes sure there are not too many of the desired piece on the board
-        int numOfDesiredPieceOnBoard=0;
-        if(currentTeamsTurn == Team.RED_TEAM) {
-            for (Rank r : redTeamPieces) {
-                if (r == placedPiece.getPieceRank()) {
-                    numOfDesiredPieceOnBoard++;
-                }
-            }
-        } else {
-            for (Rank r : blueTeamPieces) {
-                if (r == placedPiece.getPieceRank()) {
-                    numOfDesiredPieceOnBoard++;
-                }
-            }
-        }
+        int numOfDesiredPieceOnBoard = calculateNumberOfPieces(placedPiece.getPieceRank());
+        Log.i("placemsg", "" + numOfDesiredPieceOnBoard);
+        Log.i("placemsg", "" + placedPiece.getPieceRank().getMaxAmountOfPieces());
 
         //makes sure the amount of pieces doesn't exceed the maz
         if(numOfDesiredPieceOnBoard >= placedPiece.getPieceRank().getMaxAmountOfPieces()) {
             return false;
         }
+
         //doesn't allow a piece to be placed
         if(board[row][col].containsPiece()) {
             return false;
@@ -357,6 +347,42 @@ public class StrategoGameState extends GameState {
         }
 
         return true;
+    }
+
+    public int calculateNumberOfPieces(Rank pieceRank) {
+        int numOfDesiredPieceOnBoard=0;
+        if(currentTeamsTurn == Team.RED_TEAM) {
+            for (Rank r : redTeamPieces) {
+                if (r == pieceRank) {
+                    numOfDesiredPieceOnBoard++;
+                }
+            }
+        } else {
+            for (Rank r : blueTeamPieces) {
+                if (r == pieceRank) {
+                    numOfDesiredPieceOnBoard++;
+                }
+            }
+        }
+        return numOfDesiredPieceOnBoard;
+    }
+
+    public int calculateNumberOfEnemyPieces(Rank pieceRank) {
+        int numOfDesiredPieceOnBoard=0;
+        if(currentTeamsTurn == Team.BLUE_TEAM) {
+            for (Rank r : redTeamPieces) {
+                if (r == pieceRank) {
+                    numOfDesiredPieceOnBoard++;
+                }
+            }
+        } else {
+            for (Rank r : blueTeamPieces) {
+                if (r == pieceRank) {
+                    numOfDesiredPieceOnBoard++;
+                }
+            }
+        }
+        return numOfDesiredPieceOnBoard;
     }
 
     /**

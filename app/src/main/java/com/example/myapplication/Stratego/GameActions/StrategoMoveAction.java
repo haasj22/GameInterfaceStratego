@@ -1,3 +1,8 @@
+/**
+ * action that allows the user to move or send up a piece
+ *
+ * @author John Haas, Jordan Ho
+ */
 package com.example.myapplication.Stratego.GameActions;
 
 import com.example.myapplication.Game.GamePlayer;
@@ -8,6 +13,7 @@ public class StrategoMoveAction extends GameAction {
     private static final String TAG = "StrategoMoveAction";
     private static final long serialVersionUID = -2242980258970485343L;
 
+    //variables that store the row and column of the tap
     private int row;
     private int col;
 

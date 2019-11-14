@@ -1,3 +1,8 @@
+/**
+ * action that allows the user to enter notepad mode
+ *
+ * @author Kavya Mandla
+ */
 package com.example.myapplication.Stratego.GameActions;
 
 import com.example.myapplication.Game.GamePlayer;
