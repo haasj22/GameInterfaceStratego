@@ -224,14 +224,14 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         //send actions of pieces from player side to game state
         //TODO: change switch statement
         switch((String)tappedButton.getText()){
-            case"1":
-                //tappedButton.setBackgroundColor(Color.BLUE);
-
-                //surfaceView.getState().lastappedbutton.
-                //state.getLastTappedPieceButton()
-
-                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.ONE));
-                break;
+//            case"1":
+//                //tappedButton.setBackgroundColor(Color.BLUE);
+//
+//                //surfaceView.getState().lastappedbutton.
+//                //state.getLastTappedPieceButton()
+//
+//                this.game.sendAction(new StrategoButtonPieceAction(this, Rank.ONE));
+//                break;
             case"2":
                 this.game.sendAction(new StrategoButtonPieceAction(this, Rank.TWO));
                 break;
@@ -269,6 +269,10 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         //action type - send action
         switch (v.getId()){
+            case R.id.marshallButton:
+                StrategoButtonPieceAction marshallButtonAction = new StrategoButtonPieceAction(this, Rank.ONE);
+                this.game.sendAction(marshallButtonAction);
+                break;
             case R.id.forfeitButton:
                 StrategoForfeitAction forfeitAction = new StrategoForfeitAction(this);
                 this.game.sendAction(forfeitAction);
