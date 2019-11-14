@@ -262,13 +262,17 @@ public class StrategoSurfaceView extends FlashSurfaceView {
      * @param g
      */
     public void onDraw(Canvas g) {
+        //no state, log message
         if(state == null)
         {
             Log.i("msg","trying to draw but have no state");
             return;
         }
+
         Log.i("msg", "drawing board now!");
         g.drawBitmap(scaledBaseBoard, 0, 0, null);
+
+        //
         for(int row=0; row<state.getROWMAX(); row++) {
             for(int col=0; col<state.getCOLMAX(); col++) {
                 Log.i("msg", "Contains Piece:" +
