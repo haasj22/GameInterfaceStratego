@@ -106,7 +106,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
     @Override
     protected boolean makeMove(GameAction action) {
         /*
-        // check if GameAction object is nul
+        // check if GameAction object is null
         if(action == null){
             Log.i("StrategoMainAct.java", "GameAction object is null");
             return false;

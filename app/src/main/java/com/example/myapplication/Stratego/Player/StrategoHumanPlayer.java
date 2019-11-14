@@ -44,6 +44,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     private TextView whosTurn;
 
+    // state object
+    private StrategoGameState state;
 
     //android current activity
     private GameMainActivity myActivity;
@@ -143,6 +145,11 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         Button tappedButton = (Button)v;
         switch((String)tappedButton.getText()){
             case"1":
+                //tappedButton.setBackgroundColor(Color.BLUE);
+
+                //surfaceView.getState().lastappedbutton.
+                //state.getLastTappedPieceButton()
+
                 this.game.sendAction(new StrategoButtonPieceAction(this, Rank.ONE));
                 break;
             case"2":
