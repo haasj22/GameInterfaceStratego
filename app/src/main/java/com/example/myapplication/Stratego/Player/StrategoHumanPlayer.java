@@ -151,31 +151,31 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      * @param gsc
      */
     public void setUnitText(StrategoGameState gsc) {
-        String unitsLeftToPlace = "Pieces left to Setup\n";
+        String unitsLeftToPlace = "Pieces left to Setup:\n";
         unitsLeftToPlace += Rank.ONE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.ONE)
-                + " x Marshalls/1\n";
+                + " x Marshalls (1)\n";
         unitsLeftToPlace += Rank.TWO.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.TWO)
-                + " x Generals/2\n";
+                + " x Generals (2)\n";
         unitsLeftToPlace += Rank.THREE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.THREE)
-                + " x Colonels/3\n";
+                + " x Colonels (3)\n";
         unitsLeftToPlace += Rank.FOUR.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.FOUR)
-                + " x Majors/4\n";
+                + " x Majors (4)\n";
         unitsLeftToPlace += Rank.FIVE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.FIVE)
-                + " x Captains/5\n";
+                + " x Captains (5)\n";
         unitsLeftToPlace += Rank.SIX.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.SIX)
-                + " x Lieutenants/6\n";
+                + " x Lieutenants(6)\n";
         unitsLeftToPlace += Rank.SEVEN.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.SEVEN)
-                + " x Sergeants/7\n";
+                + " x Sergeants (7)\n";
         unitsLeftToPlace += Rank.EIGHT.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.EIGHT)
-                + " x Miners/8\n";
+                + " x Miners (8)\n";
         unitsLeftToPlace += Rank.NINE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.NINE)
-                + " x Scouts/9\n";
+                + " x Scouts (9)\n";
         unitsLeftToPlace += Rank.SPY.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.SPY)
-                + " x Spys/S\n";
+                + " x Spys (S)\n";
         unitsLeftToPlace += Rank.BOMB.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.BOMB)
-                + " x Bombs\n";
+                + " x Bomb\n";
         unitsLeftToPlace += Rank.FLAG.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.FLAG)
-                + " x Flags\n";
+                + " x Flag\n";
         unitText.setText(unitsLeftToPlace);
     }
 

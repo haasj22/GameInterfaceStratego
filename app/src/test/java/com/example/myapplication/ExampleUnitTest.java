@@ -187,4 +187,6 @@ public class ExampleUnitTest {
         assertEquals(true, testGameState.getBoard()[8][8].getContainedPiece() != null
                 && testGameState.getBoard()[8][8].getContainedPiece().getPieceRank() == Rank.BOMB);
     }
+
+
 }
