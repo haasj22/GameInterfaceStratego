@@ -273,6 +273,20 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 StrategoButtonPieceAction marshallButtonAction = new StrategoButtonPieceAction(this, Rank.ONE);
                 this.game.sendAction(marshallButtonAction);
                 break;
+            case R.id.generalButton:
+                StrategoButtonPieceAction generalButtonAction = new StrategoButtonPieceAction(this, Rank.TWO);
+                this.game.sendAction(generalButtonAction);
+                break;
+            case R.id.colonelButton:
+                StrategoButtonPieceAction colonelButtonAction = new StrategoButtonPieceAction(this, Rank.THREE);
+                this.game.sendAction(colonelButtonAction);
+                break;
+            case R.id.majorButton:
+                StrategoButtonPieceAction majorButtonAction = new StrategoButtonPieceAction(this, Rank.FOUR);
+                this.game.sendAction(majorButtonAction);
+                break;
+            case R.id.captainButton:
+                StrategoButtonPieceAction
             case R.id.forfeitButton:
                 StrategoForfeitAction forfeitAction = new StrategoForfeitAction(this);
                 this.game.sendAction(forfeitAction);
