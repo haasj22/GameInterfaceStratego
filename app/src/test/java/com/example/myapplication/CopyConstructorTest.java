@@ -18,7 +18,6 @@ public class CopyConstructorTest {
 
     @BeforeClass
     public static void setup(){
-        GameStateUnitTest
 
 
     }

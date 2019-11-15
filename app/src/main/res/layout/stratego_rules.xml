@@ -2,46 +2,19 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/topGUI"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/topGUI"
     android:background="#200200"
     android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/rules_title"
-            android:layout_width="925dp"
-            android:layout_height="110dp"
-            android:layout_marginLeft="175dp"
-            android:layout_marginTop="50dp"
-            android:background="@drawable/empty" />
 
-        <Button
-            android:id="@+id/rules_previous"
-            android:layout_width="130dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/empty" />
-
-        <Button
-            android:id="@+id/rules_next"
-            android:layout_width="130dp"
-            android:layout_height="670dp"
-            android:layout_gravity="right"
-            android:background="@drawable/empty" />
-
-        <Button
-            android:id="@+id/rules_return"
-            android:layout_width="130dp"
-            android:layout_height="130dp"
-            android:layout_gravity="bottom|right"
-            android:background="@drawable/empty" />
-
-        <ImageView
-            android:id="@+id/rules_slide"
+        <ImageButton
+            android:id="@+id/goBackButton"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="65dp"
-            android:src="@drawable/rules_one" />
-
+            android:layout_height="778dp"
+            android:layout_gravity="center|center_horizontal"
+            android:background="#000000"
+            android:scaleType="fitCenter"
+            app:srcCompat="@drawable/rules" />
 </FrameLayout>

@@ -481,13 +481,15 @@
                     android:layout_weight="1" />
 
 
-                <ImageButton
+                <Button
                     android:id="@+id/infoButton"
                     android:layout_width="50dp"
                     android:layout_height="80dp"
                     android:adjustViewBounds="true"
                     android:background="#200200"
                     android:scaleType="fitCenter"
+                    android:text="INFO"
+                    android:textColor="#FFFFFF"
                     android:tint="#FFFFFF"
                     app:srcCompat="@drawable/info4" />
 
