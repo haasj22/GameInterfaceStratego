@@ -11,7 +11,6 @@ package com.example.myapplication.Stratego.GameState;
 
 import android.util.Log;
 
-import com.example.myapplication.Game.infoMsg.GameInfo;
 import com.example.myapplication.Game.infoMsg.GameState;
 import com.example.myapplication.Stratego.Player.StrategoHumanPlayer;
 
@@ -1007,8 +1006,8 @@ public class StrategoGameState extends GameState {
         isGameOver();
         return true;
     }
+
     public boolean muteGame(){
-        player.stopPlaying();
         return true;
     }
 

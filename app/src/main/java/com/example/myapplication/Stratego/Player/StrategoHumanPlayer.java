@@ -3,6 +3,7 @@ package com.example.myapplication.Stratego.Player;
  *
  */
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -18,6 +19,7 @@ import com.example.myapplication.Game.GameHumanPlayer;
 import com.example.myapplication.Game.infoMsg.GameInfo;
 import com.example.myapplication.Game.infoMsg.IllegalMoveInfo;
 import com.example.myapplication.Game.infoMsg.NotYourTurnInfo;
+import com.example.myapplication.HowToPlay;
 import com.example.myapplication.R;
 import com.example.myapplication.Stratego.GameActions.StrategoButtonPieceAction;
 import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
@@ -68,7 +70,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private Button notepadButton;
     private Button startButton;
     private Button forfeitButton;
-    private ImageButton helpButton;
+    private Button helpButton;
     private Button muteButton;
     private Button endTurnButton;
 
@@ -277,15 +279,15 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             case R.id.muteButton:
                 StrategoMuteAction muteAction = new StrategoMuteAction(this);
                 this.game.sendAction(muteAction);
+                mediaPlayer.stop();
                 break;
             case R.id.infoButton:
-                StrategoHelpAction helpAction = new StrategoHelpAction(this);
-                this.game.sendAction(helpAction);
+                Intent intent0 = new Intent(this.myActivity, HowToPlay.class);
+                helpButton.getContext().startActivity(intent0);
                 break;
             case R.id.notepadButton:
                 StrategoNotepadAction notepadAction = new StrategoNotepadAction(this);
                 this.game.sendAction(notepadAction);
-                break;
             case R.id.endTurnButton:
                 endTurnButton.setVisibility(View.INVISIBLE);
                 StrategoTransitionAction transitionAction =
@@ -318,7 +320,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         mediaPlayer.start();
 
 
-        mediaPlayer.setLooping(true);
 
         //rulesHelpButton = new RulesHelp(this.activity.findViewById(R.id.menuButton),
                 //this, this.game, this.activity);
@@ -359,7 +360,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         flagButton.setOnClickListener(this);
 
         //action buttons on GUI
-        helpButton = (ImageButton)activity.findViewById(R.id.infoButton);
+        helpButton = (Button)activity.findViewById(R.id.infoButton);
         helpButton.setOnClickListener(this);
         muteButton = (Button)activity.findViewById(R.id.muteButton);
         muteButton.setOnClickListener(this);
@@ -379,6 +380,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      * stops music from playing when mute button is tapped
      */
     public void stopPlaying(){
+
         mediaPlayer.stop();
     }
 
