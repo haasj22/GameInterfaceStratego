@@ -18,6 +18,9 @@ import java.util.ArrayList;
 
 public class StrategoGameState extends GameState {
 
+    //to satisfy Serializable interface
+    private static final long serialVersionUID = 2379343847L;
+
     //max number of rows and cols in board
     private final int COLMAX = 10;
     private final int ROWMAX = 10;

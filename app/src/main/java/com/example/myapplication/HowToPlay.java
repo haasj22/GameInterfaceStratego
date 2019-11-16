@@ -8,10 +8,15 @@ import android.os.Bundle;
  * creates a drop down that allows you to click on different actions
  */
 public class HowToPlay extends Activity {
+
+    helpSurfaceView helpSurfaceView;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.stratego_rules);
+        helpSurfaceView = new helpSurfaceView(this, null);
+        setContentView(helpSurfaceView);
+
+
 
     }
 }
