@@ -10,10 +10,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.TextView;
 
-import com.example.myapplication.Game.Game;
 import com.example.myapplication.Game.GameMainActivity;
 import com.example.myapplication.Game.GameHumanPlayer;
 import com.example.myapplication.Game.infoMsg.GameInfo;
@@ -23,16 +21,15 @@ import com.example.myapplication.HowToPlay;
 import com.example.myapplication.R;
 import com.example.myapplication.Stratego.GameActions.StrategoButtonPieceAction;
 import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
-import com.example.myapplication.Stratego.GameActions.StrategoHelpAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMuteAction;
-import com.example.myapplication.Stratego.GameActions.StrategoNotepadAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Phase;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
-import com.example.myapplication.Stratego.GameState.Team;
 import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfaceView;
+import com.example.myapplication.notepadSurfaceView;
+import com.example.myapplication.notepadActivity;
 
 /**
  * TODO: check to see if player can make valid move and if not skip turn, going to be implemented in on
@@ -44,6 +41,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     //tag for logging
     private static final String TAG = "StrategoHumanPlayer";
 
+    notepadSurfaceView notepadSurfaceView;
+    HowToPlay howToPlay;
 
     //GUI text views
     private TextView whosTurn;
@@ -286,8 +285,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 helpButton.getContext().startActivity(intent0);
                 break;
             case R.id.notepadButton:
-                StrategoNotepadAction notepadAction = new StrategoNotepadAction(this);
-                this.game.sendAction(notepadAction);
+                Intent intent1 = new Intent(this.myActivity, notepadActivity.class);
+                notepadButton.getContext().startActivity(intent1);
             case R.id.endTurnButton:
                 endTurnButton.setVisibility(View.INVISIBLE);
                 StrategoTransitionAction transitionAction =

@@ -32,6 +32,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".HowToPlay"/>
+        <activity android:name=".notepadActivity"/>
+
     </application>
 
 </manifest>
