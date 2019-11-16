@@ -14,9 +14,10 @@ import android.util.Log;
 import com.example.myapplication.Game.infoMsg.GameState;
 import com.example.myapplication.Stratego.Player.StrategoHumanPlayer;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class StrategoGameState extends GameState {
+public class StrategoGameState extends GameState implements Serializable {
 
     //to satisfy Serializable interface
     private static final long serialVersionUID = 2379343847L;

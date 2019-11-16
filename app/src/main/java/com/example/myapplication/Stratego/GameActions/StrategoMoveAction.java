@@ -8,10 +8,12 @@ package com.example.myapplication.Stratego.GameActions;
 import com.example.myapplication.Game.GamePlayer;
 import com.example.myapplication.Game.actionMsg.GameAction;
 
+import java.io.Serializable;
+
 /**
  * StrategoMoveAction
  */
-public class StrategoMoveAction extends GameAction {
+public class StrategoMoveAction extends GameAction implements Serializable {
     //Tag for logging
     private static final String TAG = "StrategoMoveAction";
 
