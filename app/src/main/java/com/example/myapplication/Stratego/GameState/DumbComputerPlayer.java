@@ -31,6 +31,7 @@ public class DumbComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
+        Log.i("computer1msg", "receiveInfo");
         //makes sure information exists
         if(info == null) return;
         //if the previous move was invalid does not accept new copy
@@ -41,8 +42,15 @@ public class DumbComputerPlayer extends GameComputerPlayer {
         if(info instanceof StrategoGameState) {
             //update player's game state
             gameStateCopy = (StrategoGameState)info;
-            Log.i("computermsg", "" + gameStateCopy.getCurrentTeamsTurn().getTEAMNUMBER());
-            Log.i("computermsg", "" + this.playerNum);
+
+            Log.i("computer1msg", "enteredRecieve");
+
+            if(gameStateCopy.getCurrentTeamsTurn().getTEAMNUMBER() != this.playerNum) {
+                return;
+            }
+
+            Log.i("computer1msg", "" + gameStateCopy.getCurrentTeamsTurn().getTEAMNUMBER());
+            Log.i("computer1msg", "" + this.playerNum);
             //makes sure its the computer players turn
             if(gameStateCopy.getCurrentTeamsTurn().getTEAMNUMBER() != this.playerNum) {
                 return;
@@ -63,22 +71,27 @@ public class DumbComputerPlayer extends GameComputerPlayer {
      * method that generates a random valid move
      */
     public void generateRandomMove() {
+        Log.i("computer4msg", "generateRandomMove");
         //continuously looks for valid moves
         while(true) {
+            if(gameStateCopy.getCurrentTeamsTurn().getTEAMNUMBER() != this.playerNum) {
+                return;
+            }
+            Log.i("repeatmsg", "entered");
             //finds a random spot on the board
             int row = (int) (Math.random() * 10);
             int col = (int) (Math.random() * 10);
             //highlights the random square
             this.game.sendAction(new StrategoMoveAction(this, row, col));
-            Log.i("computermsg", "Row" + row);
-            Log.i("computermsg", "Col" + col);
+            Log.i("computer2msg", "Row" + row);
+            Log.i("computer2msg", "Col" + col);
 
             //moves the piece down if valid
             if (row + 1 < 10 && gameStateCopy.getBoard()[row + 1][col].isHighLighted()) {
                 this.sleep(1.0);
                 this.game.sendAction(new StrategoMoveAction(this, row + 1, col));
-                Log.i("computermsg", "moved down");
-                break;
+                Log.i("computer3msg", "moved down");
+                return;
             }
 
             //randomly decides whether to try to move left or right and tries the other if one failes
@@ -91,19 +104,18 @@ public class DumbComputerPlayer extends GameComputerPlayer {
                 if (gameStateCopy.getBoard()[row][col + leftOrRight].isHighLighted()) {
                     this.sleep(1.0);
                     this.game.sendAction(new StrategoMoveAction(this, row, col + leftOrRight));
-                    Log.i("computermsg", "moved left or right");
-                    break;
+                    Log.i("computer3msg", "moved left or right");
+                    return;
                 }
             }
             //determines whether the piece can move up and tries to move there
             if (row - 1 > 0 && gameStateCopy.getBoard()[row - 1][col].isHighLighted()) {
                 this.sleep(1.0);
                 this.game.sendAction(new StrategoMoveAction(this, row - 1, col));
-                Log.i("computermsg", "moved up");
-                break;
+                Log.i("computer3msg", "moved up");
+                return;
             }
         }
-        return;
     }
 
 

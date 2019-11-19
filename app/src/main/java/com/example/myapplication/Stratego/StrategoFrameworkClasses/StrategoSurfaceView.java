@@ -287,7 +287,8 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                 Log.i("setupmsg", "Col: " + col);
                 Log.i("setupmsg", "IsThisPieceHighlighted: " +
                         state.getBoard()[row][col].isHighLighted());
-                if(state.getBoard()[row][col].isHighLighted()) {
+                if(state.getBoard()[row][col].isHighLighted()
+                        && state.getCurrentTeamsTurn().getTEAMNUMBER() == surfaceViewOwner) {
                     g.drawRect((width*col)/10, (height*row)/10,
                             (width * (col + 1))/10,
                             (height*(row+1))/10, highlightPaint);

@@ -442,6 +442,14 @@ public class StrategoGameState extends GameState implements Serializable {
      */
     public boolean movePieceDuringSetup(int row1, int col1, int row2, int col2) {
         //makes sure that the first spot contains a piece
+        if(col2 < COLMININDEX || col2 > COLMAXINDEX ) {
+            return false;
+        }
+        //makes sure y is a legal value
+        if ( row2 < board[row1][col1].getContainedPiece().getPieceTeam().getTOPBOUNDARYINDEX()
+                || row2 >board[row1][col1].getContainedPiece().getPieceTeam().getBOTTOMBOUNDARYINDEX() ) {
+            return false;
+        }
         if(!(board[row1][col1].containsPiece())) {
             return false;
         }
