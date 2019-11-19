@@ -24,6 +24,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
     //tag for logging
     private static final String TAG = "StrategoSurfaceView";
 
+    private int surfaceViewOwner;
     protected StrategoGameState state;
     //private Game game;
 
@@ -160,6 +161,10 @@ public class StrategoSurfaceView extends FlashSurfaceView {
      */
     public void setState(StrategoGameState sgt) {
         this.state = sgt;
+    }
+
+    public void setSurfaceViewOwner(int surfaceViewOwner) {
+        this.surfaceViewOwner = surfaceViewOwner;
     }
 
     /**
@@ -313,7 +318,9 @@ public class StrategoSurfaceView extends FlashSurfaceView {
 
             case RED_TEAM:
 
-                if(currentTeam != Team.RED_TEAM && drawThisPiece.getIsVisible() == false) {
+                if(currentTeam.getTEAMNUMBER() == surfaceViewOwner
+                        && drawThisPiece.getPieceTeam().getTEAMNUMBER() != surfaceViewOwner
+                        && drawThisPiece.getIsVisible() == false) {
                     canvas.drawBitmap(scaledBaseRedPiece, canvas.getWidth() * 2 / 100 +
                             canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                     break;
@@ -373,7 +380,12 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                 break;
             case BLUE_TEAM:
 
-                if(currentTeam != Team.BLUE_TEAM && drawThisPiece.getIsVisible() == false) {
+                if(currentTeam.getTEAMNUMBER() == surfaceViewOwner
+                        && drawThisPiece.getPieceTeam().getTEAMNUMBER() != surfaceViewOwner
+                        && drawThisPiece.getIsVisible() == false
+                        || currentTeam.getTEAMNUMBER() != surfaceViewOwner
+                        && drawThisPiece.getPieceTeam().getTEAMNUMBER() != surfaceViewOwner
+                        && drawThisPiece.getIsVisible() == false) {
                     Log.i("drawmsg", "got here somehow");
                     canvas.drawBitmap(scaledBaseBluePiece, canvas.getWidth() * 2 / 100 +
                             canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);

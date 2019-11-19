@@ -494,6 +494,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
 
         surfaceView = activity.findViewById(R.id.boardImageView);
+        surfaceView.setSurfaceViewOwner(this.playerNum);
         surfaceView.setOnTouchListener(this);
 
         whosTurn = (TextView)activity.findViewById(R.id.turnText);
