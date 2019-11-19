@@ -295,8 +295,177 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 break;
                 default:
                     break;
-
-
+        }
+        if(v == marshallButton){
+            marshallButton.setBackgroundColor(Color.GREEN);
+            generalButton.setBackgroundColor(Color.WHITE);
+            colonelButton.setBackgroundColor(Color.WHITE);
+            majorButton.setBackgroundColor(Color.WHITE);
+            captainButton.setBackgroundColor(Color.WHITE);
+            lieutenantButton.setBackgroundColor(Color.WHITE);
+            sergeantButton.setBackgroundColor(Color.WHITE);
+            minerButton.setBackgroundColor(Color.WHITE);
+            scoutButton.setBackgroundColor(Color.WHITE);
+            spyButton.setBackgroundColor(Color.WHITE);
+            bombButton.setBackgroundColor(Color.WHITE);
+            flagButton.setBackgroundColor(Color.WHITE);
+        }
+        else if(v == generalButton){
+            marshallButton.setBackgroundColor(Color.WHITE);
+            generalButton.setBackgroundColor(Color.GREEN);
+            if(Rank.TWO.getMaxAmountOfPieces() == 0){
+                generalButton.setBackgroundColor(Color.BLUE);
+            }
+            colonelButton.setBackgroundColor(Color.WHITE);
+            majorButton.setBackgroundColor(Color.WHITE);
+            captainButton.setBackgroundColor(Color.WHITE);
+            lieutenantButton.setBackgroundColor(Color.WHITE);
+            sergeantButton.setBackgroundColor(Color.WHITE);
+            minerButton.setBackgroundColor(Color.WHITE);
+            scoutButton.setBackgroundColor(Color.WHITE);
+            spyButton.setBackgroundColor(Color.WHITE);
+            bombButton.setBackgroundColor(Color.WHITE);
+            flagButton.setBackgroundColor(Color.WHITE);
+        }
+        else if(v == colonelButton){
+            marshallButton.setBackgroundColor(Color.WHITE);
+            generalButton.setBackgroundColor(Color.WHITE);
+            colonelButton.setBackgroundColor(Color.GREEN);
+            majorButton.setBackgroundColor(Color.WHITE);
+            captainButton.setBackgroundColor(Color.WHITE);
+            lieutenantButton.setBackgroundColor(Color.WHITE);
+            sergeantButton.setBackgroundColor(Color.WHITE);
+            minerButton.setBackgroundColor(Color.WHITE);
+            scoutButton.setBackgroundColor(Color.WHITE);
+            spyButton.setBackgroundColor(Color.WHITE);
+            bombButton.setBackgroundColor(Color.WHITE);
+            flagButton.setBackgroundColor(Color.WHITE);
+        }
+        else if(v == majorButton){
+            marshallButton.setBackgroundColor(Color.WHITE);
+            generalButton.setBackgroundColor(Color.WHITE);
+            colonelButton.setBackgroundColor(Color.WHITE);
+            majorButton.setBackgroundColor(Color.GREEN);
+            captainButton.setBackgroundColor(Color.WHITE);
+            lieutenantButton.setBackgroundColor(Color.WHITE);
+            sergeantButton.setBackgroundColor(Color.WHITE);
+            minerButton.setBackgroundColor(Color.WHITE);
+            scoutButton.setBackgroundColor(Color.WHITE);
+            spyButton.setBackgroundColor(Color.WHITE);
+            bombButton.setBackgroundColor(Color.WHITE);
+            flagButton.setBackgroundColor(Color.WHITE);
+        }
+        else if(v == captainButton){
+            marshallButton.setBackgroundColor(Color.WHITE);
+            generalButton.setBackgroundColor(Color.WHITE);
+            colonelButton.setBackgroundColor(Color.WHITE);
+            majorButton.setBackgroundColor(Color.WHITE);
+            captainButton.setBackgroundColor(Color.GREEN);
+            lieutenantButton.setBackgroundColor(Color.WHITE);
+            sergeantButton.setBackgroundColor(Color.WHITE);
+            minerButton.setBackgroundColor(Color.WHITE);
+            scoutButton.setBackgroundColor(Color.WHITE);
+            spyButton.setBackgroundColor(Color.WHITE);
+            bombButton.setBackgroundColor(Color.WHITE);
+            flagButton.setBackgroundColor(Color.WHITE);
+        }
+        else if(v == lieutenantButton){
+            marshallButton.setBackgroundColor(Color.WHITE);
+            generalButton.setBackgroundColor(Color.WHITE);
+            colonelButton.setBackgroundColor(Color.WHITE);
+            majorButton.setBackgroundColor(Color.WHITE);
+            captainButton.setBackgroundColor(Color.WHITE);
+            lieutenantButton.setBackgroundColor(Color.GREEN);
+            sergeantButton.setBackgroundColor(Color.WHITE);
+            minerButton.setBackgroundColor(Color.WHITE);
+            scoutButton.setBackgroundColor(Color.WHITE);
+            spyButton.setBackgroundColor(Color.WHITE);
+            bombButton.setBackgroundColor(Color.WHITE);
+            flagButton.setBackgroundColor(Color.WHITE);
+        }
+        else if(v == sergeantButton){
+            marshallButton.setBackgroundColor(Color.WHITE);
+            generalButton.setBackgroundColor(Color.WHITE);
+            colonelButton.setBackgroundColor(Color.WHITE);
+            majorButton.setBackgroundColor(Color.WHITE);
+            captainButton.setBackgroundColor(Color.WHITE);
+            lieutenantButton.setBackgroundColor(Color.WHITE);
+            sergeantButton.setBackgroundColor(Color.GREEN);
+            minerButton.setBackgroundColor(Color.WHITE);
+            scoutButton.setBackgroundColor(Color.WHITE);
+            spyButton.setBackgroundColor(Color.WHITE);
+            bombButton.setBackgroundColor(Color.WHITE);
+            flagButton.setBackgroundColor(Color.WHITE);
+        }
+        else if(v == minerButton){
+            marshallButton.setBackgroundColor(Color.WHITE);
+            generalButton.setBackgroundColor(Color.WHITE);
+            colonelButton.setBackgroundColor(Color.WHITE);
+            majorButton.setBackgroundColor(Color.WHITE);
+            captainButton.setBackgroundColor(Color.WHITE);
+            lieutenantButton.setBackgroundColor(Color.WHITE);
+            sergeantButton.setBackgroundColor(Color.WHITE);
+            minerButton.setBackgroundColor(Color.GREEN);
+            scoutButton.setBackgroundColor(Color.WHITE);
+            spyButton.setBackgroundColor(Color.WHITE);
+            bombButton.setBackgroundColor(Color.WHITE);
+            flagButton.setBackgroundColor(Color.WHITE);
+        }
+        else if(v == scoutButton){
+            marshallButton.setBackgroundColor(Color.WHITE);
+            generalButton.setBackgroundColor(Color.WHITE);
+            colonelButton.setBackgroundColor(Color.WHITE);
+            majorButton.setBackgroundColor(Color.WHITE);
+            captainButton.setBackgroundColor(Color.WHITE);
+            lieutenantButton.setBackgroundColor(Color.WHITE);
+            sergeantButton.setBackgroundColor(Color.WHITE);
+            minerButton.setBackgroundColor(Color.WHITE);
+            scoutButton.setBackgroundColor(Color.GREEN);
+            spyButton.setBackgroundColor(Color.WHITE);
+            bombButton.setBackgroundColor(Color.WHITE);
+            flagButton.setBackgroundColor(Color.WHITE);
+        }
+        else if(v == spyButton){
+            marshallButton.setBackgroundColor(Color.WHITE);
+            generalButton.setBackgroundColor(Color.WHITE);
+            colonelButton.setBackgroundColor(Color.WHITE);
+            majorButton.setBackgroundColor(Color.WHITE);
+            captainButton.setBackgroundColor(Color.WHITE);
+            lieutenantButton.setBackgroundColor(Color.WHITE);
+            sergeantButton.setBackgroundColor(Color.WHITE);
+            minerButton.setBackgroundColor(Color.WHITE);
+            scoutButton.setBackgroundColor(Color.WHITE);
+            spyButton.setBackgroundColor(Color.GREEN);
+            bombButton.setBackgroundColor(Color.WHITE);
+            flagButton.setBackgroundColor(Color.WHITE);
+        }
+        else if(v == bombButton){
+            marshallButton.setBackgroundColor(Color.WHITE);
+            generalButton.setBackgroundColor(Color.WHITE);
+            colonelButton.setBackgroundColor(Color.WHITE);
+            majorButton.setBackgroundColor(Color.WHITE);
+            captainButton.setBackgroundColor(Color.WHITE);
+            lieutenantButton.setBackgroundColor(Color.WHITE);
+            sergeantButton.setBackgroundColor(Color.WHITE);
+            minerButton.setBackgroundColor(Color.WHITE);
+            scoutButton.setBackgroundColor(Color.WHITE);
+            spyButton.setBackgroundColor(Color.WHITE);
+            bombButton.setBackgroundColor(Color.GREEN);
+            flagButton.setBackgroundColor(Color.WHITE);
+        }
+        else if(v == flagButton){
+            marshallButton.setBackgroundColor(Color.WHITE);
+            generalButton.setBackgroundColor(Color.WHITE);
+            colonelButton.setBackgroundColor(Color.WHITE);
+            majorButton.setBackgroundColor(Color.WHITE);
+            captainButton.setBackgroundColor(Color.WHITE);
+            lieutenantButton.setBackgroundColor(Color.WHITE);
+            sergeantButton.setBackgroundColor(Color.WHITE);
+            minerButton.setBackgroundColor(Color.WHITE);
+            scoutButton.setBackgroundColor(Color.WHITE);
+            spyButton.setBackgroundColor(Color.WHITE);
+            bombButton.setBackgroundColor(Color.WHITE);
+            flagButton.setBackgroundColor(Color.GREEN);
         }
     }
 
