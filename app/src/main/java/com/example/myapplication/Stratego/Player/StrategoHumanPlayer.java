@@ -4,6 +4,7 @@ package com.example.myapplication.Stratego.Player;
  */
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -25,6 +26,7 @@ import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMuteAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Phase;
+import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfaceView;
@@ -48,6 +50,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private TextView whosTurn;
     private TextView unitText;
     private TextView lastButtonText;
+    private TextView helpScreenText;
 
     // state object
     private StrategoGameState state;
@@ -143,6 +146,11 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             //show last tapped button on surface view
             this.setLastTappedButtonText(surfaceView.getState());
             surfaceView.invalidate();
+
+            this.setHelpScreenText(surfaceView.getState());
+            surfaceView.invalidate();
+
+
         }
     }
 
@@ -213,6 +221,21 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         lastButtonText.setText(buttonText);
     }
 
+    public void setHelpScreenText(StrategoGameState gsc){
+        if (gsc.getLastTappedPieceButton() == Rank.ONE){
+            String buttonText = "Marshall Button:\n " +
+                    "Highest Rank \n" +
+                    "If 1 attacks S, the S loses\n" +
+                    "If S attacks 1, the 1 loses.";
+            helpScreenText.setText(buttonText);
+        }
+        else if(gsc.getLastTappedPieceButton() == Rank.TWO){
+            String buttonText = "General Button:\n" +
+                    "2nd Highest Rank \n" +
+                    "2 defeats 3, 4, 5, 6, 7, 8, 9 ";
+            helpScreenText.setText(buttonText);
+        }
+    }
 
     /**
      *
@@ -220,6 +243,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     @Override
     public void onClick(View v) {
+        int row;
+        int col;
 
         //action type - send action
         switch (v.getId()){
@@ -468,6 +493,10 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             bombButton.setBackgroundColor(Color.WHITE);
             flagButton.setBackgroundColor(Color.GREEN);
         }
+
+
+
+
     }
 
 
@@ -502,6 +531,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
        unitText = (TextView)activity.findViewById(R.id.unitTextView);
        lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
+       helpScreenText = (TextView)activity.findViewById(R.id.helpScreenText);
 
        //piece buttons
         marshallButton = (Button)activity.findViewById(R.id.marshallButton);

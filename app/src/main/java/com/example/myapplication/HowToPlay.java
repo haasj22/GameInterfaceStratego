@@ -13,8 +13,7 @@ public class HowToPlay extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        helpSurfaceView = new helpSurfaceView(this, null);
-        setContentView(helpSurfaceView);
+        setContentView(R.layout.stratego_rules);
 
 
 
