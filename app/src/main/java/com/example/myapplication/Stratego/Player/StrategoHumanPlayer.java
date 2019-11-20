@@ -226,75 +226,75 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             String buttonText = "Marshall Button:\n " +
                     "Rank: 1 (Highest) \n" +
                     "If 1 attacks S, the S loses\n" +
-                    "If S attacks 1, the 1 loses.";
+                    "If S attacks 1, the 1 loses.\n";
             helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.TWO){
             String buttonText = "General Button:\n" +
                     "Rank: 2 \n" +
-                    "2 defeats 3, 4, 5, 6, 7, 8, 9.";
+                    "2 defeats 3, 4, 5, 6, 7, 8, 9.\n";
             helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.THREE){
             String buttonText = "Colonel Button:\n" +
                     "Rank: 3\n" +
-                    "3 defeats 4, 5, 6, 7, 8, 9.";
+                    "3 defeats 4, 5, 6, 7, 8, 9.\n";
             helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.FOUR){
             String buttonText = "Major Button:\n" +
                     "Rank: 4\n" +
-                    "4 defeats 5, 6, 7, 8, 9.";
+                    "4 defeats 5, 6, 7, 8, 9.\n";
             helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.FIVE){
             String buttonText = "Captain Button:\n" +
                     "Rank: 5\n" +
-                    "5 defeats 6, 7, 8, 9.";
+                    "5 defeats 6, 7, 8, 9.\n";
             helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.SIX){
             String buttonText = "Lieutenant Button:\n" +
                     "Rank: 6\n" +
-                    "6 defeats 7, 8, 9.";
+                    "6 defeats 7, 8, 9.\n";
             helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.SEVEN){
             String buttonText = "Sergeant Button:\n" +
                     "Rank: 7\n" +
-                    "7 defeats 8, 9.";
+                    "7 defeats 8, 9.\n";
             helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.EIGHT){
             String buttonText = "Miner Button:\n" +
                     "Rank: 8\n" +
-                    "8 defeats 9 and the bomb.";
+                    "8 defeats 9 and the bomb.\n";
             helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.NINE){
             String buttonText = "Scout Button:\n" +
                     "Rank: 9 (Lowest)\n" +
-                    "9 loses to every piece.";
+                    "9 loses to every piece.\n";
             helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.SPY){
             String buttonText = "Spy Button:\n" +
                     "Rank: S\n" +
                     "If 1 attacks S, the S loses\n" +
-                    "If S attacks 1, the 1 loses.";
+                    "If S attacks 1, the 1 loses.\n";
             helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.BOMB){
             String buttonText = "Bomb Button:\n" +
                     "Rank: B\n" +
-                    "B defeats every piece except 8. ";
+                    "B defeats every piece except 8.\n ";
             helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.FLAG){
             String buttonText = "Flag Button:\n" +
                     "Rank: F\n" +
                     "Flag loses every other piece.\n" +
-                    "Capture your opponent's flag!";
+                    "Capture your opponent's flag!\n";
             helpScreenText.setText(buttonText);
         }
     }
