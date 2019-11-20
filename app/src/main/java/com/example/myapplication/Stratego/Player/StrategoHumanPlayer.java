@@ -287,6 +287,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             case R.id.notepadButton:
                 Intent intent1 = new Intent(this.myActivity, notepadActivity.class);
                 notepadButton.getContext().startActivity(intent1);
+                break;
             case R.id.endTurnButton:
                 endTurnButton.setVisibility(View.INVISIBLE);
                 StrategoTransitionAction transitionAction =
