@@ -29,6 +29,7 @@ import com.example.myapplication.Stratego.GameState.Phase;
 import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
+import com.example.myapplication.Stratego.GameState.Team;
 import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfaceView;
 import com.example.myapplication.notepadSurfaceView;
 import com.example.myapplication.notepadActivity;
@@ -47,7 +48,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     HowToPlay howToPlay;
 
     //GUI text views
-    private TextView whosTurn;
+    private TextView whosTurnText;
     private TextView unitText;
     private TextView lastButtonText;
     private TextView helpScreenText;
@@ -150,6 +151,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             this.setHelpScreenText(surfaceView.getState());
             surfaceView.invalidate();
 
+            this.setCurrentTeamsTurnText(surfaceView.getState());
+            surfaceView.invalidate();
 
         }
     }
@@ -219,6 +222,17 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     public void setLastTappedButtonText(StrategoGameState gsc) {
         String buttonText = "Last Tapped Button: " + gsc.getLastTappedPieceButton();
         lastButtonText.setText(buttonText);
+    }
+
+    public void setCurrentTeamsTurnText(StrategoGameState gsc){
+        if(gsc.getCurrentTeamsTurn() == Team.BLUE_TEAM){
+            String buttonText = "It's Blue Teams Turn!";
+            whosTurnText.setText(buttonText);
+        }
+        else if(gsc.getCurrentTeamsTurn() == Team.RED_TEAM){
+            String buttonText = "It's Red Teams Turn!";
+            whosTurnText.setText(buttonText);
+        }
     }
 
     public void setHelpScreenText(StrategoGameState gsc){
@@ -365,7 +379,12 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             case R.id.muteButton:
                 StrategoMuteAction muteAction = new StrategoMuteAction(this);
                 this.game.sendAction(muteAction);
-                mediaPlayer.stop();
+                if(mediaPlayer.isPlaying()){
+                mediaPlayer.start();
+                }
+                else {
+                    mediaPlayer.stop();
+                }
                 break;
             case R.id.infoButton:
                 Intent intent0 = new Intent(this.myActivity, HowToPlay.class);
@@ -384,6 +403,9 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 default:
                     break;
         }
+        /**
+         * the color of the buttons change depending what is tapped on
+         */
         if(v == marshallButton){
             marshallButton.setBackgroundColor(Color.GREEN);
             generalButton.setBackgroundColor(Color.WHITE);
@@ -579,17 +601,11 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.stratego);
         mediaPlayer.start();
 
-
-
-        //rulesHelpButton = new RulesHelp(this.activity.findViewById(R.id.menuButton),
-                //this, this.game, this.activity);
-
-
         surfaceView = activity.findViewById(R.id.boardImageView);
         surfaceView.setSurfaceViewOwner(this.playerNum);
         surfaceView.setOnTouchListener(this);
 
-        whosTurn = (TextView)activity.findViewById(R.id.turnText);
+        whosTurnText = (TextView)activity.findViewById(R.id.turnText);
 
        unitText = (TextView)activity.findViewById(R.id.unitTextView);
        lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
@@ -642,7 +658,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      * stops music from playing when mute button is tapped
      */
     public void stopPlaying(){
-
         mediaPlayer.stop();
     }
 
@@ -679,10 +694,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         return true;
     }//onTouch
 
-    public boolean muteGame(){
-        stopPlaying();
-        return true;
-    }
     private void writeNotes() {
         // edits notes edit text for player's game notes
     }

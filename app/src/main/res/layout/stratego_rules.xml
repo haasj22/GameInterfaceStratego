@@ -7,9 +7,7 @@
     android:layout_height="match_parent"
     android:background="#FF200200"
     android:orientation="horizontal"
-    tools:context="com.example.myapplication.HowToPlay">>
-
-
+    tools:context="com.example.myapplication.HowToPlay">
         <ImageView
             android:id="@+id/rules"
             android:layout_width="match_parent"
