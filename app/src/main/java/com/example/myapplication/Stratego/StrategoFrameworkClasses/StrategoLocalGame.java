@@ -8,6 +8,7 @@ import com.example.myapplication.Game.GamePlayer;
 import com.example.myapplication.Game.LocalGame;
 import com.example.myapplication.Game.actionMsg.GameAction;
 import com.example.myapplication.Stratego.GameActions.StrategoButtonPieceAction;
+import com.example.myapplication.Stratego.GameActions.StrategoComputerMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMuteAction;
@@ -99,7 +100,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         // uses the actions to check instances of player actions
         //handles a move action by tapping on a square
         if(action instanceof StrategoMoveAction) {
-            Log.i("setupmsg", "action received");
+            Log.i("computermsg", "action received");
             StrategoMoveAction sma = (StrategoMoveAction)action;
             Log.i("setupmsg", "" + sma.getRow());
             Log.i("setupmsg", "" + sma.getCol());
@@ -160,6 +161,11 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
 
             //transitions the player to play phase
             state.transitionPhases();
+        }
+        else if (action instanceof StrategoComputerMoveAction) {
+            StrategoComputerMoveAction scma = (StrategoComputerMoveAction) action;
+            state.tapOnSquare(scma.getOldRow(), scma.getOldCol());
+            state.tapOnSquare(scma.getFutureRow(), scma.getFutureCol());
         }
         return true;
     }

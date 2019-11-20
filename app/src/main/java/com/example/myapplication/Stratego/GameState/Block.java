@@ -120,7 +120,8 @@ public class Block {
      */
     public boolean canOneMoveHere(int playNum) {
         return (this.getContainedPiece() == null && this.getBlockType() != Tile.WATER)
-                || this.getContainedPiece().getPieceTeam().getTEAMNUMBER() != playNum;
+                || this.getContainedPiece() != null
+                && this.getContainedPiece().getPieceTeam().getTEAMNUMBER() != playNum;
     }
 
     /**
