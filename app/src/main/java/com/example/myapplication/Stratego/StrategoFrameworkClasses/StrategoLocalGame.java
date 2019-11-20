@@ -134,27 +134,36 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
             int randomCol = (int)(Math.random() * 10);
 
             //adjusts the flag for the proper team
-            if(state.getCurrentTeamsTurn().getTEAMNUMBER() == 1) {
+            if(state.getCurrentTeamsTurn().getTEAMNUMBER() == 0) {
                 randomRow += 8;
             }
 
             //adds the flag to the board
             state.setLastTappedPieceButton(Rank.FLAG);
+            Log.i("computersetupmsg", "" + randomRow);
+            Log.i("computersetupmsg", "" + randomCol);
             state.tapOnSquare(randomRow, randomCol);
             state.tapOnSquare(randomRow, randomCol);
 
             //places bombs around the flag if possible
             state.setLastTappedPieceButton(Rank.BOMB);
             if(randomRow != 0) {
+                Log.i("computersetupmsg", "enteredUp");
                 state.tapOnSquare(randomRow - 1, randomCol);
                 state.tapOnSquare(randomRow - 1, randomCol);
-            } else if(randomRow != 9) {
+            }
+            if(randomRow != 9) {
+                Log.i("computersetupmsg", "enteredDown");
                 state.tapOnSquare(randomRow + 1, randomCol);
                 state.tapOnSquare(randomRow + 1, randomCol);
-            } else if(randomCol != 0) {
+            }
+            if(randomCol != 0) {
+                Log.i("computersetupmsg", "enteredLeft");
                 state.tapOnSquare(randomRow, randomCol -1);
                 state.tapOnSquare(randomRow, randomCol -1);
-            } else if(randomCol != 9) {
+            }
+            if(randomCol != 9) {
+                Log.i("computersetupmsg", "enteredRight");
                 state.tapOnSquare(randomRow, randomCol + 1);
                 state.tapOnSquare(randomRow, randomCol + 1);
             }

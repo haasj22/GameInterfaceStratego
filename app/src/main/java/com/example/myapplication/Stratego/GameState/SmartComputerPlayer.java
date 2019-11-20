@@ -5,12 +5,17 @@
  */
 package com.example.myapplication.Stratego.GameState;
 
+import android.util.Log;
+
 import com.example.myapplication.Game.GameComputerPlayer;
 import com.example.myapplication.Game.GameMainActivity;
 import com.example.myapplication.Game.infoMsg.GameInfo;
+import com.example.myapplication.Stratego.GameActions.StrategoComputerMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoSmartComputerSetupAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
+
+import java.util.ArrayList;
 
 public class SmartComputerPlayer extends GameComputerPlayer {
     StrategoGameState gameStateCopy;
@@ -38,32 +43,86 @@ public class SmartComputerPlayer extends GameComputerPlayer {
             //if its setup phase activates the computers setup method
             if(gameStateCopy.getCurrentPhase() == Phase.SETUP_PHASE) {
                 this.game.sendAction(new StrategoSmartComputerSetupAction(this));
-                this.game.sendAction(new StrategoTransitionAction(this));
             }
             //else it calculates the best play phase move and does that
             else {
                 //attacks an enemy if its nearby
-                int enemy=findAttackableEnemy();
-                if(enemy != -1) {
-                    this.game.sendAction(new StrategoMoveAction(this, enemy / 1000, enemy / 100));
-                    this.game.sendAction(new StrategoMoveAction(this, enemy / 10, enemy % 10));
-                }
-                //else moves pieces towards the back of the enemies board
-                else {
-                    int nearestMovable = findNearestMovableUnit();
-                    if(nearestMovable == -1) {
-                        this.game.sendAction(new StrategoMoveAction
-                                (this, (int)(Math.random() * 10), (int)(Math.random() * 10)));
-                    } else {
-                        this.game.sendAction(new StrategoMoveAction
-                                (this, nearestMovable / 1000, nearestMovable / 100));
-                        this.game.sendAction(new StrategoMoveAction
-                                (this, nearestMovable / 10, nearestMovable % 10));
-                    }
-                }
-
+                ArrayList<MovablePiece> computerMovablePieces= new ArrayList<>();
+                addMovablePieces(computerMovablePieces);
+                generateLegalMove(computerMovablePieces);
             }
         }
+    }
+
+    public void addMovablePieces(ArrayList<MovablePiece> myPieces) {
+        int count=0;
+        for(int x=0; x<10; x++) {
+            for(int y=0; y<10; y++) {
+                if(gameStateCopy.getBoard()[x][y].canOneMoveThis(this.playerNum)) {
+                    myPieces.add(new MovablePiece(x, y,
+                            gameStateCopy.getBoard()[x][y].getContainedPiece().getPieceRank()));
+                }
+            }
+        }
+    }
+
+    public void generateLegalMove(ArrayList<MovablePiece> myPieces) {
+        while(!myPieces.isEmpty()) {
+            int randomIndex = (int)(Math.random() * (myPieces.size() - myPieces.size()/2)) + myPieces.size()/2;
+            Log.i("computer4msg", "before");
+            boolean moveSent = findAndSendMove(myPieces.get(randomIndex));
+            Log.i("computer4msg", "after");
+            if(moveSent) {
+                Log.i("computer4msg", "returning");
+                return;
+            } else {
+                myPieces.remove(myPieces.get(randomIndex));
+            }
+        }
+    }
+
+    public boolean findAndSendMove(MovablePiece pieceToCheck) {
+        int randoRow = (int)Math.pow(-1, this.playerNum+1);
+        int randoCol = 0;
+
+        if(pieceToCheck.getX() + randoRow <= 9 || pieceToCheck.getX() + randoRow > 0) {
+            if(gameStateCopy.getBoard()[pieceToCheck.getX() + randoRow]
+                    [pieceToCheck.getY() + randoCol].canOneMoveHere(this.playerNum)) {
+                game.sendAction(new StrategoComputerMoveAction(this,
+                        pieceToCheck.getX(), pieceToCheck.getY(), pieceToCheck.getX() + randoRow,
+                        pieceToCheck.getY() + randoCol));
+                return true;
+            }
+        }
+        randoRow=0;
+        randoCol=(int)Math.pow(-1, (int)(Math.random() * 2 + 1));
+
+        for(int i = 0; i<2; i++) {
+            if(pieceToCheck.getY() + randoCol > 9 || pieceToCheck.getY() + randoCol < 0) {
+                continue;
+            }
+            if(gameStateCopy.getBoard()[pieceToCheck.getX() + randoRow]
+                    [pieceToCheck.getY() + randoCol].canOneMoveHere(this.playerNum)) {
+                game.sendAction(new StrategoComputerMoveAction(this,
+                        pieceToCheck.getX(), pieceToCheck.getY(), pieceToCheck.getX() + randoRow,
+                        pieceToCheck.getY() + randoCol));
+                return true;
+            }
+            randoCol *= -1;
+        }
+
+        randoRow = (int)Math.pow(-1, this.playerNum);
+        randoCol = 0;
+        if(pieceToCheck.getX() + randoRow <= 9 || pieceToCheck.getX() + randoRow > 0) {
+            if(gameStateCopy.getBoard()[pieceToCheck.getX() + randoRow]
+                    [pieceToCheck.getY() + randoCol].canOneMoveHere(this.playerNum)) {
+                game.sendAction(new StrategoComputerMoveAction(this,
+                        pieceToCheck.getX(), pieceToCheck.getY(), pieceToCheck.getX() + randoRow,
+                        pieceToCheck.getY() + randoCol));
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
