@@ -248,7 +248,8 @@ public abstract class LocalGame implements Game, Tickable {
                 // CASE 3: it's during the game, and we get a timer action
 
                 // Only perform the "tick" if it was our timer; otherwise, just post the message
-                if (((TimerAction)action).getTimer() == myTimer) {
+                if (((TimerAction)action).getTimer() != myTimer) {
+                    Log.i("timermsg", "Timer ticked");
                     this.timerTicked();
                 }
                 else {

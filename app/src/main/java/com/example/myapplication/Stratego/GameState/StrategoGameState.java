@@ -22,6 +22,9 @@ public class StrategoGameState extends GameState implements Serializable {
     //to satisfy Serializable interface
     private static final long serialVersionUID = 2379343847L;
 
+    private int redTeamSeconds;
+    private int blueTeamSeconds;
+
     //max number of rows and cols in board
     private final int COLMAX = 10;
     private final int ROWMAX = 10;
@@ -72,6 +75,9 @@ public class StrategoGameState extends GameState implements Serializable {
     public StrategoGameState(){
         //player one sets up first
         //redTeamTimer = 300000;
+
+        redTeamSeconds = 300;
+        blueTeamSeconds = 300;
 
         //player one starts with no pieces on the board
         redTeamPieces= new ArrayList<Rank>();
@@ -196,6 +202,10 @@ public class StrategoGameState extends GameState implements Serializable {
     public int getCOLMAX() { return COLMAX; }
     public int getROWMAX() { return ROWMAX; }
     public boolean isDidLastBlockContainPiece() { return didLastBlockContainPiece; }
+    public int getRedTeamSeconds() { return redTeamSeconds; }
+    public int getBlueTeamSeconds() { return blueTeamSeconds; }
+
+
 
     /**
      * returns the team that is currently not taking their turn
@@ -243,6 +253,14 @@ public class StrategoGameState extends GameState implements Serializable {
 
     public void setLastTappedPieceButton(Rank lastTappedPieceButton) {
         this.lastTappedPieceButton = lastTappedPieceButton;
+    }
+
+    public void setBlueTeamSeconds(int blueTeamSeconds) {
+        this.blueTeamSeconds = blueTeamSeconds;
+    }
+    public void setRedTeamSeconds(int redTeamSeconds) {
+        Log.i("timermsg", "Time set:" + redTeamSeconds);
+        this.redTeamSeconds = redTeamSeconds;
     }
 
     /**--------------------------------SETUP_PHASE METHODS----------------------------------------*/

@@ -7,6 +7,7 @@ import java.io.Serializable;
 import com.example.myapplication.Game.GamePlayer;
 import com.example.myapplication.Game.LocalGame;
 import com.example.myapplication.Game.actionMsg.GameAction;
+import com.example.myapplication.Game.util.GameTimer;
 import com.example.myapplication.Stratego.GameActions.StrategoButtonPieceAction;
 import com.example.myapplication.Stratego.GameActions.StrategoComputerMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
@@ -17,6 +18,7 @@ import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.SmartComputerPlayer;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
+import com.example.myapplication.Stratego.GameState.Team;
 
 /**
  * The local game to control the master StrategoGameState
@@ -27,6 +29,9 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
     private static final String TAG = "StrategoLocalGame";
     //the game state
     private StrategoGameState state;
+    private GameTimer redTimer;
+    private GameTimer blueTimer;
+    private Team whichTimerRunning;
 
     /**
      * Constructor for StrategoLocalGame
@@ -37,8 +42,12 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         // create the state for the beginning of the game
         state = new StrategoGameState();
         //perform superclass initialization
-        //super();
-
+        whichTimerRunning=Team.RED_TEAM;
+        redTimer = new GameTimer(this);
+        blueTimer = new GameTimer(this);
+        redTimer.setInterval(1000);
+        redTimer.start();
+        Log.i("timermsg", "timer started");
     }
 
     /**
@@ -179,5 +188,9 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         return true;
     }
 
-
+    @Override
+    public void timerTicked() {
+        Log.i("timermsg", "tick tock");
+        state.setRedTeamSeconds(state.getRedTeamSeconds() - 1);
+    }
 }

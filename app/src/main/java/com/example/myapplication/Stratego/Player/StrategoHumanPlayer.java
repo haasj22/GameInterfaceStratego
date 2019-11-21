@@ -3,6 +3,7 @@ package com.example.myapplication.Stratego.Player;
  *
  */
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -31,6 +32,8 @@ import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfa
 import com.example.myapplication.notepadSurfaceView;
 import com.example.myapplication.notepadActivity;
 
+import org.w3c.dom.Text;
+
 /**
  * TODO: check to see if player can make valid move and if not skip turn, going to be implemented in on
  * handles GUI and all actions for humanPlayer
@@ -48,6 +51,9 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private TextView whosTurn;
     private TextView unitText;
     private TextView lastButtonText;
+
+    private TextView redTimerText;
+    private TextView blueTimerText;
 
     // state object
     private StrategoGameState state;
@@ -116,6 +122,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      * receiveInfo method
      * @param info
      */
+    @SuppressLint("SetTextI18n")
     @Override
     public void receiveInfo(GameInfo info) {
 
@@ -131,6 +138,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             if (surfaceView == null) return;
             surfaceView.setState((StrategoGameState) info);
             Log.i("setupmsg", "surface view invalidated");
+
+            redTimerText.setText("Red Player:" + surfaceView.getState().getRedTeamSeconds());
 
             //show unit text during set up phase
             if(surfaceView.getState().getCurrentPhase() == Phase.SETUP_PHASE) {
@@ -500,8 +509,11 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         whosTurn = (TextView)activity.findViewById(R.id.turnText);
 
-       unitText = (TextView)activity.findViewById(R.id.unitTextView);
-       lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
+        unitText = (TextView)activity.findViewById(R.id.unitTextView);
+        lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
+
+        redTimerText = (TextView)activity.findViewById(R.id.redPlayerTimer);
+        blueTimerText = (TextView)activity.findViewById(R.id.bluePlayerTimer);
 
        //piece buttons
         marshallButton = (Button)activity.findViewById(R.id.marshallButton);
