@@ -127,6 +127,7 @@ public class DumbComputerPlayer extends GameComputerPlayer {
                     Log.i("computer4msg", "newRow " + randoRow
                             + "newCol" + randoCol);
                     Log.i("computer4msg", "sending action");
+                    this.sleep(.25);
                     game.sendAction(new StrategoComputerMoveAction(this,
                             pieceToCheck.getX(), pieceToCheck.getY(), pieceToCheck.getX() + randoRow,
                             pieceToCheck.getY() + randoCol));

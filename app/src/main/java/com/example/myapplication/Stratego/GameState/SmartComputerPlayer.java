@@ -90,6 +90,7 @@ public class SmartComputerPlayer extends GameComputerPlayer {
         if(pieceToCheck.getX() + randoRow <= 9 || pieceToCheck.getX() + randoRow > 0) {
             if(gameStateCopy.getBoard()[pieceToCheck.getX() + randoRow]
                     [pieceToCheck.getY() + randoCol].canOneMoveHere(this.playerNum)) {
+                this.sleep(.25);
                 game.sendAction(new StrategoComputerMoveAction(this,
                         pieceToCheck.getX(), pieceToCheck.getY(), pieceToCheck.getX() + randoRow,
                         pieceToCheck.getY() + randoCol));
@@ -105,6 +106,7 @@ public class SmartComputerPlayer extends GameComputerPlayer {
             }
             if(gameStateCopy.getBoard()[pieceToCheck.getX() + randoRow]
                     [pieceToCheck.getY() + randoCol].canOneMoveHere(this.playerNum)) {
+                this.sleep(.25);
                 game.sendAction(new StrategoComputerMoveAction(this,
                         pieceToCheck.getX(), pieceToCheck.getY(), pieceToCheck.getX() + randoRow,
                         pieceToCheck.getY() + randoCol));
@@ -118,6 +120,7 @@ public class SmartComputerPlayer extends GameComputerPlayer {
         if(pieceToCheck.getX() + randoRow <= 9 || pieceToCheck.getX() + randoRow > 0) {
             if(gameStateCopy.getBoard()[pieceToCheck.getX() + randoRow]
                     [pieceToCheck.getY() + randoCol].canOneMoveHere(this.playerNum)) {
+                this.sleep(.25);
                 game.sendAction(new StrategoComputerMoveAction(this,
                         pieceToCheck.getX(), pieceToCheck.getY(), pieceToCheck.getX() + randoRow,
                         pieceToCheck.getY() + randoCol));
