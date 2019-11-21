@@ -658,6 +658,7 @@ public class StrategoGameState extends GameState implements Serializable {
      * @return true once piece has been moved
      *         false if the coordinates are invalid
      */
+    //TODO: Jordan starts here for unit tests
     private boolean movePiece(int row1, int col1, int row2, int col2) {
         //moves the pieces to their according places
         board[row2][col2].setContainedPiece(board[row1][col1].getContainedPiece());
