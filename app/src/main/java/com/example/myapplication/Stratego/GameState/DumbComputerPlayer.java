@@ -16,6 +16,7 @@ import com.example.myapplication.Game.infoMsg.IllegalMoveInfo;
 import com.example.myapplication.Game.infoMsg.NotYourTurnInfo;
 import com.example.myapplication.Stratego.GameActions.StrategoComputerMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
+import com.example.myapplication.Stratego.GameActions.StrategoPassAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Phase;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
@@ -100,6 +101,7 @@ public class DumbComputerPlayer extends GameComputerPlayer {
                 myPieces.remove(myPieces.get(randomIndex));
             }
         }
+        game.sendAction(new StrategoPassAction(this));
     }
 
     public boolean findAndSendMove(MovablePiece pieceToCheck) {

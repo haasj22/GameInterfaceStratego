@@ -3,6 +3,7 @@ package com.example.myapplication.Stratego.Player;
  *
  */
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -24,6 +25,7 @@ import com.example.myapplication.Stratego.GameActions.StrategoButtonPieceAction;
 import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMuteAction;
+import com.example.myapplication.Stratego.GameActions.StrategoPassAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Phase;
 import com.example.myapplication.Stratego.GameState.Piece;
@@ -57,9 +59,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     private TextView redTimerText;
     private TextView blueTimerText;
-
-    // state object
-    private StrategoGameState state;
 
 
     //android current activity
@@ -150,19 +149,34 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             }
             // show enemy list during play phase
             else {
-                this.setEnemyLeft(surfaceView.getState());
+                if(!hasMoveablePieceLeft()) {
+                    game.sendAction(new StrategoPassAction(this));
+                }
+                if(surfaceView.getState().getCurrentTeamsTurn().getTEAMNUMBER() == this.playerNum) {
+                    this.setEnemyLeft(surfaceView.getState());
+                }
             }
             //show last tapped button on surface view
             this.setLastTappedButtonText(surfaceView.getState());
-            surfaceView.invalidate();
-
             this.setHelpScreenText(surfaceView.getState());
-            surfaceView.invalidate();
-
             this.setCurrentTeamsTurnText(surfaceView.getState());
             surfaceView.invalidate();
 
         }
+    }
+
+    public boolean hasMoveablePieceLeft() {
+        for(int i = 0; i < surfaceView.getState().getROWMAX(); i++) {
+            for(int j=0; j<surfaceView.getState().getCOLMAX(); j++) {
+                if(surfaceView.getState().getBoard()[i][j].canOneMoveThis(this.playerNum)) {
+                    if(i != 0 && surfaceView.getState().getBoard()[i-1][j].canOneMoveHere(this.playerNum)) {return true;}
+                    if(i != 9 && surfaceView.getState().getBoard()[i+1][j].canOneMoveHere(this.playerNum)) {return true;}
+                    if(j != 0 && surfaceView.getState().getBoard()[i][j-1].canOneMoveHere(this.playerNum)) {return true;}
+                    if(i != 0 && surfaceView.getState().getBoard()[i][j+1].canOneMoveHere(this.playerNum)) {return true;}
+                }
+            }
+        }
+        return false;
     }
 
     /**
@@ -701,7 +715,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 Log.i("msg", "Game Not Working");
             } else
                 this.game.sendAction(moveCommand);
-            surfaceView.invalidate();
+            //surfaceView.invalidate();
         }
 
         return true;

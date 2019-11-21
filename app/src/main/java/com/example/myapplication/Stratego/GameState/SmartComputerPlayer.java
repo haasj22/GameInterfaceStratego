@@ -12,6 +12,7 @@ import com.example.myapplication.Game.GameMainActivity;
 import com.example.myapplication.Game.infoMsg.GameInfo;
 import com.example.myapplication.Stratego.GameActions.StrategoComputerMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
+import com.example.myapplication.Stratego.GameActions.StrategoPassAction;
 import com.example.myapplication.Stratego.GameActions.StrategoSmartComputerSetupAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 
@@ -79,6 +80,7 @@ public class SmartComputerPlayer extends GameComputerPlayer {
                 myPieces.remove(myPieces.get(randomIndex));
             }
         }
+        game.sendAction(new StrategoPassAction(this));
     }
 
     public boolean findAndSendMove(MovablePiece pieceToCheck) {

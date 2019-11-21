@@ -13,6 +13,7 @@ import com.example.myapplication.Stratego.GameActions.StrategoComputerMoveAction
 import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMuteAction;
+import com.example.myapplication.Stratego.GameActions.StrategoPassAction;
 import com.example.myapplication.Stratego.GameActions.StrategoSmartComputerSetupAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Rank;
@@ -184,6 +185,10 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
             StrategoComputerMoveAction scma = (StrategoComputerMoveAction) action;
             state.tapOnSquare(scma.getOldRow(), scma.getOldCol());
             state.tapOnSquare(scma.getFutureRow(), scma.getFutureCol());
+        }
+        else if (action instanceof StrategoPassAction) {
+            StrategoPassAction spa = (StrategoPassAction)action;
+            state.transitionTurns();
         }
         return true;
     }

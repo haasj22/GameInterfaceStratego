@@ -569,7 +569,7 @@ public class StrategoGameState extends GameState implements Serializable {
      * transitionTurns method
      * transitions form one player's turn to the other
      */
-    private boolean transitionTurns() {
+    public boolean transitionTurns() {
         //switches the current team
         if(currentTeamsTurn == Team.RED_TEAM) {
             currentTeamsTurn = Team.BLUE_TEAM;
