@@ -166,16 +166,34 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
     public boolean hasMoveablePieceLeft() {
+        Log.i("moveCheckmsg", "entered");
         for(int i = 0; i < surfaceView.getState().getROWMAX(); i++) {
             for(int j=0; j<surfaceView.getState().getCOLMAX(); j++) {
                 if(surfaceView.getState().getBoard()[i][j].canOneMoveThis(this.playerNum)) {
-                    if(i != 0 && surfaceView.getState().getBoard()[i-1][j].canOneMoveHere(this.playerNum)) {return true;}
-                    if(i != 9 && surfaceView.getState().getBoard()[i+1][j].canOneMoveHere(this.playerNum)) {return true;}
-                    if(j != 0 && surfaceView.getState().getBoard()[i][j-1].canOneMoveHere(this.playerNum)) {return true;}
-                    if(i != 0 && surfaceView.getState().getBoard()[i][j+1].canOneMoveHere(this.playerNum)) {return true;}
+                    if(i != 0 && surfaceView.getState().getBoard()[i-1][j].canOneMoveHere(this.playerNum)) {
+                        Log.i("moveCheckmsg", "Up row:" + (i-1));
+                        Log.i("moveCheckmsg", "Up col:" + j);
+                        return true;
+                    }
+                    if(i != 9 && surfaceView.getState().getBoard()[i+1][j].canOneMoveHere(this.playerNum)) {
+                        Log.i("moveCheckmsg", "Down row:" + (i+1));
+                        Log.i("moveCheckmsg", "Down col:" + j);
+                        return true;
+                    }
+                    if(j != 0 && surfaceView.getState().getBoard()[i][j-1].canOneMoveHere(this.playerNum)) {
+                        Log.i("moveCheckmsg", "Left row:" + i);
+                        Log.i("moveCheckmsg", "Left col:" + (j-1));
+                        return true;
+                    }
+                    if(j != 9 && surfaceView.getState().getBoard()[i][j+1].canOneMoveHere(this.playerNum)) {
+                        Log.i("moveCheckmsg", "Right row:" + i);
+                        Log.i("moveCheckmsg", "Right col:" + (j+1));
+                        return true;
+                    }
                 }
             }
         }
+        Log.i("moveCheckmsg", "No more moves");
         return false;
     }
 
