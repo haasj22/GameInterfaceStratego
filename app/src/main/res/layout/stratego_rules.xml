@@ -5,17 +5,15 @@
     android:id="@+id/topGUI"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#200200"
+    android:background="#FF200200"
     android:orientation="horizontal"
-    tools:context="com.example.myapplication.HowToPlay">>
-
-
+    tools:context="com.example.myapplication.HowToPlay">
         <ImageView
             android:id="@+id/rules"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="center|center_horizontal"
-            android:background="#000000"
+            android:background="#FF000000"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/rules" />
 </RelativeLayout>

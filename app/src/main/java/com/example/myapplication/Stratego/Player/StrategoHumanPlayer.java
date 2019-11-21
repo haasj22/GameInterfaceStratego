@@ -3,8 +3,8 @@ package com.example.myapplication.Stratego.Player;
  *
  */
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -26,8 +26,10 @@ import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMuteAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Phase;
+import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
+import com.example.myapplication.Stratego.GameState.Team;
 import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfaceView;
 import com.example.myapplication.notepadSurfaceView;
 import com.example.myapplication.notepadActivity;
@@ -48,9 +50,10 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     HowToPlay howToPlay;
 
     //GUI text views
-    private TextView whosTurn;
+    private TextView whosTurnText;
     private TextView unitText;
     private TextView lastButtonText;
+    private TextView helpScreenText;
 
     private TextView redTimerText;
     private TextView blueTimerText;
@@ -152,6 +155,13 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             //show last tapped button on surface view
             this.setLastTappedButtonText(surfaceView.getState());
             surfaceView.invalidate();
+
+            this.setHelpScreenText(surfaceView.getState());
+            surfaceView.invalidate();
+
+            this.setCurrentTeamsTurnText(surfaceView.getState());
+            surfaceView.invalidate();
+
         }
     }
 
@@ -222,6 +232,94 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         lastButtonText.setText(buttonText);
     }
 
+    public void setCurrentTeamsTurnText(StrategoGameState gsc){
+        if(gsc.getCurrentTeamsTurn() == Team.BLUE_TEAM){
+            String buttonText = "It's Blue Teams Turn!";
+            whosTurnText.setText(buttonText);
+        }
+        else if(gsc.getCurrentTeamsTurn() == Team.RED_TEAM){
+            String buttonText = "It's Red Teams Turn!";
+            whosTurnText.setText(buttonText);
+        }
+    }
+
+    public void setHelpScreenText(StrategoGameState gsc){
+        if (gsc.getLastTappedPieceButton() == Rank.ONE){
+            String buttonText = "Marshall Button:\n " +
+                    "Rank: 1 (Highest) \n" +
+                    "If 1 attacks S, the S loses\n" +
+                    "If S attacks 1, the 1 loses.\n";
+            helpScreenText.setText(buttonText);
+        }
+        else if(gsc.getLastTappedPieceButton() == Rank.TWO){
+            String buttonText = "General Button:\n" +
+                    "Rank: 2 \n" +
+                    "2 defeats 3, 4, 5, 6, 7, 8, 9.\n";
+            helpScreenText.setText(buttonText);
+        }
+        else if(gsc.getLastTappedPieceButton() == Rank.THREE){
+            String buttonText = "Colonel Button:\n" +
+                    "Rank: 3\n" +
+                    "3 defeats 4, 5, 6, 7, 8, 9.\n";
+            helpScreenText.setText(buttonText);
+        }
+        else if(gsc.getLastTappedPieceButton() == Rank.FOUR){
+            String buttonText = "Major Button:\n" +
+                    "Rank: 4\n" +
+                    "4 defeats 5, 6, 7, 8, 9.\n";
+            helpScreenText.setText(buttonText);
+        }
+        else if(gsc.getLastTappedPieceButton() == Rank.FIVE){
+            String buttonText = "Captain Button:\n" +
+                    "Rank: 5\n" +
+                    "5 defeats 6, 7, 8, 9.\n";
+            helpScreenText.setText(buttonText);
+        }
+        else if(gsc.getLastTappedPieceButton() == Rank.SIX){
+            String buttonText = "Lieutenant Button:\n" +
+                    "Rank: 6\n" +
+                    "6 defeats 7, 8, 9.\n";
+            helpScreenText.setText(buttonText);
+        }
+        else if(gsc.getLastTappedPieceButton() == Rank.SEVEN){
+            String buttonText = "Sergeant Button:\n" +
+                    "Rank: 7\n" +
+                    "7 defeats 8, 9.\n";
+            helpScreenText.setText(buttonText);
+        }
+        else if(gsc.getLastTappedPieceButton() == Rank.EIGHT){
+            String buttonText = "Miner Button:\n" +
+                    "Rank: 8\n" +
+                    "8 defeats 9 and the bomb.\n";
+            helpScreenText.setText(buttonText);
+        }
+        else if(gsc.getLastTappedPieceButton() == Rank.NINE){
+            String buttonText = "Scout Button:\n" +
+                    "Rank: 9 (Lowest)\n" +
+                    "9 loses to every piece.\n";
+            helpScreenText.setText(buttonText);
+        }
+        else if(gsc.getLastTappedPieceButton() == Rank.SPY){
+            String buttonText = "Spy Button:\n" +
+                    "Rank: S\n" +
+                    "If 1 attacks S, the S loses\n" +
+                    "If S attacks 1, the 1 loses.\n";
+            helpScreenText.setText(buttonText);
+        }
+        else if(gsc.getLastTappedPieceButton() == Rank.BOMB){
+            String buttonText = "Bomb Button:\n" +
+                    "Rank: B\n" +
+                    "B defeats every piece except 8.\n ";
+            helpScreenText.setText(buttonText);
+        }
+        else if(gsc.getLastTappedPieceButton() == Rank.FLAG){
+            String buttonText = "Flag Button:\n" +
+                    "Rank: F\n" +
+                    "Flag loses every other piece.\n" +
+                    "Capture your opponent's flag!\n";
+            helpScreenText.setText(buttonText);
+        }
+    }
 
     /**
      *
@@ -229,6 +327,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     @Override
     public void onClick(View v) {
+        int row;
+        int col;
 
         //action type - send action
         switch (v.getId()){
@@ -287,7 +387,12 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             case R.id.muteButton:
                 StrategoMuteAction muteAction = new StrategoMuteAction(this);
                 this.game.sendAction(muteAction);
-                mediaPlayer.stop();
+                if(mediaPlayer.isPlaying()){
+                mediaPlayer.start();
+                }
+                else {
+                    mediaPlayer.stop();
+                }
                 break;
             case R.id.infoButton:
                 Intent intent0 = new Intent(this.myActivity, HowToPlay.class);
@@ -306,6 +411,9 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 default:
                     break;
         }
+        /**
+         * the color of the buttons change depending what is tapped on
+         */
         if(v == marshallButton){
             marshallButton.setBackgroundColor(Color.GREEN);
             generalButton.setBackgroundColor(Color.WHITE);
@@ -477,6 +585,10 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             bombButton.setBackgroundColor(Color.WHITE);
             flagButton.setBackgroundColor(Color.GREEN);
         }
+
+
+
+
     }
 
 
@@ -497,18 +609,15 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.stratego);
         mediaPlayer.start();
 
-
-
-        //rulesHelpButton = new RulesHelp(this.activity.findViewById(R.id.menuButton),
-                //this, this.game, this.activity);
-
-
         surfaceView = activity.findViewById(R.id.boardImageView);
         surfaceView.setSurfaceViewOwner(this.playerNum);
         surfaceView.setOnTouchListener(this);
 
-        whosTurn = (TextView)activity.findViewById(R.id.turnText);
+        whosTurnText = (TextView)activity.findViewById(R.id.turnText);
 
+       unitText = (TextView)activity.findViewById(R.id.unitTextView);
+       lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
+       helpScreenText = (TextView)activity.findViewById(R.id.helpScreenText);
         unitText = (TextView)activity.findViewById(R.id.unitTextView);
         lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
 
@@ -562,7 +671,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      * stops music from playing when mute button is tapped
      */
     public void stopPlaying(){
-
         mediaPlayer.stop();
     }
 
@@ -599,10 +707,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         return true;
     }//onTouch
 
-    public boolean muteGame(){
-        stopPlaying();
-        return true;
-    }
     private void writeNotes() {
         // edits notes edit text for player's game notes
     }
