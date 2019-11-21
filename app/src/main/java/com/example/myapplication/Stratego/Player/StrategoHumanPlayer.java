@@ -3,6 +3,7 @@ package com.example.myapplication.Stratego.Player;
  *
  */
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Color;
