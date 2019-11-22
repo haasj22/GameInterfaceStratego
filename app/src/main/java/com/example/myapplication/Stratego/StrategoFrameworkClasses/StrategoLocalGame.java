@@ -14,6 +14,7 @@ import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMuteAction;
 import com.example.myapplication.Stratego.GameActions.StrategoPassAction;
+import com.example.myapplication.Stratego.GameActions.StrategoRemoveVisibilityAction;
 import com.example.myapplication.Stratego.GameActions.StrategoSmartComputerSetupAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Rank;
@@ -189,6 +190,15 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         else if (action instanceof StrategoPassAction) {
             StrategoPassAction spa = (StrategoPassAction)action;
             state.transitionTurns();
+        }
+        else if (action instanceof StrategoRemoveVisibilityAction) {
+            StrategoRemoveVisibilityAction srva = (StrategoRemoveVisibilityAction) action;
+            try{
+                Thread.sleep(500);
+            } catch(InterruptedException e) {
+
+            }
+            state.removeTemporaryVisiblePiece();
         }
         return true;
     }

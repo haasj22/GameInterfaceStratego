@@ -67,6 +67,7 @@ public class StrategoGameState extends GameState implements Serializable {
     private int lastTappedCol;
     private boolean didLastBlockContainPiece;
 
+    private Piece visiblePiece;
     private Rank lastTappedPieceButton;
 
     /**
@@ -114,8 +115,8 @@ public class StrategoGameState extends GameState implements Serializable {
         lastTappedRow = -1;
         lastTappedCol = -1;
         didLastBlockContainPiece = false;
-
         lastTappedPieceButton = null;
+        visiblePiece=null;
     }
 
     /**
@@ -168,6 +169,7 @@ public class StrategoGameState extends GameState implements Serializable {
         this.lastTappedRow = trueState.lastTappedRow;
         this.lastTappedCol = trueState.lastTappedCol;
         this.didLastBlockContainPiece = trueState.didLastBlockContainPiece;
+        this.visiblePiece = trueState.visiblePiece;
 
         this.lastTappedPieceButton = trueState.lastTappedPieceButton;
     }
@@ -204,7 +206,7 @@ public class StrategoGameState extends GameState implements Serializable {
     public boolean isDidLastBlockContainPiece() { return didLastBlockContainPiece; }
     public int getRedTeamSeconds() { return redTeamSeconds; }
     public int getBlueTeamSeconds() { return blueTeamSeconds; }
-
+    public Piece getVisiblePiece() { return visiblePiece; }
 
 
     /**
@@ -261,6 +263,10 @@ public class StrategoGameState extends GameState implements Serializable {
     public void setRedTeamSeconds(int redTeamSeconds) {
         Log.i("timermsg", "Time set:" + redTeamSeconds);
         this.redTeamSeconds = redTeamSeconds;
+    }
+
+    public void setVisiblePiece(Piece visiblePiece) {
+        this.visiblePiece = visiblePiece;
     }
 
     /**--------------------------------SETUP_PHASE METHODS----------------------------------------*/
@@ -710,10 +716,17 @@ public class StrategoGameState extends GameState implements Serializable {
         //stores the attacking and defending pieces into variables
         Piece attacker = board[row1][col1].getContainedPiece();
         Piece defender = board[row2][col2].getContainedPiece();
+
         //if defender is a lower number/higher rank kill the attacker
         if(attacker.getPieceRank().ordinal() > defender.getPieceRank().ordinal()) {
             //removes piece from board and teams arraylist
             removePieceFromPlayer(currentTeamsTurn, attacker.getPieceRank());
+            //sets the piece to be temporarily visible
+            if(board[row1][col1].getContainedPiece().getPieceRank() != Rank.NINE) {
+                board[row2][col2].getContainedPiece().setVisible(true);
+                visiblePiece = board[row2][col2].getContainedPiece();
+            }
+            //removes attacker from the board
             board[row1][col1].setContainedPiece(null);
             return true;
         }
@@ -735,6 +748,11 @@ public class StrategoGameState extends GameState implements Serializable {
             return true;
         }
         return true;
+    }
+
+    public void removeTemporaryVisiblePiece() {
+        visiblePiece.setVisible(false);
+        visiblePiece=null;
     }
 
     /**

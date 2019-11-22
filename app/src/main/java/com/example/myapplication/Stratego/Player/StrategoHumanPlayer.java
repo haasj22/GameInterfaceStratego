@@ -26,6 +26,7 @@ import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMuteAction;
 import com.example.myapplication.Stratego.GameActions.StrategoPassAction;
+import com.example.myapplication.Stratego.GameActions.StrategoRemoveVisibilityAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Phase;
 import com.example.myapplication.Stratego.GameState.Piece;
@@ -162,6 +163,9 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             this.setCurrentTeamsTurnText(surfaceView.getState());
             surfaceView.invalidate();
 
+            if(surfaceView.getState().getVisiblePiece() != null) {
+                this.game.sendAction(new StrategoRemoveVisibilityAction(this));
+            }
         }
     }
 
