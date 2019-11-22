@@ -142,7 +142,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             surfaceView.setState((StrategoGameState) info);
             Log.i("setupmsg", "surface view invalidated");
 
-            redTimerText.setText("Red Player:" + surfaceView.getState().getRedTeamSeconds());
+            redTimerText.setText("Red Player:" + (surfaceView.getState().getRedTeamSeconds()/60)
+                    + ":" + (surfaceView.getState().getRedTeamSeconds()%60));
 
             //show unit text during set up phase
             if(surfaceView.getState().getCurrentPhase() == Phase.SETUP_PHASE) {

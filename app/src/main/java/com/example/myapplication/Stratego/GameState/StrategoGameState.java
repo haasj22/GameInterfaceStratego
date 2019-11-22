@@ -127,7 +127,8 @@ public class StrategoGameState extends GameState implements Serializable {
     public StrategoGameState(StrategoGameState trueState){
 
         //copies player one's information
-        //this.redTeamTimer = trueState.redTeamTimer;
+        redTeamSeconds=trueState.redTeamSeconds;
+        blueTeamSeconds=trueState.blueTeamSeconds;
 
         //copies player one's pieces
         redTeamPieces= new ArrayList<Rank>();
@@ -261,6 +262,9 @@ public class StrategoGameState extends GameState implements Serializable {
         this.blueTeamSeconds = blueTeamSeconds;
     }
     public void setRedTeamSeconds(int redTeamSeconds) {
+        if(redTeamSeconds <= 0) {
+            this.forfeitGame();
+        }
         Log.i("timermsg", "Time set:" + redTeamSeconds);
         this.redTeamSeconds = redTeamSeconds;
     }
