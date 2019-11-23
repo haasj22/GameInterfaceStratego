@@ -206,6 +206,10 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
     @Override
     public void timerTicked() {
         Log.i("timermsg", "tick tock");
-        state.setRedTeamSeconds(state.getRedTeamSeconds() - 1);
+        if(state.getCurrentTeamsTurn() == Team.RED_TEAM) {
+            state.setRedTeamSeconds(state.getRedTeamSeconds() - 1);
+        } else {
+            state.setBlueTeamSeconds(state.getBlueTeamSeconds() - 1);
+        }
     }
 }

@@ -5,7 +5,6 @@ package com.example.myapplication.Stratego.Player;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -29,15 +28,12 @@ import com.example.myapplication.Stratego.GameActions.StrategoPassAction;
 import com.example.myapplication.Stratego.GameActions.StrategoRemoveVisibilityAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Phase;
-import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.GameState.Team;
 import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfaceView;
 import com.example.myapplication.notepadSurfaceView;
 import com.example.myapplication.notepadActivity;
-
-import org.w3c.dom.Text;
 
 /**
  * TODO: check to see if player can make valid move and if not skip turn, going to be implemented in on
@@ -58,8 +54,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private TextView lastButtonText;
     private TextView helpScreenText;
 
-    private TextView redTimerText;
-    private TextView blueTimerText;
+    private TextView currentTimerText;
 
 
     //android current activity
@@ -71,12 +66,12 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
 
     //music
-    MediaPlayer mediaPlayer;
+    private MediaPlayer mediaPlayer;
+
 
 
     //buttons and or image buttons for other actions
     private Button notepadButton;
-    private Button startButton;
     private Button forfeitButton;
     private Button helpButton;
     private Button muteButton;
@@ -142,8 +137,13 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             surfaceView.setState((StrategoGameState) info);
             Log.i("setupmsg", "surface view invalidated");
 
-            redTimerText.setText("Red Player:" + (surfaceView.getState().getRedTeamSeconds()/60)
-                    + ":" + (surfaceView.getState().getRedTeamSeconds()%60));
+            if(surfaceView.getSurfaceViewOwner() == Team.RED_TEAM.getTEAMNUMBER()) {
+                currentTimerText.setText("Time Left:" + (surfaceView.getState().getRedTeamSeconds() / 60)
+                        + ":" + (surfaceView.getState().getRedTeamSeconds() % 60));
+            } else {
+                currentTimerText.setText("Time Left:" + (surfaceView.getState().getBlueTeamSeconds() / 60)
+                        + ":" + (surfaceView.getState().getBlueTeamSeconds() % 60));
+            }
 
             //show unit text during set up phase
             if(surfaceView.getState().getCurrentPhase() == Phase.SETUP_PHASE) {
@@ -207,7 +207,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      * implementing the enemy List on the GUI
      * @param gsc
      */
-    public void setUnitText(StrategoGameState gsc) {
+    private void setUnitText(StrategoGameState gsc) {
         String unitsLeftToPlace = "Pieces left to Setup:\n";
         unitsLeftToPlace += Rank.ONE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.ONE)
                 + " x Marshals (1)\n";
@@ -242,7 +242,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      * set how many enemy pieces are left
      * @param gsc
      */
-    public void setEnemyLeft(StrategoGameState gsc) {
+    private void setEnemyLeft(StrategoGameState gsc) {
         String unitsLeftToPlace = "Enemy Pieces Left\n";
         unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.ONE) + " x Marshals (1)\n";
         unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.TWO) + " x Generals (2)\n";
@@ -264,12 +264,12 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      * shows player last tapped Button because game works on taps
      * @param gsc
      */
-    public void setLastTappedButtonText(StrategoGameState gsc) {
+    private void setLastTappedButtonText(StrategoGameState gsc) {
         String buttonText = "Last Tapped Button: " + gsc.getLastTappedPieceButton();
         lastButtonText.setText(buttonText);
     }
 
-    public void setCurrentTeamsTurnText(StrategoGameState gsc){
+    private void setCurrentTeamsTurnText(StrategoGameState gsc){
         if(gsc.getCurrentTeamsTurn() == Team.BLUE_TEAM){
             String buttonText = "It's Blue Teams Turn!";
             whosTurnText.setText(buttonText);
@@ -280,7 +280,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         }
     }
 
-    public void setHelpScreenText(StrategoGameState gsc){
+    private void setHelpScreenText(StrategoGameState gsc){
         if (gsc.getLastTappedPieceButton() == Rank.ONE){
             String buttonText = "Marshall Button:\n " +
                     "Rank: 1 (Highest) \n" +
@@ -359,7 +359,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
     /**
-     *
+     * onClick method
      * @param v
      */
     @Override
@@ -639,10 +639,10 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         myActivity = activity;
 
         //loads the layout for stratego GUI
-
         activity.setContentView(R.layout.stratego_board);
 
 
+        //starts the music
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.stratego);
         mediaPlayer.start();
 
@@ -655,11 +655,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
        unitText = (TextView)activity.findViewById(R.id.unitTextView);
        lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
        helpScreenText = (TextView)activity.findViewById(R.id.helpScreenText);
-        unitText = (TextView)activity.findViewById(R.id.unitTextView);
-        lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
 
-        redTimerText = (TextView)activity.findViewById(R.id.redPlayerTimer);
-        blueTimerText = (TextView)activity.findViewById(R.id.bluePlayerTimer);
+        currentTimerText = (TextView)activity.findViewById(R.id.currentPlayerTimer);
 
        //piece buttons
         marshallButton = (Button)activity.findViewById(R.id.marshallButton);
@@ -704,17 +701,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
 
     /**
-     * stopPlaying Method
-     * stops music from playing when mute button is tapped
-     */
-    public void stopPlaying(){
-        mediaPlayer.stop();
-    }
-
-    //TODO: mute Button must call stopPlaying()
-
-
-    /**
      * onTouch method
      * @param v
      * @param event
@@ -743,30 +729,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         return true;
     }//onTouch
-
-    private void writeNotes() {
-        // edits notes edit text for player's game notes
-    }
-
-    public void locateUnites() {
-        // locates units of pieces
-    }
-
-    public void movePiece() {
-        // moves game pieces
-    }
-
-    public void attackPiece() {
-        // attacks chosen adjacent enemy piece
-    }
-
-    public void captureFlag() {
-        // attempts to capture suspected enemy flag
-    }
-
-    public void hitBomb() {
-        // hits bomb upon discovery
-    }
 
 }
 
