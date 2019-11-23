@@ -8,12 +8,60 @@
     android:background="#FF200200"
     android:orientation="horizontal"
     tools:context="com.example.myapplication.HowToPlay">
-        <ImageView
-            android:id="@+id/rules"
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="524dp"
+            android:layout_height="589dp"
+            android:layout_below="@+id/rulesTitle"
+            android:layout_alignEnd="@+id/textView5"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="92dp"
+            android:layout_marginEnd="-527dp"
+            android:layout_marginBottom="0dp"
+            android:fontFamily="sans-serif-thin"
+            android:text="Moves:\n Pieces can only move ONE block at a time except the scout (9).\n - If pieces are of EQUAL rank, both pieces will disappear.\n - If the spy attacks the marshall, the marshall loses. If the marshall attacks the spy, the spy loses. \n - If any piece attacks the spy, the spy disappears. \n - The bombs and flag can't be moved once placed on board.\n - Bombs defeat all pieces except the miner (8)."
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#FFFFFF"
+            android:textSize="34sp" />
+
+        <TextView
+            android:id="@+id/rulesTitle"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center|center_horizontal"
-            android:background="#FF000000"
-            android:scaleType="fitCenter"
-            app:srcCompat="@drawable/rules" />
+            android:layout_height="wrap_content"
+            android:fontFamily="casual"
+            android:gravity="center"
+            android:text="Stratego Rules"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#FFFFFF"
+            android:textSize="50sp" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="84dp"
+            android:layout_below="@+id/rulesTitle"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="6dp"
+            android:layout_marginBottom="591dp"
+            android:fontFamily="sans-serif-thin"
+            android:text="Goal: Capture the flag of your opponenet while defending your flag!"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#FFFFFF"
+            android:textSize="36sp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="497dp"
+            android:layout_height="572dp"
+            android:layout_below="@+id/rulesTitle"
+            android:layout_alignParentBottom="true"
+            android:layout_marginTop="97dp"
+            android:layout_marginBottom="12dp"
+            android:fontFamily="sans-serif-thin"
+            android:text="Pieces: \n Each player has an army of 40 people\n Marshall (1x)\n General(1x)\n Colonel(2x)\n Major(3x)\n Captain(4x)\n Lieutenant(4x)\nSergeant(4x)\n Miner(5x)\nScout(8x)\nSpy(1x)\nBomb(6x)\nFlag(1x)"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body2"
+            android:textColor="#FFFFFF"
+            android:textSize="32sp" />
+
 </RelativeLayout>
