@@ -5,7 +5,6 @@ package com.example.myapplication.Stratego.Player;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.util.Log;
@@ -29,15 +28,12 @@ import com.example.myapplication.Stratego.GameActions.StrategoPassAction;
 import com.example.myapplication.Stratego.GameActions.StrategoRemoveVisibilityAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Phase;
-import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.GameState.Team;
 import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfaceView;
 import com.example.myapplication.notepadSurfaceView;
 import com.example.myapplication.notepadActivity;
-
-import org.w3c.dom.Text;
 
 /**
  * TODO: check to see if player can make valid move and if not skip turn, going to be implemented in on
@@ -58,8 +54,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private TextView lastButtonText;
     private TextView helpScreenText;
 
-    private TextView redTimerText;
-    private TextView blueTimerText;
+    private TextView currentTimerText;
 
 
     //android current activity
@@ -142,8 +137,13 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             surfaceView.setState((StrategoGameState) info);
             Log.i("setupmsg", "surface view invalidated");
 
-            redTimerText.setText("Red Player:" + (surfaceView.getState().getRedTeamSeconds()/60)
-                    + ":" + (surfaceView.getState().getRedTeamSeconds()%60));
+            if(surfaceView.getSurfaceViewOwner() == Team.RED_TEAM.getTEAMNUMBER()) {
+                currentTimerText.setText("Time Left:" + (surfaceView.getState().getRedTeamSeconds() / 60)
+                        + ":" + (surfaceView.getState().getRedTeamSeconds() % 60));
+            } else {
+                currentTimerText.setText("Time Left:" + (surfaceView.getState().getBlueTeamSeconds() / 60)
+                        + ":" + (surfaceView.getState().getBlueTeamSeconds() % 60));
+            }
 
             //show unit text during set up phase
             if(surfaceView.getState().getCurrentPhase() == Phase.SETUP_PHASE) {
@@ -658,8 +658,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         unitText = (TextView)activity.findViewById(R.id.unitTextView);
         lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
 
-        redTimerText = (TextView)activity.findViewById(R.id.redPlayerTimer);
-        blueTimerText = (TextView)activity.findViewById(R.id.bluePlayerTimer);
+        currentTimerText = (TextView)activity.findViewById(R.id.currentPlayerTimer);
 
        //piece buttons
         marshallButton = (Button)activity.findViewById(R.id.marshallButton);

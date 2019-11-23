@@ -147,6 +147,10 @@ public class StrategoSurfaceView extends FlashSurfaceView {
         highlightPaint = new Paint(Color.YELLOW);
     }
 
+    public int getSurfaceViewOwner() {
+        return surfaceViewOwner;
+    }
+
     /**
      * StrategoGameState method
      * @return

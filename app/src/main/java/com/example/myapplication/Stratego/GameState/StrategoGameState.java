@@ -77,8 +77,8 @@ public class StrategoGameState extends GameState implements Serializable {
         //player one sets up first
         //redTeamTimer = 300000;
 
-        redTeamSeconds = 300;
-        blueTeamSeconds = 300;
+        redTeamSeconds = 150;
+        blueTeamSeconds = 150;
 
         //player one starts with no pieces on the board
         redTeamPieces= new ArrayList<Rank>();
@@ -570,6 +570,8 @@ public class StrategoGameState extends GameState implements Serializable {
         }
         //transitions phases
         this.currentPhase = Phase.PLAY_PHASE;
+        this.redTeamSeconds = 300;
+        this.blueTeamSeconds = 300;
         this.lastTappedRow = -1;
         this.lastTappedCol = -1;
         return true;
@@ -582,8 +584,10 @@ public class StrategoGameState extends GameState implements Serializable {
     public boolean transitionTurns() {
         //switches the current team
         if(currentTeamsTurn == Team.RED_TEAM) {
+            this.blueTeamSeconds += 5;
             currentTeamsTurn = Team.BLUE_TEAM;
         } else if(currentTeamsTurn == Team.BLUE_TEAM) {
+            this.redTeamSeconds += 5;
             currentTeamsTurn = Team.RED_TEAM;
         }
         return true;
