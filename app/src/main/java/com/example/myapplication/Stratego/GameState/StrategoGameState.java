@@ -4,7 +4,6 @@
  * @author John Haas
  * @author Jordan Ho
  * @author Kavya Mandla
- * @version October 2019
  */
 
 package com.example.myapplication.Stratego.GameState;
@@ -60,8 +59,6 @@ public class StrategoGameState extends GameState implements Serializable {
     //id of the player whose turn it is
     private Team currentTeamsTurn;
 
-    private StrategoHumanPlayer player;
-
     //used for making moves and attacks
     private int lastTappedRow;
     private int lastTappedCol;
@@ -84,8 +81,6 @@ public class StrategoGameState extends GameState implements Serializable {
         redTeamPieces= new ArrayList<Rank>();
         redTeamHasFlag = true;
 
-        //player one does not get access to any of player two's information
-        //blueTeamTimer = 0;
         //player one does not get to see where player two placed his pieces
         blueTeamPieces=new ArrayList<Rank>();
         blueTeamHasFlag = true;
@@ -137,10 +132,7 @@ public class StrategoGameState extends GameState implements Serializable {
         }
 
         //sees whether player one has won yet
-        this.redTeamHasFlag = trueState.redTeamHasFlag;
-
-        //copies player two's information
-        //this.blueTeamTimer = trueState.blueTeamTimer;
+        this.redTeamHasFlag = trueState.redTeamHasFlag;;
 
         //copies player two's pieces
         blueTeamPieces= new ArrayList<Rank>();
@@ -154,8 +146,6 @@ public class StrategoGameState extends GameState implements Serializable {
         //copies the phase of the game
         this.currentPhase = trueState.currentPhase;
 
-        // copies the number of players
-        //numPlayers = toCopy.numPlayers;
         //finds who's turn it is
         this.currentTeamsTurn = trueState.currentTeamsTurn;
 
@@ -208,7 +198,9 @@ public class StrategoGameState extends GameState implements Serializable {
     public int getRedTeamSeconds() { return redTeamSeconds; }
     public int getBlueTeamSeconds() { return blueTeamSeconds; }
     public Piece getVisiblePiece() { return visiblePiece; }
-
+    public Piece getPieceAt(int row, int col) {
+        return board[row][col].getContainedPiece();
+    }
 
     /**
      * returns the team that is currently not taking their turn
@@ -224,34 +216,14 @@ public class StrategoGameState extends GameState implements Serializable {
         }
     }
 
-    public Piece getPieceAt(int row, int col) {
-        return board[row][col].getContainedPiece();
-    }
-
     /**-----------------------------------SETTER METHODS------------------------------------------*/
-
-    public void setBoard(Block[][] board) {
-        this.board = board;
-    }
-
-    public void setRedTeamPieces(ArrayList<Rank> RedTeamPieces) {
-        this.redTeamPieces = RedTeamPieces;
-    }
 
     public void setRedTeamHasFlag(boolean RedTeamHasFlag) {
         this.redTeamHasFlag = RedTeamHasFlag;
     }
 
-    public void setblueTeamPieces(ArrayList<Rank> blueTeamPieces) {
-        this.blueTeamPieces = blueTeamPieces;
-    }
-
     public void setblueTeamHasFlag(boolean blueTeamHasFlag) {
         this.blueTeamHasFlag = blueTeamHasFlag;
-    }
-
-    public void setCurrentPhase(Phase currentPhase) {
-        this.currentPhase = currentPhase;
     }
 
     public void setLastTappedPieceButton(Rank lastTappedPieceButton) {
@@ -265,7 +237,6 @@ public class StrategoGameState extends GameState implements Serializable {
         if(redTeamSeconds <= 0) {
             this.forfeitGame();
         }
-        Log.i("timermsg", "Time set:" + redTeamSeconds);
         this.redTeamSeconds = redTeamSeconds;
     }
 
@@ -283,17 +254,11 @@ public class StrategoGameState extends GameState implements Serializable {
      * @return true when the tap has been handled
      */
     public boolean tapOnSquareSETUP(int row, int col) {
-        Log.i("setupmsg", "setup method entered");
-        Log.i("setupmsg", "LastTappedPiece: " + lastTappedPieceButton);
-        Log.i("setupmsg", "lastTappedRow: " + lastTappedRow);
-        Log.i("setupmsg", "LastTappedCol: " + lastTappedCol);
 
         //if tapped piece is empty and highlighted adds a piece to the game
         if(board[row][col].getContainedPiece() == null && didLastBlockContainPiece == false
                 && lastTappedRow == row && lastTappedCol == col) {
             addPieceToGame(new Piece(currentTeamsTurn, this.getLastTappedPieceButton()), row, col);
-            board[row][col].setHighLighted(false);
-            Log.i("setupmsg", "add");
             lastTappedRow = -1;
             lastTappedCol = -1;
         }
@@ -301,7 +266,6 @@ public class StrategoGameState extends GameState implements Serializable {
         else if(row == lastTappedRow && col == lastTappedCol && didLastBlockContainPiece==true) {
             removePieceFromGame(row, col);
             board[row][col].setHighLighted(false);
-            Log.i("setupmsg", "remove");
             lastTappedRow = -1;
             lastTappedCol = -1;
             didLastBlockContainPiece=false;
@@ -310,14 +274,12 @@ public class StrategoGameState extends GameState implements Serializable {
         else if(didLastBlockContainPiece){
             movePieceDuringSetup(lastTappedRow, lastTappedCol, row, col);
             board[lastTappedRow][lastTappedCol].setHighLighted(false);
-            Log.i("setupmsg", "move/swap");
             lastTappedRow = -1;
             lastTappedCol = -1;
             didLastBlockContainPiece=false;
         }
         //if piece contains piece but there is no previous tap readies the piece for deletion
         else if(board[row][col].containsPiece()) {
-            Log.i("setupmsg", "initializeRemove");
             board[row][col].setHighLighted(true);
             lastTappedRow=row;
             lastTappedCol=col;
@@ -328,7 +290,6 @@ public class StrategoGameState extends GameState implements Serializable {
             if(lastTappedRow != -1 && lastTappedCol != -1) {
                 board[lastTappedRow][lastTappedCol].setHighLighted(false);
             }
-            Log.i("setupmsg", "normalTap");
             board[row][col].setHighLighted(true);
             lastTappedRow = row;
             lastTappedCol = col;
@@ -349,7 +310,6 @@ public class StrategoGameState extends GameState implements Serializable {
      */
     public boolean addPieceToGame(Piece placedPiece, int row, int col) {
         if(placedPiece.getPieceRank() == null) {
-            Log.i("setupmsg", "no selected piece");
             return false;
         }
         //makes sure x is a legal value
@@ -364,8 +324,6 @@ public class StrategoGameState extends GameState implements Serializable {
 
         //makes sure there are not too many of the desired piece on the board
         int numOfDesiredPieceOnBoard = calculateNumberOfPieces(placedPiece.getPieceRank());
-        Log.i("placemsg", "" + numOfDesiredPieceOnBoard);
-        Log.i("placemsg", "" + placedPiece.getPieceRank().getMaxAmountOfPieces());
 
         //makes sure the amount of pieces doesn't exceed the maz
         if(numOfDesiredPieceOnBoard >= placedPiece.getPieceRank().getMaxAmountOfPieces()) {
@@ -672,7 +630,6 @@ public class StrategoGameState extends GameState implements Serializable {
      * @return true once piece has been moved
      *         false if the coordinates are invalid
      */
-    //TODO: Jordan starts here for unit tests
     private boolean movePiece(int row1, int col1, int row2, int col2) {
         //moves the pieces to their according places
         board[row2][col2].setContainedPiece(board[row1][col1].getContainedPiece());

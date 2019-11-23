@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class GameStateUnitTest {
+    //John Haas wrote this test
     @Test
     public void canAddFlagToTheGame() {
         StrategoGameState testGameState = new StrategoGameState();
@@ -24,6 +25,7 @@ public class GameStateUnitTest {
         assertEquals(true, testGameState.getIsRedTeamHasFlag());
     }
 
+    //John Haas wrote this test
     @Test
     public void gameCheckOver() {
         StrategoGameState testGameState = new StrategoGameState();
@@ -37,6 +39,7 @@ public class GameStateUnitTest {
         assertEquals(1, testGameState.isGameOver());
     }
 
+    //John Haas wrote this
     @Test
     public void visibleWorking() {
         StrategoGameState testGameState = new StrategoGameState();
@@ -54,6 +57,7 @@ public class GameStateUnitTest {
         assertEquals(null, testGameState.getPieceAt(6,7));
     }
 
+    //John Haas wrote this unit test
     @Test
     public void bombWorking() {
         StrategoGameState testGameState = new StrategoGameState();
@@ -79,6 +83,7 @@ public class GameStateUnitTest {
         assertEquals(testGameState.getPieceAt(3, 3).getPieceRank(), Rank.EIGHT);
     }
 
+    //John Haas wrote this test
     @Test
     public void forfeitWorks(){
         StrategoGameState testGameState = new StrategoGameState();
@@ -88,6 +93,7 @@ public class GameStateUnitTest {
         assertEquals(-1, testGameState.isGameOver());
     }
 
+    //John Haas wrote this test
     @Test
     public void spyAttacks() {
         StrategoGameState testGameState = new StrategoGameState();
@@ -106,6 +112,7 @@ public class GameStateUnitTest {
         assertEquals(Rank.SPY, testGameState.getPieceAt(4, 7).getPieceRank());
     }
 
+    //John Haas wrote this test
     @Test
     public void pieceMovable() {
         Piece testPiece1 = new Piece(Team.RED_TEAM, Rank.BOMB);
@@ -117,6 +124,7 @@ public class GameStateUnitTest {
         assertEquals(true, testPiece3.getPieceRank().isPieceMovable());
     }
 
+    //John Haas wrote this test
     @Test
     public void scoutHighlightsWork() {
         StrategoGameState testGameState = new StrategoGameState();
@@ -147,6 +155,7 @@ public class GameStateUnitTest {
         assertEquals(false, testGameState.getBoard()[2][3].isHighLighted());
     }
 
+    //John Haas wrote this test
     @Test
     public void normalHighlightWorks() {
         StrategoGameState testGameState = new StrategoGameState();
@@ -171,6 +180,7 @@ public class GameStateUnitTest {
         assertEquals(false, testGameState.getBoard()[3][3].isHighLighted());
     }
 
+    //John Haas wrote this test
     @Test
     public void setupTapping() {
         StrategoGameState testGameState = new StrategoGameState();
