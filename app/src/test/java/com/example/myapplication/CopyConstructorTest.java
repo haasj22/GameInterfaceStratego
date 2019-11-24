@@ -2,13 +2,18 @@ package com.example.myapplication;
 
 import static org.junit.Assert.*;
 
+import com.example.myapplication.Game.Game;
+import com.example.myapplication.Stratego.GameState.Block;
 import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
+import com.example.myapplication.Stratego.GameState.Team;
 
 
 import org.junit.BeforeClass;
 import org.junit.Test;
+
+import java.util.Random;
 
 /**
  * Tests the copy constructor for every class in the game state
@@ -27,8 +32,49 @@ public class CopyConstructorTest {
 
 
     }
+    @Test
+    public void calculateNumberOfEnemyPieces(){
+        StrategoGameState testGameState = new StrategoGameState();
 
-    /**
+    }
+
+    //written by Kavya Mandla
+    //checking to see if pieces that are placed remain when remaining are randomized
+    @Test
+    public void randomizeRemainingPieces(){
+        StrategoGameState testGameState = new StrategoGameState();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.ONE),6,7);
+        testGameState.randomizeRemainingPieces();
+        testGameState.transitionPhases();
+        assertEquals(Rank.ONE, testGameState.getPieceAt(6,7).getPieceRank());
+    }
+
+    //wriiten by Kavya Mandla
+    //teste rank One to 3
+    @Test
+    public void attackDifferentPiece(){
+        StrategoGameState testGameState = new StrategoGameState();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.ONE), 6, 7);
+        testGameState.transitionPhases();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.THREE),3,7);
+        testGameState.transitionPhases();
+        assertEquals(Rank.ONE, testGameState.getPieceAt(6,7).getPieceRank());
+        assertEquals(Rank.THREE,testGameState.getPieceAt(3,7).getPieceRank());
+        testGameState.tapOnSquarePLAY(6,7);
+        testGameState.tapOnSquarePLAY(5,7);
+        testGameState.tapOnSquarePLAY(3,7);
+        testGameState.tapOnSquarePLAY(4,7);
+        testGameState.tapOnSquarePLAY(5,7);
+        testGameState.tapOnSquarePLAY(4,7);
+        assertEquals(Rank.ONE,testGameState.getPieceAt(4,7).getPieceRank());
+
+    }
+
+
+
     //Kavya Mandla
     @Test
     public void copyConstructor(){
@@ -38,7 +84,8 @@ public class CopyConstructorTest {
         assertEquals(testGameState.toString(), testGameState2.toString());
     }
 
-    **/
+
+
 
     // written by Jordan Ho
     @Test
@@ -154,18 +201,18 @@ public class CopyConstructorTest {
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.BOMB),
                 3,7);
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.SPY),
-                3, 2);
+                2, 8);
         testGameState.transitionPhases();
         assertEquals(Rank.EIGHT, testGameState.getPieceAt(6,7).getPieceRank());
         assertEquals(Rank.BOMB, testGameState.getPieceAt(3,7).getPieceRank());
         testGameState.tapOnSquare(6,7);
         testGameState.tapOnSquare(5,7);
-        testGameState.tapOnSquare(3,2);
-        testGameState.tapOnSquare(4,2);
+        testGameState.tapOnSquare(2,8);
+        testGameState.tapOnSquare(2,7);
         testGameState.tapOnSquare(5,7);
         testGameState.tapOnSquare(4,7);
-        testGameState.tapOnSquare(4,2);
-        testGameState.tapOnSquare(5,2);
+        testGameState.tapOnSquare(2,7);
+        testGameState.tapOnSquare(3,7);
         testGameState.tapOnSquare(4,7);
         testGameState.tapOnSquare(3,7);
         assertEquals(Rank.EIGHT, testGameState.getPieceAt(3,7).getPieceRank());
@@ -181,22 +228,22 @@ public class CopyConstructorTest {
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.FLAG),
                 3,7);
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.SPY),
-                3, 2);
+                2, 8);
         testGameState.transitionPhases();
         assertEquals(Rank.SIX, testGameState.getPieceAt(6,7).getPieceRank());
         assertEquals(Rank.FLAG, testGameState.getPieceAt(3,7).getPieceRank());
-        assertEquals(Rank.SPY, testGameState.getPieceAt(3,2).getPieceRank());
+        assertEquals(Rank.SPY, testGameState.getPieceAt(2,8).getPieceRank());
         testGameState.tapOnSquare(6,7);
         testGameState.tapOnSquare(5,7);
-        testGameState.tapOnSquare(3,2);
-        testGameState.tapOnSquare(4,2);
+        testGameState.tapOnSquare(2,8);
+        testGameState.tapOnSquare(2,7);
         testGameState.tapOnSquare(5,7);
         testGameState.tapOnSquare(4,7);
-        testGameState.tapOnSquare(4,2);
-        testGameState.tapOnSquare(5,2);
+        testGameState.tapOnSquare(2,7);
+        testGameState.tapOnSquare(3,7);
         testGameState.tapOnSquare(4,7);
         testGameState.tapOnSquare(3,7);
-        assertEquals(false, testGameState.getIsBlueTeamHasFlag());
+        assertEquals(Rank.SIX, testGameState.getPieceAt(3,7).getPieceRank());
     }
 
 }
