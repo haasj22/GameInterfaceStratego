@@ -1,7 +1,10 @@
-package com.example.myapplication.Stratego.Player;
 /**
- *
+ * class that displays the updated gui on screen
+ * @author John Haas
+ * @author Jordan Ho
+ * @author Kavya Mandla
  */
+package com.example.myapplication.Stratego.Player;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -35,25 +38,16 @@ import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfa
 import com.example.myapplication.notepadSurfaceView;
 import com.example.myapplication.notepadActivity;
 
-/**
- * TODO: check to see if player can make valid move and if not skip turn, going to be implemented in on
- * handles GUI and all actions for humanPlayer
-**/
-
 public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClickListener, View.OnTouchListener{
 
     //tag for logging
     private static final String TAG = "StrategoHumanPlayer";
-
-    notepadSurfaceView notepadSurfaceView;
-    HowToPlay howToPlay;
 
     //GUI text views
     private TextView whosTurnText;
     private TextView unitText;
     private TextView lastButtonText;
     private TextView helpScreenText;
-
     private TextView currentTimerText;
 
 
@@ -63,21 +57,15 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     //surface view
     private StrategoSurfaceView surfaceView;
 
-
-
     //music
     private MediaPlayer mediaPlayer;
 
-
-
-    //buttons and or image buttons for other actions
+    //buttons that activate actions
     private Button notepadButton;
     private Button forfeitButton;
     private Button helpButton;
     private Button muteButton;
     private Button endTurnButton;
-
-
 
     //buttons for pieces
     private Button marshallButton;
@@ -93,24 +81,15 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private Button bombButton;
     private Button flagButton;
 
-
-
     /**
-     * HumanPlayer method
+     * StrategoHumanPlayer method
      *
-     * @param name
+     * @param name name of the stratego player
      */
     public StrategoHumanPlayer(String name) {
         super(name);
     }
 
-    /**
-     * getTopView method
-     * returns the
-     * GUI's top view
-     *
-     * @return topGUI
-     */
     public View getTopView() {
         return myActivity.findViewById(R.id.StrategoInGameLayout);
     }
@@ -118,12 +97,13 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     /**
      * receiveInfo method
-     * @param info
+     * @param info contains the new game state
      */
     @SuppressLint("SetTextI18n")
     @Override
     public void receiveInfo(GameInfo info) {
 
+        //makes sure something was send
         if(info == null) return;
 
         //if move is illegal or if it's not your turn, flash red lights
@@ -135,8 +115,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         if(info instanceof StrategoGameState) {
             if (surfaceView == null) return;
             surfaceView.setState((StrategoGameState) info);
-            Log.i("setupmsg", "surface view invalidated");
 
+            //sets the timer to the appropriate time
             if(surfaceView.getSurfaceViewOwner() == Team.RED_TEAM.getTEAMNUMBER()) {
                 currentTimerText.setText("Time Left:" + (surfaceView.getState().getRedTeamSeconds() / 60)
                         + ":" + (surfaceView.getState().getRedTeamSeconds() % 60));
@@ -149,6 +129,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             if(surfaceView.getState().getCurrentPhase() == Phase.SETUP_PHASE) {
                 this.setUnitText(surfaceView.getState());
             }
+
             // show enemy list during play phase
             else {
                 if(!hasMoveablePieceLeft()) {
@@ -158,6 +139,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                     this.setEnemyLeft(surfaceView.getState());
                 }
             }
+
             //show last tapped button on surface view
             this.setLastTappedButtonText(surfaceView.getState());
             this.setHelpScreenText(surfaceView.getState());
@@ -170,44 +152,41 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         }
     }
 
+    /**
+     * method that checks if a player has movable pieces left
+     * @return
+     */
     public boolean hasMoveablePieceLeft() {
-        Log.i("moveCheckmsg", "entered");
+        //goes through every block of the board
         for(int i = 0; i < surfaceView.getState().getROWMAX(); i++) {
             for(int j=0; j<surfaceView.getState().getCOLMAX(); j++) {
+                //checks if the piece is movable
                 if(surfaceView.getState().getBoard()[i][j].canOneMoveThis(this.playerNum)) {
+                    //checks if that movable piece can move anywhere currently
                     if(i != 0 && surfaceView.getState().getBoard()[i-1][j].canOneMoveHere(this.playerNum)) {
-                        Log.i("moveCheckmsg", "Up row:" + (i-1));
-                        Log.i("moveCheckmsg", "Up col:" + j);
                         return true;
                     }
                     if(i != 9 && surfaceView.getState().getBoard()[i+1][j].canOneMoveHere(this.playerNum)) {
-                        Log.i("moveCheckmsg", "Down row:" + (i+1));
-                        Log.i("moveCheckmsg", "Down col:" + j);
                         return true;
                     }
                     if(j != 0 && surfaceView.getState().getBoard()[i][j-1].canOneMoveHere(this.playerNum)) {
-                        Log.i("moveCheckmsg", "Left row:" + i);
-                        Log.i("moveCheckmsg", "Left col:" + (j-1));
                         return true;
                     }
                     if(j != 9 && surfaceView.getState().getBoard()[i][j+1].canOneMoveHere(this.playerNum)) {
-                        Log.i("moveCheckmsg", "Right row:" + i);
-                        Log.i("moveCheckmsg", "Right col:" + (j+1));
                         return true;
                     }
                 }
             }
         }
-        Log.i("moveCheckmsg", "No more moves");
         return false;
     }
 
     /**
-     * setUnitText method
-     * implementing the enemy List on the GUI
-     * @param gsc
+     * method that implements the enemy List on the GUI
+     * @param gsc the current state of the game
      */
     private void setUnitText(StrategoGameState gsc) {
+        //writes the current amount of pieces that the player has left to place
         String unitsLeftToPlace = "Pieces left to Setup:\n";
         unitsLeftToPlace += Rank.ONE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.ONE)
                 + " x Marshals (1)\n";
@@ -238,11 +217,11 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
 
     /**
-     * setEnemyLeft method
-     * set how many enemy pieces are left
-     * @param gsc
+     * methods that displays the amount of pieces the enemy still has
+     * @param gsc the current state of the game
      */
     private void setEnemyLeft(StrategoGameState gsc) {
+        //displays enemy pieces.
         String unitsLeftToPlace = "Enemy Pieces Left\n";
         unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.ONE) + " x Marshals (1)\n";
         unitsLeftToPlace += gsc.calculateNumberOfEnemyPieces(Rank.TWO) + " x Generals (2)\n";
@@ -260,16 +239,20 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     }
 
     /**
-     * setLastTappedButtonText method
-     * shows player last tapped Button because game works on taps
-     * @param gsc
+     * method that shows the button piece that the player last tapped
+     * @param gsc current state of the game
      */
     private void setLastTappedButtonText(StrategoGameState gsc) {
         String buttonText = "Last Tapped Button: " + gsc.getLastTappedPieceButton();
         lastButtonText.setText(buttonText);
     }
 
+    /**
+     * method that displays which team is currently playing
+     * @param gsc the current state of the game
+     */
     private void setCurrentTeamsTurnText(StrategoGameState gsc){
+        //shows who's turn it currently is
         if(gsc.getCurrentTeamsTurn() == Team.BLUE_TEAM){
             String buttonText = "It's Blue Teams Turn!";
             whosTurnText.setText(buttonText);
@@ -280,141 +263,144 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         }
     }
 
+    /**
+     * displays the text for the help screen
+     * @param gsc the current state of the game
+     */
     private void setHelpScreenText(StrategoGameState gsc){
+        String buttonText="Help Screen";
         if (gsc.getLastTappedPieceButton() == Rank.ONE){
-            String buttonText = "Marshall Button:\n " +
+            buttonText = "Marshall Button:\n " +
                     "Rank: 1 (Highest) \n" +
                     "If 1 attacks S, the S loses\n" +
                     "If S attacks 1, the 1 loses.\n";
-            helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.TWO){
-            String buttonText = "General Button:\n" +
+            buttonText = "General Button:\n" +
                     "Rank: 2 \n" +
-                    "2 defeats 3, 4, 5, 6, 7, 8, 9.\n";
-            helpScreenText.setText(buttonText);
+                    "2 defeats 3, 4, 5, 6, 7, 8, 9, S.\n";
         }
         else if(gsc.getLastTappedPieceButton() == Rank.THREE){
-            String buttonText = "Colonel Button:\n" +
+            buttonText = "Colonel Button:\n" +
                     "Rank: 3\n" +
-                    "3 defeats 4, 5, 6, 7, 8, 9.\n";
-            helpScreenText.setText(buttonText);
+                    "3 defeats 4, 5, 6, 7, 8, 9, S.\n";
         }
         else if(gsc.getLastTappedPieceButton() == Rank.FOUR){
-            String buttonText = "Major Button:\n" +
+            buttonText = "Major Button:\n" +
                     "Rank: 4\n" +
-                    "4 defeats 5, 6, 7, 8, 9.\n";
-            helpScreenText.setText(buttonText);
+                    "4 defeats 5, 6, 7, 8, 9, S.\n";
         }
         else if(gsc.getLastTappedPieceButton() == Rank.FIVE){
-            String buttonText = "Captain Button:\n" +
+            buttonText = "Captain Button:\n" +
                     "Rank: 5\n" +
-                    "5 defeats 6, 7, 8, 9.\n";
-            helpScreenText.setText(buttonText);
+                    "5 defeats 6, 7, 8, 9, S.\n";
         }
         else if(gsc.getLastTappedPieceButton() == Rank.SIX){
-            String buttonText = "Lieutenant Button:\n" +
+            buttonText = "Lieutenant Button:\n" +
                     "Rank: 6\n" +
-                    "6 defeats 7, 8, 9.\n";
-            helpScreenText.setText(buttonText);
+                    "6 defeats 7, 8, 9, S.\n";
         }
         else if(gsc.getLastTappedPieceButton() == Rank.SEVEN){
-            String buttonText = "Sergeant Button:\n" +
+            buttonText = "Sergeant Button:\n" +
                     "Rank: 7\n" +
-                    "7 defeats 8, 9.\n";
-            helpScreenText.setText(buttonText);
+                    "7 defeats 8, 9, S.\n";
         }
         else if(gsc.getLastTappedPieceButton() == Rank.EIGHT){
-            String buttonText = "Miner Button:\n" +
+            buttonText = "Miner Button:\n" +
                     "Rank: 8\n" +
                     "8 defeats 9 and the bomb.\n";
-            helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.NINE){
-            String buttonText = "Scout Button:\n" +
+            buttonText = "Scout Button:\n" +
                     "Rank: 9 (Lowest)\n" +
                     "9 loses to every piece.\n";
-            helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.SPY){
-            String buttonText = "Spy Button:\n" +
+            buttonText = "Spy Button:\n" +
                     "Rank: S\n" +
                     "If 1 attacks S, the S loses\n" +
                     "If S attacks 1, the 1 loses.\n";
-            helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.BOMB){
-            String buttonText = "Bomb Button:\n" +
+            buttonText = "Bomb Button:\n" +
                     "Rank: B\n" +
                     "B defeats every piece except 8.\n ";
-            helpScreenText.setText(buttonText);
         }
         else if(gsc.getLastTappedPieceButton() == Rank.FLAG){
-            String buttonText = "Flag Button:\n" +
+            buttonText = "Flag Button:\n" +
                     "Rank: F\n" +
                     "Flag loses every other piece.\n" +
                     "Capture your opponent's flag!\n";
-            helpScreenText.setText(buttonText);
         }
+        helpScreenText.setText(buttonText);
     }
 
     /**
-     * onClick method
-     * @param v
+     * method thats sends an appropriate action when button is clicked
+     * @param v the view that was clicked on
      */
     @Override
     public void onClick(View v) {
-        int row;
-        int col;
-
         //action type - send action
         switch (v.getId()){
             case R.id.marshallButton:
-                StrategoButtonPieceAction marshallButtonAction = new StrategoButtonPieceAction(this, Rank.ONE);
+                StrategoButtonPieceAction marshallButtonAction =
+                        new StrategoButtonPieceAction(this, Rank.ONE);
                 this.game.sendAction(marshallButtonAction);
                 break;
             case R.id.generalButton:
-                StrategoButtonPieceAction generalButtonAction = new StrategoButtonPieceAction(this, Rank.TWO);
+                StrategoButtonPieceAction generalButtonAction =
+                        new StrategoButtonPieceAction(this, Rank.TWO);
                 this.game.sendAction(generalButtonAction);
                 break;
             case R.id.colonelButton:
-                StrategoButtonPieceAction colonelButtonAction = new StrategoButtonPieceAction(this, Rank.THREE);
+                StrategoButtonPieceAction colonelButtonAction =
+                        new StrategoButtonPieceAction(this, Rank.THREE);
                 this.game.sendAction(colonelButtonAction);
                 break;
             case R.id.majorButton:
-                StrategoButtonPieceAction majorButtonAction = new StrategoButtonPieceAction(this, Rank.FOUR);
+                StrategoButtonPieceAction majorButtonAction =
+                        new StrategoButtonPieceAction(this, Rank.FOUR);
                 this.game.sendAction(majorButtonAction);
                 break;
             case R.id.captainButton:
-                StrategoButtonPieceAction captainButtonAction = new StrategoButtonPieceAction(this, Rank.FIVE);
+                StrategoButtonPieceAction captainButtonAction =
+                        new StrategoButtonPieceAction(this, Rank.FIVE);
                 this.game.sendAction(captainButtonAction);
                 break;
             case R.id.lieutenantButton:
-                StrategoButtonPieceAction lieutenantButtonAction = new StrategoButtonPieceAction(this, Rank.SIX);
+                StrategoButtonPieceAction lieutenantButtonAction =
+                        new StrategoButtonPieceAction(this, Rank.SIX);
                 this.game.sendAction(lieutenantButtonAction);
                 break;
             case R.id.sergeantButton:
-                StrategoButtonPieceAction sergeantButtonAction = new StrategoButtonPieceAction(this, Rank.SEVEN);
+                StrategoButtonPieceAction sergeantButtonAction =
+                        new StrategoButtonPieceAction(this, Rank.SEVEN);
                 this.game.sendAction(sergeantButtonAction);
                 break;
             case R.id.minerButton:
-                StrategoButtonPieceAction minerButtonAction = new StrategoButtonPieceAction(this, Rank.EIGHT);
+                StrategoButtonPieceAction minerButtonAction =
+                        new StrategoButtonPieceAction(this, Rank.EIGHT);
                 this.game.sendAction(minerButtonAction);
                 break;
             case R.id.scoutButton:
-                StrategoButtonPieceAction scoutButtonAction = new StrategoButtonPieceAction(this, Rank.NINE);
+                StrategoButtonPieceAction scoutButtonAction =
+                        new StrategoButtonPieceAction(this, Rank.NINE);
                 this.game.sendAction(scoutButtonAction);
                 break;
             case R.id.spyButton:
-                StrategoButtonPieceAction spyButtonAction = new StrategoButtonPieceAction(this, Rank.SPY);
+                StrategoButtonPieceAction spyButtonAction =
+                        new StrategoButtonPieceAction(this, Rank.SPY);
                 this.game.sendAction(spyButtonAction);
                 break;
             case R.id.flagButton:
-                StrategoButtonPieceAction flagButtonAction = new StrategoButtonPieceAction(this, Rank.FLAG);
+                StrategoButtonPieceAction flagButtonAction =
+                        new StrategoButtonPieceAction(this, Rank.FLAG);
                 this.game.sendAction(flagButtonAction);
                 break;
             case R.id.bombButton:
-                StrategoButtonPieceAction bombButtonAction = new StrategoButtonPieceAction(this, Rank.BOMB);
+                StrategoButtonPieceAction bombButtonAction =
+                        new StrategoButtonPieceAction(this, Rank.BOMB);
                 this.game.sendAction(bombButtonAction);
                 break;
             case R.id.forfeitButton:
@@ -424,12 +410,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             case R.id.muteButton:
                 StrategoMuteAction muteAction = new StrategoMuteAction(this);
                 this.game.sendAction(muteAction);
-                if(mediaPlayer.isPlaying()){
-                mediaPlayer.start();
-                }
-                else {
-                    mediaPlayer.stop();
-                }
                 break;
             case R.id.infoButton:
                 Intent intent0 = new Intent(this.myActivity, HowToPlay.class);
@@ -623,15 +603,12 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             flagButton.setBackgroundColor(Color.GREEN);
         }
 
-
-
-
     }
 
 
     /**
      * setAsGui sets the current player as the activity's GUI
-     * @param activity
+     * @param activity the current activity being run
      */
     public void setAsGui(GameMainActivity activity) {
 
@@ -646,19 +623,19 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.stratego);
         mediaPlayer.start();
 
+        //makes sure the surface view works correctly
         surfaceView = activity.findViewById(R.id.boardImageView);
         surfaceView.setSurfaceViewOwner(this.playerNum);
         surfaceView.setOnTouchListener(this);
 
+        //sets the text views to their proper variables
         whosTurnText = (TextView)activity.findViewById(R.id.turnText);
-
-       unitText = (TextView)activity.findViewById(R.id.unitTextView);
-       lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
-       helpScreenText = (TextView)activity.findViewById(R.id.helpScreenText);
-
+        unitText = (TextView)activity.findViewById(R.id.unitTextView);
+        lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
+        helpScreenText = (TextView)activity.findViewById(R.id.helpScreenText);
         currentTimerText = (TextView)activity.findViewById(R.id.currentPlayerTimer);
 
-       //piece buttons
+        //piece buttons
         marshallButton = (Button)activity.findViewById(R.id.marshallButton);
         marshallButton.setOnClickListener(this);
         generalButton = (Button)activity.findViewById(R.id.generalButton);
@@ -695,36 +672,26 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         notepadButton.setOnClickListener(this);
         endTurnButton = (Button)activity.findViewById(R.id.endTurnButton);
         endTurnButton.setOnClickListener(this);
-
-
     }
 
 
     /**
-     * onTouch method
-     * @param v
-     * @param event
-     * @return
+     * method that handles touch events
+     * @param v the view that was touched
+     * @param event the type of touch that happened
+     * @return true when touch is handled fully
      */
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        //if empty then return true
+        //keeps single touches from being read again
         if(event.getAction() == MotionEvent.ACTION_DOWN) {
-            Log.i("setupmsg", "tapped");
             //finds out where on the board is being tapped
             int row = (int) (event.getY()) * 10 / v.getHeight();
             int col = (int) (event.getX()) * 10 / v.getWidth();
-            Log.i("setupmsg", "Row: " + row);
-            Log.i("setupmsg", "Col: " + col);
+
+            //makes an appropriate action and sends it
             StrategoMoveAction moveCommand = new StrategoMoveAction(this, row, col);
-
-
-            //tell game we want to make move
-            if (this.game == null) {
-                Log.i("msg", "Game Not Working");
-            } else
-                this.game.sendAction(moveCommand);
-            //surfaceView.invalidate();
+            this.game.sendAction(moveCommand);
         }
 
         return true;

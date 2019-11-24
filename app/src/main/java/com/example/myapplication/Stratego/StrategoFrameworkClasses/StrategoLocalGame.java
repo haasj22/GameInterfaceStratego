@@ -24,6 +24,7 @@ import com.example.myapplication.Stratego.GameState.Team;
 
 /**
  * The local game to control the master StrategoGameState
+ * @author John Haas
  * @author Jordan Ho
  */
 public class StrategoLocalGame extends LocalGame implements Serializable {
@@ -32,24 +33,18 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
     //the game state
     private StrategoGameState state;
     private GameTimer redTimer;
-    private GameTimer blueTimer;
-    private Team whichTimerRunning;
 
     /**
      * Constructor for StrategoLocalGame
      */
     public StrategoLocalGame() {
         super();
-        Log.i("SJLocalGame", "creating game");
         // create the state for the beginning of the game
         state = new StrategoGameState();
         //perform superclass initialization
-        whichTimerRunning=Team.RED_TEAM;
         redTimer = new GameTimer(this);
-        blueTimer = new GameTimer(this);
         redTimer.setInterval(1000);
         redTimer.start();
-        Log.i("timermsg", "timer started");
     }
 
     /**
@@ -59,17 +54,16 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
      */
     @Override
     protected void sendUpdatedStateTo(GamePlayer p) {
+        //makes sure player exists
         if(p == null){
-            Log.i("StrategoLocalGame.java","GamePlayer object is null");
             return;
         }
         // if there is no state to send, ignore
         if(state == null){
             return;
         }
-        StrategoGameState stateForPlayer;
-        stateForPlayer = new StrategoGameState(state);
-
+        //creates a copy of the official state and sends it to the desired player
+        StrategoGameState stateForPlayer = new StrategoGameState(state);
         p.sendInfo((stateForPlayer));
     }
 
@@ -77,7 +71,8 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
      * Determines whether a player is allowed to move
      * @param playerIdx
      * 		the player's player-number (ID) of the player in question
-     * @return
+     * @return true if the player can move
+     *         false if the player cannot move
      */
     protected boolean canMove(int playerIdx) {
         int activePlayer = state.getCurrentTeamsTurn().getTEAMNUMBER();
@@ -87,7 +82,8 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
     /**
      * Checks whether the game is over; if so, returns a string giving the result
      * otherwise, return null
-     * @return
+     * @return a message stating which team won
+     *         null if the game is not over
      */
     @Override
     protected String checkIfGameOver() {
@@ -102,8 +98,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
 
     /**
      * Makes a move on behalf of a player
-     * @param action
-     * 			The move that the player has sent to the game
+     * @param action The move that the player has sent to the game
      * @return True if the move was legal; false otherwise
      */
     @Override
@@ -111,10 +106,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         // uses the actions to check instances of player actions
         //handles a move action by tapping on a square
         if(action instanceof StrategoMoveAction) {
-            Log.i("computermsg", "action received");
             StrategoMoveAction sma = (StrategoMoveAction)action;
-            Log.i("setupmsg", "" + sma.getRow());
-            Log.i("setupmsg", "" + sma.getCol());
             state.tapOnSquare(sma.getRow(), sma.getCol());
         }
         //handles a forfeit action by telling the game state to end the game
@@ -151,30 +143,24 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
 
             //adds the flag to the board
             state.setLastTappedPieceButton(Rank.FLAG);
-            Log.i("computersetupmsg", "" + randomRow);
-            Log.i("computersetupmsg", "" + randomCol);
             state.tapOnSquare(randomRow, randomCol);
             state.tapOnSquare(randomRow, randomCol);
 
             //places bombs around the flag if possible
             state.setLastTappedPieceButton(Rank.BOMB);
             if(randomRow != 0) {
-                Log.i("computersetupmsg", "enteredUp");
                 state.tapOnSquare(randomRow - 1, randomCol);
                 state.tapOnSquare(randomRow - 1, randomCol);
             }
             if(randomRow != 9) {
-                Log.i("computersetupmsg", "enteredDown");
                 state.tapOnSquare(randomRow + 1, randomCol);
                 state.tapOnSquare(randomRow + 1, randomCol);
             }
             if(randomCol != 0) {
-                Log.i("computersetupmsg", "enteredLeft");
                 state.tapOnSquare(randomRow, randomCol -1);
                 state.tapOnSquare(randomRow, randomCol -1);
             }
             if(randomCol != 9) {
-                Log.i("computersetupmsg", "enteredRight");
                 state.tapOnSquare(randomRow, randomCol + 1);
                 state.tapOnSquare(randomRow, randomCol + 1);
             }
@@ -182,15 +168,18 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
             //transitions the player to play phase
             state.transitionPhases();
         }
+        //allows computers to make two dependant moves with one action
         else if (action instanceof StrategoComputerMoveAction) {
             StrategoComputerMoveAction scma = (StrategoComputerMoveAction) action;
             state.tapOnSquare(scma.getOldRow(), scma.getOldCol());
             state.tapOnSquare(scma.getFutureRow(), scma.getFutureCol());
         }
+        //allows a player to pass if they cannot move
         else if (action instanceof StrategoPassAction) {
             StrategoPassAction spa = (StrategoPassAction)action;
             state.transitionTurns();
         }
+        //allows the game to remove the visibility of a temporarily visible piece
         else if (action instanceof StrategoRemoveVisibilityAction) {
             StrategoRemoveVisibilityAction srva = (StrategoRemoveVisibilityAction) action;
             try{
@@ -203,9 +192,12 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         return true;
     }
 
+    /**
+     * method that tells the computer what to happen when it ticks
+     */
     @Override
     public void timerTicked() {
-        Log.i("timermsg", "tick tock");
+        //subtracts one second from the timer of the current team
         if(state.getCurrentTeamsTurn() == Team.RED_TEAM) {
             state.setRedTeamSeconds(state.getRedTeamSeconds() - 1);
         } else {
