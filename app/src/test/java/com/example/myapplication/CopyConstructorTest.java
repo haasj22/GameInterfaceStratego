@@ -154,18 +154,19 @@ public class CopyConstructorTest {
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.BOMB),
                 3,7);
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.SPY),
-                2, 8);
+                3, 2);
+        testGameState.transitionPhases();
         testGameState.transitionPhases();
         assertEquals(Rank.EIGHT, testGameState.getPieceAt(6,7).getPieceRank());
         assertEquals(Rank.BOMB, testGameState.getPieceAt(3,7).getPieceRank());
         testGameState.tapOnSquare(6,7);
         testGameState.tapOnSquare(5,7);
-        testGameState.tapOnSquare(2,8);
-        testGameState.tapOnSquare(2,7);
+        testGameState.tapOnSquare(3,2);
+        testGameState.tapOnSquare(4,2);
         testGameState.tapOnSquare(5,7);
         testGameState.tapOnSquare(4,7);
-        testGameState.tapOnSquare(2,7);
-        testGameState.tapOnSquare(3,7);
+        testGameState.tapOnSquare(4,2);
+        testGameState.tapOnSquare(5,2);
         testGameState.tapOnSquare(4,7);
         testGameState.tapOnSquare(3,7);
         assertEquals(Rank.EIGHT, testGameState.getPieceAt(3,7).getPieceRank());
@@ -181,22 +182,22 @@ public class CopyConstructorTest {
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.FLAG),
                 3,7);
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.SPY),
-                2, 8);
+                3, 2);
         testGameState.transitionPhases();
         assertEquals(Rank.SIX, testGameState.getPieceAt(6,7).getPieceRank());
         assertEquals(Rank.FLAG, testGameState.getPieceAt(3,7).getPieceRank());
-        assertEquals(Rank.SPY, testGameState.getPieceAt(2,8).getPieceRank());
+        assertEquals(Rank.SPY, testGameState.getPieceAt(3,2).getPieceRank());
         testGameState.tapOnSquare(6,7);
         testGameState.tapOnSquare(5,7);
-        testGameState.tapOnSquare(2,8);
-        testGameState.tapOnSquare(2,7);
+        testGameState.tapOnSquare(3,2);
+        testGameState.tapOnSquare(4,2);
         testGameState.tapOnSquare(5,7);
         testGameState.tapOnSquare(4,7);
-        testGameState.tapOnSquare(2,7);
-        testGameState.tapOnSquare(3,7);
+        testGameState.tapOnSquare(4,2);
+        testGameState.tapOnSquare(5,2);
         testGameState.tapOnSquare(4,7);
         testGameState.tapOnSquare(3,7);
-        assertEquals(Rank.SIX, testGameState.getPieceAt(3,7).getPieceRank());
+        assertEquals(false, testGameState.getIsBlueTeamHasFlag());
     }
 
 }
