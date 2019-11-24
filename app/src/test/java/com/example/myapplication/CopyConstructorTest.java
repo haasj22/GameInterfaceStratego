@@ -13,7 +13,8 @@ import org.junit.Test;
 /**
  * Tests the copy constructor for every class in the game state
  *
- * Kavya Mandla
+ * @author Jordan Ho
+ * @author Kavya Mandla
  */
 
 public class CopyConstructorTest {
@@ -27,15 +28,17 @@ public class CopyConstructorTest {
 
     }
 
+
     @Test
     public void movePiece(){
         StrategoGameState testGameState = new StrategoGameState();
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.ONE),3,3);
         testGameState.transitionPhases();
-        testGameState.tapOnSquare(3,3);
-        testGameState.tapOnSquare(4,4);
-        assertEquals(testGameState.getPieceAt(3,3),null);
-        assertEquals(Rank.ONE,testGameState.getPieceAt(4,4));
+        testGameState.tapOnSquarePLAY(3,3);
+        testGameState.tapOnSquarePLAY(4,4);
+        testGameState.transitionPhases();
+        assertEquals(testGameState.getPieceAt(3,3), null);
+        assertEquals(testGameState.getPieceAt(4,4).getPieceRank(), Rank.ONE);
     }
 
     @Test
@@ -47,7 +50,7 @@ public class CopyConstructorTest {
         testGameState.transitionPhases();
         testGameState.tapOnSquare(4,4);
         testGameState.tapOnSquare(4,3);
-        assertEquals(Rank.TWO,testGameState.getPieceAt(4,3));
+        assertEquals(Rank.TWO, testGameState.getPieceAt(4,3).getPieceRank());
     }
 
     @Test
@@ -70,15 +73,16 @@ public class CopyConstructorTest {
         testGameState.transitionPhases();
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),Rank.ONE),4,3);
         testGameState.transitionPhases();
-        testGameState.tapOnSquare(4,4);
-        testGameState.tapOnSquare(4,3);
-        assertEquals(Rank.SPY,testGameState.getPieceAt(4,3));
+        testGameState.tapOnSquarePLAY(4,4);
+        testGameState.tapOnSquarePLAY(4,3);
+        testGameState.transitionPhases();
+        assertEquals(testGameState.getPieceAt(4,3).getPieceRank(), Rank.SPY);
         testGameState.transitionPhases();
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),Rank.TWO),4,4);
         testGameState.transitionPhases();
         testGameState.tapOnSquare(4,3);
         testGameState.tapOnSquare(4,4);
-        assertEquals(Rank.TWO,testGameState.getPieceAt(4,4));
+        assertEquals(Rank.TWO,testGameState.getPieceAt(4,4).getPieceRank());
     }
 
     @Test
