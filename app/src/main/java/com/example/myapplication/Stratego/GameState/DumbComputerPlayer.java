@@ -24,6 +24,7 @@ import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import java.util.ArrayList;
 
 public class DumbComputerPlayer extends GameComputerPlayer {
+    //players game state
     private StrategoGameState gameStateCopy;
 
     //default constructor
@@ -36,7 +37,6 @@ public class DumbComputerPlayer extends GameComputerPlayer {
      */
     @Override
     protected void receiveInfo(GameInfo info) {
-        Log.i("computer1msg", "receiveInfo");
         //makes sure information exists
         if(info == null) return;
         //if the previous move was invalid does not accept new copy
@@ -48,19 +48,15 @@ public class DumbComputerPlayer extends GameComputerPlayer {
             //update player's game state
             gameStateCopy = (StrategoGameState)info;
 
-            Log.i("computer1msg", "enteredRecieve");
-
             if(gameStateCopy.getCurrentTeamsTurn().getTEAMNUMBER() != this.playerNum) {
                 return;
             }
 
-            Log.i("computer1msg", "" + gameStateCopy.getCurrentTeamsTurn().getTEAMNUMBER());
-            Log.i("computer1msg", "" + this.playerNum);
             //makes sure its the computer players turn
             if(gameStateCopy.getCurrentTeamsTurn().getTEAMNUMBER() != this.playerNum) {
                 return;
             }
-            Log.i("computermsg", "Computer sets up");
+
             //if computer is in setup phase, generate a random board
             if(gameStateCopy.getCurrentPhase() == Phase.SETUP_PHASE) {
                 this.game.sendAction(new StrategoTransitionAction(this));
@@ -70,14 +66,17 @@ public class DumbComputerPlayer extends GameComputerPlayer {
                 ArrayList<MovablePiece> computerMovablePieces= new ArrayList<>();
                 addMovablePieces(computerMovablePieces);
                 generateLegalMove(computerMovablePieces);
-                Log.i("computer4msg", "returning agian");
                 return;
             }
         }
     }
 
+    /**
+     * method that adds a computer players movable pieces to a list.
+     * @param myPieces list to add the movable pieces to
+     */
     public void addMovablePieces(ArrayList<MovablePiece> myPieces) {
-        int count=0;
+        //goes through each piece on the board and if its movable adds it to a list
         for(int x=0; x<10; x++) {
             for(int y=0; y<10; y++) {
                 if(gameStateCopy.getBoard()[x][y].canOneMoveThis(this.playerNum)) {
@@ -88,23 +87,35 @@ public class DumbComputerPlayer extends GameComputerPlayer {
         }
     }
 
+    /**
+     * method that generates a legal move from the movable pieces
+     *
+     * @param myPieces pieces that could possible be moved
+     */
     public void generateLegalMove(ArrayList<MovablePiece> myPieces) {
+        //while there are still pieces that could be moved tries to move them
         while(!myPieces.isEmpty()) {
             int randomIndex = (int)(Math.random() * myPieces.size());
-            Log.i("computer4msg", "before");
             boolean moveSent = findAndSendMove(myPieces.get(randomIndex));
-            Log.i("computer4msg", "after");
             if(moveSent) {
-                Log.i("computer4msg", "returning");
                 return;
             } else {
                 myPieces.remove(myPieces.get(randomIndex));
             }
         }
+        //if there are no movable pieces left, the computer passes
         game.sendAction(new StrategoPassAction(this));
     }
 
+    /**
+     * method that checks a movable piece for a movable action and sends it if possible
+     *
+     * @param pieceToCheck piece that could possibly be moved
+     * @return true once piece has been moved
+     *         false if the piece cannot be moved
+     */
     public boolean findAndSendMove(MovablePiece pieceToCheck) {
+        //creates a coordinate mapping that a piece could be offset to
         int randoRow = (int)(Math.random() * 3 - 1);
         int randoCol;
         if (randoRow != 0) {
@@ -113,6 +124,7 @@ public class DumbComputerPlayer extends GameComputerPlayer {
             randoCol=(int)Math.pow(-1, (int)(Math.random() * 2 + 1));
         }
 
+        //goes through each cardinal direction and tries to move there
         for(int i=0; i<2; i++) {
             for(int j=0; j<2; j++) {
                 if(pieceToCheck.getX() + randoRow > 9 || pieceToCheck.getX() + randoRow < 0) {
@@ -123,10 +135,6 @@ public class DumbComputerPlayer extends GameComputerPlayer {
                 }
                 if(gameStateCopy.getBoard()[pieceToCheck.getX() + randoRow]
                         [pieceToCheck.getY() + randoCol].canOneMoveHere(this.playerNum)) {
-                    Log.i("computer4msg", "row: " + pieceToCheck.getX() + "col: "+ pieceToCheck.getY());
-                    Log.i("computer4msg", "newRow " + randoRow
-                            + "newCol" + randoCol);
-                    Log.i("computer4msg", "sending action");
                     this.sleep(.25);
                     game.sendAction(new StrategoComputerMoveAction(this,
                             pieceToCheck.getX(), pieceToCheck.getY(), pieceToCheck.getX() + randoRow,
@@ -140,64 +148,9 @@ public class DumbComputerPlayer extends GameComputerPlayer {
             randoRow = randoCol;
             randoCol = temp;
         }
+        //returns false if there is no actual place to move
         return false;
     }
-
-    /**
-     * method that generates a random valid move
-     */
-    /*
-    public void generateRandomMove() {
-        Log.i("computer4msg", "generateRandomMove");
-        //continuously looks for valid moves
-        while(true) {
-            if(gameStateCopy.getCurrentTeamsTurn().getTEAMNUMBER() != this.playerNum) {
-                return;
-            }
-            Log.i("repeatmsg", "entered");
-            //finds a random spot on the board
-            int row = (int) (Math.random() * 10);
-            int col = (int) (Math.random() * 10);
-            //highlights the random square
-            Log.i("computer3msg", "sent action");
-            this.game.sendAction(new StrategoMoveAction(this, row, col));
-            Log.i("computer2msg", "Row" + row);
-            Log.i("computer2msg", "Col" + col);
-
-            //moves the piece down if valid
-            if (row + 1 < 10 && gameStateCopy.getBoard()[row + 1][col].isHighLighted()) {
-                this.sleep(1.0);
-                Log.i("computer3msg", "sent action");
-                this.game.sendAction(new StrategoMoveAction(this, row + 1, col));
-                Log.i("computer3msg", "moved down");
-                return;
-            }
-
-            //randomly decides whether to try to move left or right and tries the other if one failes
-            int leftOrRight = (-1) * (int) (Math.random() * 2 + 1);
-            for (int x = 1; x <= 2; x++) {
-                leftOrRight *= -1;
-                if (col + leftOrRight < 0 || col + leftOrRight > 9) {
-                    continue;
-                }
-                if (gameStateCopy.getBoard()[row][col + leftOrRight].isHighLighted()) {
-                    this.sleep(1.0);
-                    Log.i("computer3msg", "sent action");
-                    this.game.sendAction(new StrategoMoveAction(this, row, col + leftOrRight));
-                    Log.i("computer3msg", "moved left or right");
-                    return;
-                }
-            }
-            //determines whether the piece can move up and tries to move there
-            if (row - 1 > 0 && gameStateCopy.getBoard()[row - 1][col].isHighLighted()) {
-                this.sleep(1.0);
-                Log.i("computer3msg", "sent action");
-                this.game.sendAction(new StrategoMoveAction(this, row - 1, col));
-                Log.i("computer3msg", "moved up");
-                return;
-            }
-        }
-    }*/
 
 
     @Override

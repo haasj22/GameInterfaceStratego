@@ -38,16 +38,11 @@ public class StrategoGameState extends GameState implements Serializable {
     //array that represents the state of the game board
     private Block[][] board = new Block[ROWMAX][COLMAX];
 
-    //player one's information
-    //private int redTeamTimer; //in milliseconds
-
     //variables that will store what pieces player one has in play
     private ArrayList<Rank> redTeamPieces;
     //necessary for transitioning between phases
     private boolean redTeamHasFlag;
 
-    //player two's information
-    //private int blueTeamTimer; //in milliseconds
     //variables that will store what pieces player two has in play
     private ArrayList<Rank> blueTeamPieces;
     //necessary for transitioning between phases
@@ -64,16 +59,18 @@ public class StrategoGameState extends GameState implements Serializable {
     private int lastTappedCol;
     private boolean didLastBlockContainPiece;
 
+    //piece that is temporarily visible
     private Piece visiblePiece;
+
+    //last tapped button that is used for piece highlights
     private Rank lastTappedPieceButton;
 
     /**
      * Constructor for objects of class StrategoGameState
      */
     public StrategoGameState(){
-        //player one sets up first
-        //redTeamTimer = 300000;
 
+        //base setup time for both teams
         redTeamSeconds = 150;
         blueTeamSeconds = 150;
 
@@ -715,6 +712,9 @@ public class StrategoGameState extends GameState implements Serializable {
         return true;
     }
 
+    /**
+     * method that ends the animation of a piece being temporarily being revealed
+     */
     public void removeTemporaryVisiblePiece() {
         visiblePiece.setVisible(false);
         visiblePiece=null;
