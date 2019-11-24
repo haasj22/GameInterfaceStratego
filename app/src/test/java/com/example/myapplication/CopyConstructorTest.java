@@ -28,6 +28,16 @@ public class CopyConstructorTest {
 
     }
 
+    //Kavya Mandla
+    @Test
+    public void copyConstructor(){
+        StrategoGameState testGameState = new StrategoGameState();
+        StrategoGameState testGameState2 = new StrategoGameState();
+
+        assertEquals(testGameState.toString(), testGameState2.toString());
+    }
+
+
 
     @Test
     public void movePiece(){
