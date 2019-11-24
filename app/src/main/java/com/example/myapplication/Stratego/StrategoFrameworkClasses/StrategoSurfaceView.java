@@ -1,3 +1,8 @@
+/**
+ * displays the game board
+ * @author John Haas
+ * @author Kavya Mandla
+ */
 package com.example.myapplication.Stratego.StrategoFrameworkClasses;
 
 import android.content.Context;
@@ -28,6 +33,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
     protected StrategoGameState state;
     //private Game game;
 
+    //the paint that appears as a highight
     Paint highlightPaint;
 
     //bitmaps for all game pieces
@@ -113,14 +119,13 @@ public class StrategoSurfaceView extends FlashSurfaceView {
             R.drawable.red_basepiecef);
     Bitmap scaledBaseRedPieceFlag;
 
-    ArrayList<Bitmap> strategoBitmaps;
-
+    //dimensions of the board
     int width = 0;
     int height = 0;
 
     /**
-     * StrategoSurfaceView method
-     * @param context
+     * constructor for StrategoSurfaceView
+     * @param context state of the game upon creation
      */
     public StrategoSurfaceView(Context context) {
         super(context);
@@ -129,9 +134,9 @@ public class StrategoSurfaceView extends FlashSurfaceView {
     }
 
     /**
-     * StrategoSurfaceView method
-     * @param context
-     * @param attrs
+     * secondary constructor for StrategoSurfaceView
+     * @param context state of the game upon creation
+     * @param attrs attributes of the surface view
      */
     public StrategoSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -141,7 +146,8 @@ public class StrategoSurfaceView extends FlashSurfaceView {
 
 
     /**
-     * init method
+     * method that initiates necessary variables
+     * created for possible future expanision of paints
      */
     public void init() {
         highlightPaint = new Paint(Color.YELLOW);
@@ -151,18 +157,10 @@ public class StrategoSurfaceView extends FlashSurfaceView {
         return surfaceViewOwner;
     }
 
-    /**
-     * StrategoGameState method
-     * @return
-     */
     public StrategoGameState getState() {
         return state;
     }
 
-    /**
-     * setState method
-     * @param sgt
-     */
     public void setState(StrategoGameState sgt) {
         this.state = sgt;
     }
@@ -172,19 +170,20 @@ public class StrategoSurfaceView extends FlashSurfaceView {
     }
 
     /**
-     * onSizeChanged method
-     * scale to fit surface view
-     * @param w
-     * @param h
-     * @param oldw
-     * @param oldh
+     * method that explains what happens when the surface view's size is suddenly changed
+     * @param w new width of the surface view
+     * @param h new height of the surface view
+     * @param oldw old width of the surface view
+     * @param oldh old height of the surface view
      */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
 
+        //adjusts the dimension variables accordingly
         width = w;
         height = h;
 
+        //scales all the bitmaps
         scaledBaseBoard=Bitmap.createScaledBitmap(baseBoard, w, h, false);
         scaledBaseBluePiece=
                 Bitmap.createScaledBitmap(baseBluePiece,
@@ -267,30 +266,23 @@ public class StrategoSurfaceView extends FlashSurfaceView {
     }
 
     /**
-     * onDraw method
-     * @param g
+     * method that draws the surface view
+     * @param g canvas for the surface view to draw on
      */
     public void onDraw(Canvas g) {
-        //no state, log message
+        //makes sure gamestate exists
         if(state == null)
         {
-            Log.i("msg","trying to draw but have no state");
             return;
         }
 
-        Log.i("msg", "drawing board now!");
+        //draws the base board
         g.drawBitmap(scaledBaseBoard, 0, 0, null);
 
-        //
+        //goes through each position on the board
         for(int row=0; row<state.getROWMAX(); row++) {
             for(int col=0; col<state.getCOLMAX(); col++) {
-                Log.i("msg", "Contains Piece:" +
-                        state.getBoard()[row][col].containsPiece());
-
-                Log.i("setupmsg", "Row: " + row);
-                Log.i("setupmsg", "Col: " + col);
-                Log.i("setupmsg", "IsThisPieceHighlighted: " +
-                        state.getBoard()[row][col].isHighLighted());
+                //draws highlights where they need to be
                 if(state.getBoard()[row][col].isHighLighted()
                         && state.getCurrentTeamsTurn().getTEAMNUMBER() == surfaceViewOwner) {
                     g.drawRect((width*col)/10, (height*row)/10,
@@ -298,39 +290,47 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                             (height*(row+1))/10, highlightPaint);
                 }
 
+                //only draws pieces on spaces that contain them
                 if(state.getBoard()[row][col].getContainedPiece() == null) {
                     continue;
                 }
 
+                //get the piece at the desired board location and draws it
                 Piece piece = state.getBoard()[row][col].getContainedPiece();
-
                 drawPiece(g, state.getCurrentTeamsTurn(), piece, row, col);
-                }
-
+            }
         }
     }
 
+    /**
+     * method that draws a piece onto the board
+     *
+     * @param canvas canvas that the piece will be drawn on
+     * @param currentTeam team whose turn it currently is
+     * @param drawThisPiece piece to be drawn
+     * @param row row where the piece should be drawn
+     * @param col col where the piece should be drawn
+     */
     public void drawPiece(Canvas canvas, Team currentTeam, Piece drawThisPiece, int row, int col) {
-        Log.i("drawmsg", "Team: " + drawThisPiece.getPieceTeam());
-        Log.i("drawmsg", "Row: " + row);
-        Log.i("drawmsg", "Col: " + col);
-        Log.i("drawmsg", "Piece Drawn" +
-                state.getBoard()[row][col].getContainedPiece().getPieceRank());
-        Log.i("drawmsg", "Piece:" +
-                state.getBoard()[row][col].containsPiece());
 
+        //checks which team the piece is in
         switch(drawThisPiece.getPieceTeam()) {
 
             case RED_TEAM:
-
+                //draws a blank piece if its not suppose to be visible
                 if(currentTeam.getTEAMNUMBER() == surfaceViewOwner
                         && drawThisPiece.getPieceTeam().getTEAMNUMBER() != surfaceViewOwner
+                        && drawThisPiece.getIsVisible() == false
+                        || currentTeam.getTEAMNUMBER() != surfaceViewOwner
+                        && drawThisPiece.getPieceTeam().getTEAMNUMBER() != surfaceViewOwner
                         && drawThisPiece.getIsVisible() == false) {
+
                     canvas.drawBitmap(scaledBaseRedPiece, canvas.getWidth() * 2 / 100 +
                             canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                     break;
                 }
 
+                //draws the appropriate piece based on rank
                 switch(drawThisPiece.getPieceRank()) {
                     case ONE:
                         canvas.drawBitmap(scaledBaseRedPiece1, canvas.getWidth() * 2 / 100 +
@@ -365,7 +365,6 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                                 canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
                     case NINE:
-                        Log.i("drawmsg", "Drew a nine");
                         canvas.drawBitmap(scaledBaseRedPiece9, canvas.getWidth() * 2 / 100 +
                                 canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                         break;
@@ -384,19 +383,19 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                 }
                 break;
             case BLUE_TEAM:
-
+                //draws a blank piece if its not suppose to be visible
                 if(currentTeam.getTEAMNUMBER() == surfaceViewOwner
                         && drawThisPiece.getPieceTeam().getTEAMNUMBER() != surfaceViewOwner
                         && drawThisPiece.getIsVisible() == false
                         || currentTeam.getTEAMNUMBER() != surfaceViewOwner
                         && drawThisPiece.getPieceTeam().getTEAMNUMBER() != surfaceViewOwner
                         && drawThisPiece.getIsVisible() == false) {
-                    Log.i("drawmsg", "got here somehow");
                     canvas.drawBitmap(scaledBaseBluePiece, canvas.getWidth() * 2 / 100 +
                             canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
                     break;
                 }
 
+                //draws the appropriate piece based on rank
                 switch (drawThisPiece.getPieceRank()) {
                     case ONE:
                         canvas.drawBitmap(scaledBaseBluePiece1, canvas.getWidth() * 2 / 100 +
@@ -448,7 +447,6 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                         break;
                     }
                 break;
-
         }
     }
 }
