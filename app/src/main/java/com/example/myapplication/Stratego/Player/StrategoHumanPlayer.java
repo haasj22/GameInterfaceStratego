@@ -450,18 +450,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 this.game.sendAction(transitionAction);
                 break;
                 default:
-                    marshallButton.setBackgroundColor(Color.WHITE);
-                    generalButton.setBackgroundColor(Color.WHITE);
-                    colonelButton.setBackgroundColor(Color.WHITE);
-                    majorButton.setBackgroundColor(Color.WHITE);
-                    captainButton.setBackgroundColor(Color.WHITE);
-                    lieutenantButton.setBackgroundColor(Color.WHITE);
-                    sergeantButton.setBackgroundColor(Color.WHITE);
-                    minerButton.setBackgroundColor(Color.WHITE);
-                    scoutButton.setBackgroundColor(Color.WHITE);
-                    spyButton.setBackgroundColor(Color.WHITE);
-                    bombButton.setBackgroundColor(Color.WHITE);
-                    flagButton.setBackgroundColor(Color.WHITE);
+                    setWhiteButtons(v);
                     break;
         }
 
