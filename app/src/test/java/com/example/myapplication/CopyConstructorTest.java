@@ -32,9 +32,30 @@ public class CopyConstructorTest {
 
 
     }
+
+
     @Test
-    public void calculateNumberOfEnemyPieces(){
+    public void calculateNumberOfPiece(){
         StrategoGameState testGameState = new StrategoGameState();
+
+    }
+    //written by Kavya Mandla
+    @Test
+    public void getLastTappedButton(){
+        StrategoGameState testGameState = new StrategoGameState();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.ONE), 6,7);
+        testGameState.tapOnSquareSETUP(6,7);
+        assertEquals(Rank.ONE,testGameState.getPieceAt(6,7).getPieceRank());
+        testGameState.transitionPhases();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.FIVE),3,7);
+        testGameState.tapOnSquarePLAY(3,7);
+        testGameState.getLastTappedPieceButton();
+        assertEquals(Rank.ONE,testGameState.getLastTappedPieceButton());
+
+
+
 
     }
 

@@ -434,6 +434,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             case R.id.muteButton:
                 StrategoMuteAction muteAction = new StrategoMuteAction(this);
                 this.game.sendAction(muteAction);
+                mediaPlayer.stop();
                 break;
             case R.id.infoButton:
                 Intent intent0 = new Intent(this.myActivity, HowToPlay.class);
@@ -456,11 +457,15 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     }
 
-    /**
-     * changes color of all buttons to white when called
-     * @author Jordan Ho
-     * @param v
-     */
+    public boolean muteGame() {
+
+        return true;
+    }
+        /**
+         * changes color of all buttons to white when called
+         * @author Jordan Ho
+         * @param v
+         */
     public void setWhiteButtons(View v){
         marshallButton.setBackgroundColor(Color.WHITE);
         generalButton.setBackgroundColor(Color.WHITE);
@@ -492,6 +497,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         //starts the music
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.stratego);
         mediaPlayer.start();
+        mediaPlayer.isLooping();
 
         //makes sure the surface view works correctly
         surfaceView = activity.findViewById(R.id.boardImageView);
