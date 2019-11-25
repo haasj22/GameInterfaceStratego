@@ -33,27 +33,68 @@ public class CopyConstructorTest {
 
     }
 
-
+    //Kavya Mandla
     @Test
-    public void calculateNumberOfPiece(){
+    public void copyConstructor(){
         StrategoGameState testGameState = new StrategoGameState();
+        StrategoGameState testGameState2 = new StrategoGameState();
+
+        assertEquals(testGameState.toString(), testGameState2.toString());
+    }
+
+
+    //written by Kavya Mandla
+    @Test
+    public void playTapping(){
+        StrategoGameState testGameState = new StrategoGameState();
+        testGameState.transitionPhases();
+        testGameState.setLastTappedPieceButton(Rank.NINE);
+        assertEquals(Rank.NINE, testGameState.getLastTappedPieceButton());
+        testGameState.tapOnSquare(6,7);
+        assertEquals(6,testGameState.getLastTappedRow());
+        assertEquals(7,testGameState.getLastTappedCol());
 
     }
+
     //written by Kavya Mandla
+    @Test
+    public void isBoardFull(){
+        StrategoGameState testGameState = new StrategoGameState();
+        testGameState.randomizeRemainingPieces();
+        testGameState.transitionPhases();
+        assertEquals(true, testGameState.isBoardFull(Team.RED_TEAM));
+
+    }
+
+
+    //written by Kavya Mandla
+    //checks to see if lastTappedPieceButton is correct
     @Test
     public void getLastTappedButton(){
         StrategoGameState testGameState = new StrategoGameState();
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
                 Rank.ONE), 6,7);
         testGameState.tapOnSquareSETUP(6,7);
-        assertEquals(Rank.ONE,testGameState.getPieceAt(6,7).getPieceRank());
-        testGameState.transitionPhases();
-        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
-                Rank.FIVE),3,7);
-        testGameState.tapOnSquarePLAY(3,7);
-        testGameState.getLastTappedPieceButton();
-        assertEquals(Rank.ONE,testGameState.getLastTappedPieceButton());
+        testGameState.setLastTappedPieceButton(Rank.ONE);
+        assertEquals(Rank.ONE, testGameState.getLastTappedPieceButton());
 
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.NINE), 8,7);
+        testGameState.tapOnSquareSETUP(8,7);
+        testGameState.setLastTappedPieceButton(Rank.NINE);
+        assertEquals(Rank.NINE, testGameState.getLastTappedPieceButton());
+
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.BOMB), 4,7);
+        testGameState.tapOnSquareSETUP(4,7);
+        testGameState.setLastTappedPieceButton(Rank.BOMB);
+        assertEquals(Rank.BOMB, testGameState.getLastTappedPieceButton());
+
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.FLAG), 3,2);
+        testGameState.tapOnSquareSETUP(3,2);
+        testGameState.setLastTappedPieceButton(Rank.FLAG);
+        assertEquals(Rank.FLAG, testGameState.getLastTappedPieceButton());
 
 
 
@@ -71,40 +112,71 @@ public class CopyConstructorTest {
         assertEquals(Rank.ONE, testGameState.getPieceAt(6,7).getPieceRank());
     }
 
-    //wriiten by Kavya Mandla
-    //teste rank One to 3
+    //written by Kavya
+    //if marshall attacks spy, spy loses and marshall remains
     @Test
-    public void attackDifferentPiece(){
+    public void marshallAttacks(){
         StrategoGameState testGameState = new StrategoGameState();
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
                 Rank.ONE), 6, 7);
         testGameState.transitionPhases();
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
-                Rank.THREE),3,7);
+                Rank.SPY), 3, 7);
         testGameState.transitionPhases();
-        assertEquals(Rank.ONE, testGameState.getPieceAt(6,7).getPieceRank());
-        assertEquals(Rank.THREE,testGameState.getPieceAt(3,7).getPieceRank());
-        testGameState.tapOnSquarePLAY(6,7);
-        testGameState.tapOnSquarePLAY(5,7);
-        testGameState.tapOnSquarePLAY(3,7);
-        testGameState.tapOnSquarePLAY(4,7);
-        testGameState.tapOnSquarePLAY(5,7);
-        testGameState.tapOnSquarePLAY(4,7);
-        assertEquals(Rank.ONE,testGameState.getPieceAt(4,7).getPieceRank());
-
+        assertEquals(Rank.ONE, testGameState.getPieceAt(6, 7).getPieceRank());
+        assertEquals(Rank.SPY, testGameState.getPieceAt(3, 7).getPieceRank());
+        testGameState.tapOnSquarePLAY(6, 7);
+        testGameState.tapOnSquarePLAY(5, 7);
+        testGameState.tapOnSquarePLAY(3, 7);
+        testGameState.tapOnSquarePLAY(4, 7);
+        testGameState.tapOnSquarePLAY(5, 7);
+        testGameState.tapOnSquarePLAY(4, 7);
+        assertEquals(Rank.ONE, testGameState.getPieceAt(4, 7).getPieceRank());
     }
-
-
-
-    //Kavya Mandla
+    //wriiten by Kavya Mandla
+    //teste rank One to 3
     @Test
-    public void copyConstructor(){
+    public void attackOneToThree() {
         StrategoGameState testGameState = new StrategoGameState();
-        StrategoGameState testGameState2 = new StrategoGameState();
-
-        assertEquals(testGameState.toString(), testGameState2.toString());
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.ONE), 6, 7);
+        testGameState.transitionPhases();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.THREE), 3, 7);
+        testGameState.transitionPhases();
+        assertEquals(Rank.ONE, testGameState.getPieceAt(6, 7).getPieceRank());
+        assertEquals(Rank.THREE, testGameState.getPieceAt(3, 7).getPieceRank());
+        testGameState.tapOnSquarePLAY(6, 7);
+        testGameState.tapOnSquarePLAY(5, 7);
+        testGameState.tapOnSquarePLAY(3, 7);
+        testGameState.tapOnSquarePLAY(4, 7);
+        testGameState.tapOnSquarePLAY(5, 7);
+        testGameState.tapOnSquarePLAY(4, 7);
+        assertEquals(Rank.ONE, testGameState.getPieceAt(4, 7).getPieceRank());
     }
 
+    //written by Kavya Mandla
+    //checks to see if 5 loses to 4
+    @Test
+    public void attackFiveToFour(){
+        StrategoGameState testGameState = new StrategoGameState();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.FIVE),6,7);
+        testGameState.transitionPhases();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.FOUR), 3,7);
+        testGameState.transitionPhases();
+        assertEquals(Rank.FIVE,testGameState.getPieceAt(6,7).getPieceRank());
+        assertEquals(Rank.FOUR,testGameState.getPieceAt(3,7).getPieceRank());
+        testGameState.tapOnSquarePLAY(6, 7);
+        testGameState.tapOnSquarePLAY(5, 7);
+        testGameState.tapOnSquarePLAY(3, 7);
+        testGameState.tapOnSquarePLAY(4, 7);
+        testGameState.tapOnSquarePLAY(5, 7);
+        testGameState.tapOnSquarePLAY(4, 7);
+        assertEquals(Rank.FOUR, testGameState.getPieceAt(4,7).getPieceRank());
+
+    }
 
 
 

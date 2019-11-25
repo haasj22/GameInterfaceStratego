@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 /**
  * StrategoForfeitAction
+ * @author Kavya Mandla
  */
 public class StrategoForfeitAction extends GameAction implements Serializable {
 

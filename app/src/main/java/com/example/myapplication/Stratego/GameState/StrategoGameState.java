@@ -484,7 +484,7 @@ public class StrategoGameState extends GameState implements Serializable {
      * @return true if the team's side of the board is full
      *         false if the team's side of the board has an empty spot
      */
-    private boolean isBoardFull(Team targetTeam) {
+    public boolean isBoardFull(Team targetTeam) {
         //searches through the appropriate side of the board
         for(int x=targetTeam.getTOPBOUNDARYINDEX(); x <= targetTeam.getBOTTOMBOUNDARYINDEX(); x++) {
             for(int y=0; y<10; y++) {

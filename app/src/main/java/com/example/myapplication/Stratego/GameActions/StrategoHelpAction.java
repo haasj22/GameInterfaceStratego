@@ -12,6 +12,8 @@ import java.io.Serializable;
 
 /**
  * StrategoHelpAction
+ *
+ * @author Kavya Mandla
  */
 public class StrategoHelpAction extends GameAction implements Serializable {
 

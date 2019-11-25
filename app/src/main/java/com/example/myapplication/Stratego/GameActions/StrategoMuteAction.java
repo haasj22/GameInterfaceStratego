@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 /**
  * StrategoMuteAction
+ * @author Kavya Mandla
  */
 public class StrategoMuteAction extends GameAction implements Serializable {
 
