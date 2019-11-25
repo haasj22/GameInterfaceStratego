@@ -305,7 +305,7 @@ public class CopyConstructorTest {
         testGameState.tapOnSquare(5,7);
         testGameState.tapOnSquare(4,7);
         testGameState.tapOnSquare(2,7);
-        testGameState.tapOnSquare(3,7);
+        testGameState.tapOnSquare(2,8);
         testGameState.tapOnSquare(4,7);
         testGameState.tapOnSquare(3,7);
         assertEquals(Rank.EIGHT, testGameState.getPieceAt(3,7).getPieceRank());
@@ -333,10 +333,10 @@ public class CopyConstructorTest {
         testGameState.tapOnSquare(5,7);
         testGameState.tapOnSquare(4,7);
         testGameState.tapOnSquare(2,7);
-        testGameState.tapOnSquare(3,7);
+        testGameState.tapOnSquare(1,7);
         testGameState.tapOnSquare(4,7);
         testGameState.tapOnSquare(3,7);
-        assertEquals(Rank.SIX, testGameState.getPieceAt(3,7).getPieceRank());
+        assertEquals(Rank.FLAG, testGameState.getPieceAt(3,7).getPieceRank());
     }
 
 }
