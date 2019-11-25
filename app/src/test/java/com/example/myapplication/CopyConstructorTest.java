@@ -36,7 +36,7 @@ public class CopyConstructorTest {
 
     @Test
     public void isBoardFull(){
-        StrategoGameState testGameState =
+        StrategoGameState testGameState = new StrategoGameState();
     }
     @Test
     public void calculateNumberOfPiece(){
