@@ -29,6 +29,7 @@ public class StrategoGameState extends GameState implements Serializable {
     private final int COLMIN = 0;
     private final int COLMAX = 10;
     private final int ROWMAX = 10;
+    private final int EMPTY = -1;
 
     //array that represents the state of the game board
     private Block[][] board = new Block[ROWMAX][COLMAX];
@@ -99,8 +100,8 @@ public class StrategoGameState extends GameState implements Serializable {
         }
 
         //sets default tapped row and column
-        lastTappedRow = -1;
-        lastTappedCol = -1;
+        lastTappedRow = EMPTY;
+        lastTappedCol = EMPTY;
         didLastBlockContainPiece = false;
         lastTappedPieceButton = null;
         visiblePiece=null;
@@ -191,6 +192,7 @@ public class StrategoGameState extends GameState implements Serializable {
     public Piece getPieceAt(int row, int col) {
         return board[row][col].getContainedPiece();
     }
+    public int getEMPTY() { return EMPTY; }
 
     /**
      * returns the team that is currently not taking their turn
@@ -249,23 +251,23 @@ public class StrategoGameState extends GameState implements Serializable {
         if(board[row][col].getContainedPiece() == null && didLastBlockContainPiece == false
                 && lastTappedRow == row && lastTappedCol == col) {
             addPieceToGame(new Piece(currentTeamsTurn, this.getLastTappedPieceButton()), row, col);
-            lastTappedRow = -1;
-            lastTappedCol = -1;
+            lastTappedRow = EMPTY;
+            lastTappedCol = EMPTY;
         }
         //if the player taps a spot containing a piece twice removes it from board
         else if(row == lastTappedRow && col == lastTappedCol && didLastBlockContainPiece==true) {
             removePieceFromGame(row, col);
             board[row][col].setHighLighted(false);
-            lastTappedRow = -1;
-            lastTappedCol = -1;
+            lastTappedRow = EMPTY;
+            lastTappedCol = EMPTY;
             didLastBlockContainPiece=false;
         }
         //if the player taps a placed piece then another piece moves it around
         else if(didLastBlockContainPiece){
             movePieceDuringSetup(lastTappedRow, lastTappedCol, row, col);
             board[lastTappedRow][lastTappedCol].setHighLighted(false);
-            lastTappedRow = -1;
-            lastTappedCol = -1;
+            lastTappedRow = EMPTY;
+            lastTappedCol = EMPTY;
             didLastBlockContainPiece=false;
         }
         //if piece contains piece but there is no previous tap readies the piece for deletion
@@ -277,7 +279,7 @@ public class StrategoGameState extends GameState implements Serializable {
         }
         //else primes the piece to be added
         else {
-            if(lastTappedRow != -1 && lastTappedCol != -1) {
+            if(lastTappedRow != EMPTY && lastTappedCol != EMPTY) {
                 board[lastTappedRow][lastTappedCol].setHighLighted(false);
             }
             board[row][col].setHighLighted(true);
@@ -512,16 +514,16 @@ public class StrategoGameState extends GameState implements Serializable {
         transitionTurns();
         //if the other players boards not full, its their turn to set up
         if(!isBoardFull(currentTeamsTurn)) {
-            lastTappedRow = -1;
-            lastTappedCol = -1;
+            lastTappedRow = EMPTY;
+            lastTappedCol = EMPTY;
             return false;
         }
         //transitions phases
         this.currentPhase = Phase.PLAY_PHASE;
         this.redTeamSeconds = 300;
         this.blueTeamSeconds = 300;
-        this.lastTappedRow = -1;
-        this.lastTappedCol = -1;
+        this.lastTappedRow = EMPTY;
+        this.lastTappedCol = EMPTY;
         return true;
     }
 
@@ -562,8 +564,8 @@ public class StrategoGameState extends GameState implements Serializable {
         if(board[row][col].isHighLighted() && board[row][col].containsPiece()) {
             attackPiece(lastTappedRow, lastTappedCol, row, col);
             removeHighlightedBlocks();
-            lastTappedRow = -1;
-            lastTappedCol = -1;
+            lastTappedRow = EMPTY;
+            lastTappedCol = EMPTY;
             transitionTurns();
             return true;
         //procedure for moving piece
@@ -571,8 +573,8 @@ public class StrategoGameState extends GameState implements Serializable {
             movePiece(lastTappedRow, lastTappedCol, row, col);
             //updates data
             removeHighlightedBlocks();
-            lastTappedRow = -1;
-            lastTappedCol = -1;
+            lastTappedRow = EMPTY;
+            lastTappedCol = EMPTY;
             //ends the currentPlayers turn
             transitionTurns();
             //procedure for highlighting pieces
@@ -584,8 +586,8 @@ public class StrategoGameState extends GameState implements Serializable {
                 board[row][col].getContainedPiece().getPieceRank() == Rank.FLAG) {
 
                 removeHighlightedBlocks();
-                lastTappedRow = -1;
-                lastTappedCol = -1;
+                lastTappedRow = EMPTY;
+                lastTappedCol = EMPTY;
                 return true;
             //procedure for highlighting scouts movable squares
             } else if(board[row][col].getContainedPiece().getPieceRank() == Rank.NINE) {
@@ -603,8 +605,8 @@ public class StrategoGameState extends GameState implements Serializable {
         //removes highlights if tapping on an empty or enemy square
         } else {
             removeHighlightedBlocks();
-            lastTappedRow = -1;
-            lastTappedCol = -1;
+            lastTappedRow = EMPTY;
+            lastTappedCol = EMPTY;
             return true;
         }
     }
