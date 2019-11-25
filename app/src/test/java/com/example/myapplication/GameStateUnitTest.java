@@ -16,6 +16,7 @@ import static org.junit.Assert.*;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
+
 public class GameStateUnitTest {
     //John Haas wrote this test
     @Test
@@ -205,7 +206,6 @@ public class GameStateUnitTest {
     public void copyConstructor(){
         StrategoGameState testGameState = new StrategoGameState();
         StrategoGameState testGameState2 = new StrategoGameState();
-
         assertEquals(testGameState.toString(), testGameState2.toString());
     }
 
@@ -223,14 +223,15 @@ public class GameStateUnitTest {
 
     }
 
+
+
     //written by Kavya Mandla
     @Test
-    public void isBoardFull(){
+    public void isRedBoardFull(){
         StrategoGameState testGameState = new StrategoGameState();
         testGameState.randomizeRemainingPieces();
         testGameState.transitionPhases();
-        assertEquals(true, testGameState.isBoardFull(Team.RED_TEAM));
-
+        assertTrue(testGameState.isBoardFull(Team.RED_TEAM));
     }
 
 
