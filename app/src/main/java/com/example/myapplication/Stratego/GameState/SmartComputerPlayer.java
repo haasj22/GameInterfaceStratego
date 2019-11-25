@@ -62,8 +62,8 @@ public class SmartComputerPlayer extends GameComputerPlayer {
      */
     public void addMovablePieces(ArrayList<MovablePiece> myPieces) {
         //goes through all the pieces and adds the movable ones to the list
-        for (int x = 0; x < 10; x++) {
-            for (int y = 0; y < 10; y++) {
+        for (int x = 0; x < gameStateCopy.getROWMAX(); x++) {
+            for (int y = 0; y < gameStateCopy.getCOLMAX(); y++) {
                 if (gameStateCopy.getBoard()[x][y].canOneMoveThis(this.playerNum)) {
                     myPieces.add(new MovablePiece(x, y,
                             gameStateCopy.getBoard()[x][y].getContainedPiece().getPieceRank()));
@@ -109,7 +109,8 @@ public class SmartComputerPlayer extends GameComputerPlayer {
         int randoCol = 0;
 
         //tries to move in the picked direction
-        if (pieceToCheck.getX() + randoRow <= 9 || pieceToCheck.getX() + randoRow > 0) {
+        if (pieceToCheck.getX() + randoRow < gameStateCopy.getROWMAX()
+                || pieceToCheck.getX() + randoRow > 0) {
             if (gameStateCopy.getBoard()[pieceToCheck.getX() + randoRow]
                     [pieceToCheck.getY() + randoCol].canOneMoveHere(this.playerNum)) {
                 this.sleep(.25);
@@ -126,7 +127,8 @@ public class SmartComputerPlayer extends GameComputerPlayer {
 
         //if the first direction is an invalid move, tries moving the opposite direction
         for (int i = 0; i < 2; i++) {
-            if (pieceToCheck.getY() + randoCol > 9 || pieceToCheck.getY() + randoCol < 0) {
+            if (pieceToCheck.getY() + randoCol >= gameStateCopy.getCOLMAX()
+                    || pieceToCheck.getY() + randoCol < 0) {
                 continue;
             }
             if (gameStateCopy.getBoard()[pieceToCheck.getX() + randoRow]

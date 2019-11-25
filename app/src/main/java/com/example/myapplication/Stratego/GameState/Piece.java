@@ -27,6 +27,11 @@ public class Piece implements Serializable {
         isVisible = false;
     }
 
+    /**
+     * copy constructor for objects of the piece class
+     *
+     * @param truePiece piece that is to be copied
+     */
     public Piece(Piece truePiece) {
         if(truePiece == null) {
             return;

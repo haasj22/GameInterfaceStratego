@@ -25,15 +25,10 @@ public class StrategoGameState extends GameState implements Serializable {
     private int blueTeamSeconds;
 
     //max number of rows and cols in board
+    private final int ROWMIN = 0;
+    private final int COLMIN = 0;
     private final int COLMAX = 10;
     private final int ROWMAX = 10;
-
-    //stores the proper min and max indexes for the columns
-    private final int COLMININDEX=0;
-    private final int COLMAXINDEX=9;
-
-    private final int ROWMININDEX=0;
-    private final int ROWMAXINDEX=9;
 
     //array that represents the state of the game board
     private Block[][] board = new Block[ROWMAX][COLMAX];
@@ -89,8 +84,8 @@ public class StrategoGameState extends GameState implements Serializable {
         currentTeamsTurn = Team.RED_TEAM;
 
         //creates basic game board
-        for(int i = 0; i < 10; i++){
-            for(int j = 0; j < 10; j++){
+        for(int i = 0; i < ROWMAX; i++){
+            for(int j = 0; j < COLMAX; j++){
                 if(i != 4 && i !=5) {
                     board[i][j] = new Block(Tile.GRASS);
                     continue;
@@ -147,8 +142,8 @@ public class StrategoGameState extends GameState implements Serializable {
         this.currentTeamsTurn = trueState.currentTeamsTurn;
 
         //copies the game board
-        for(int i = 0; i < 10; i++){
-            for (int j = 0; j < 10; j++){
+        for(int i = ROWMIN; i < ROWMAX; i++){
+            for (int j = COLMIN; j < COLMAX; j++){
                 this.board[i][j] = new Block(trueState.board[i][j]);
             }
         }
@@ -183,10 +178,8 @@ public class StrategoGameState extends GameState implements Serializable {
     }
     public Team getCurrentTeamsTurn() { return currentTeamsTurn; }
     public Rank getLastTappedPieceButton() { return lastTappedPieceButton; }
-    public int getCOLMININDEX() {return COLMININDEX; }
-    public int getCOLMAXINDEX() { return COLMAXINDEX; }
-    public int getROWMININDEX() { return ROWMININDEX; }
-    public int getROWMAXINDEX() { return ROWMAXINDEX; }
+    public int getCOLMIN() {return COLMIN; }
+    public int getROWMIN() { return ROWMIN; }
     public int getLastTappedRow() { return lastTappedRow; }
     public int getLastTappedCol() { return lastTappedCol; }
     public int getCOLMAX() { return COLMAX; }
@@ -310,7 +303,7 @@ public class StrategoGameState extends GameState implements Serializable {
             return false;
         }
         //makes sure x is a legal value
-        if(col < COLMININDEX || col > COLMAXINDEX ) {
+        if(col < COLMIN || col >= COLMAX ) {
             return false;
         }
         //makes sure y is a legal value
@@ -425,7 +418,7 @@ public class StrategoGameState extends GameState implements Serializable {
      */
     public boolean movePieceDuringSetup(int row1, int col1, int row2, int col2) {
         //makes sure that the first spot contains a piece
-        if(col2 < COLMININDEX || col2 > COLMAXINDEX ) {
+        if(col2 < COLMIN || col2 >= COLMAX) {
             return false;
         }
         //makes sure y is a legal value
@@ -460,7 +453,7 @@ public class StrategoGameState extends GameState implements Serializable {
                 x < r.getMaxAmountOfPieces(); x++) {
 
                 //randomizes possible x and y values
-                int randomColValue = (int)(Math.random() * 10);
+                int randomColValue = (int)(Math.random() * COLMAX);
                 int randomRowValue = (int)(Math.random() * 4 +
                         currentTeamsTurn.getTOPBOUNDARYINDEX());
 
@@ -487,7 +480,7 @@ public class StrategoGameState extends GameState implements Serializable {
     public boolean isBoardFull(Team targetTeam) {
         //searches through the appropriate side of the board
         for(int x=targetTeam.getTOPBOUNDARYINDEX(); x <= targetTeam.getBOTTOMBOUNDARYINDEX(); x++) {
-            for(int y=0; y<10; y++) {
+            for(int y=COLMIN; y<COLMAX; y++) {
                 //returns false if the block does not contain a piece
                 if(!board[x][y].containsPiece()) {
                     return false;
@@ -560,9 +553,9 @@ public class StrategoGameState extends GameState implements Serializable {
      */
     public boolean tapOnSquarePLAY(int row, int col) {
         //makes sure the coordinates are valid
-        if(col < 0 || col > COLMAX) {
+        if(col < COLMIN || col > COLMAX) {
             return false;
-        } else if (row < 0 || row > ROWMAX) {
+        } else if (row < ROWMIN || row > ROWMAX) {
             return false;
         }
         //procedure for attacking piece
@@ -822,7 +815,7 @@ public class StrategoGameState extends GameState implements Serializable {
     private boolean setHighLightedBlocks(int row, int col) {
         this.removeHighlightedBlocks();
         //highlights the spot above the tap if possible
-        if(row != 0 && board[row-1][col].isBlockHighlightable(currentTeamsTurn)) {
+        if(row != ROWMIN && board[row-1][col].isBlockHighlightable(currentTeamsTurn)) {
             board[row-1][col].setHighLighted(true);
         }
         //highlights the spot below the tap if possible
@@ -830,7 +823,7 @@ public class StrategoGameState extends GameState implements Serializable {
             board[row+1][col].setHighLighted(true);
         }
         //highlights the spot to the left of the tap if possible
-        if(col != 0 && board[row][col-1].isBlockHighlightable(currentTeamsTurn)) {
+        if(col != COLMIN && board[row][col-1].isBlockHighlightable(currentTeamsTurn)) {
             board[row][col-1].setHighLighted(true);
         }
         //highlights the spot to the right of the tap if possible
@@ -902,8 +895,8 @@ public class StrategoGameState extends GameState implements Serializable {
      */
     private boolean removeHighlightedBlocks() {
         //goes through every piece and sets highlighted to false
-        for(int row = 0; row < ROWMAX; row++) {
-            for(int col = 0; col < COLMAX; col++) {
+        for(int row = ROWMIN; row < ROWMAX; row++) {
+            for(int col = COLMIN; col < COLMAX; col++) {
                 if(board[row][col].isHighLighted()) {
                     board[row][col].setHighLighted(false);
                 }
@@ -1065,8 +1058,8 @@ public class StrategoGameState extends GameState implements Serializable {
 
         //prints whats stored in each board block
         toReturn += "------------------------\n";
-        for(int i=0; i<ROWMAX; i++) {
-            for(int j=0; j<COLMAX; j++) {
+        for(int i=ROWMIN; i<ROWMAX; i++) {
+            for(int j=COLMIN; j<COLMAX; j++) {
                 toReturn += "[Block " + (i+1) + ":" + (j+1) + "]";
                 toReturn += board[i][j];
             }

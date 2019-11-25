@@ -1,3 +1,8 @@
+/**
+ * allows the computers to store the movable pieces in arrays
+ *
+ * @author John Haas
+ */
 package com.example.myapplication.Stratego.GameState;
 
 public class MovablePiece {
@@ -6,6 +11,13 @@ public class MovablePiece {
     private int y;
     private Rank pieceRank;
 
+    /**
+     * constructor for objects of the movable piece class
+     *
+     * @param knownX x location of the piece
+     * @param knownY y location of the piece
+     * @param knownRank rank of the piece
+     */
     public MovablePiece(int knownX, int knownY, Rank knownRank) {
         x=knownX;
         y=knownY;
