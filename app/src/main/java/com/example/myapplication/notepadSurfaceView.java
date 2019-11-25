@@ -13,6 +13,9 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * @author Kavya Mandla
+ */
 public class notepadSurfaceView  extends View {
     Paint paint;
 

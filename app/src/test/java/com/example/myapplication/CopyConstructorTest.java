@@ -35,6 +35,10 @@ public class CopyConstructorTest {
 
 
     @Test
+    public void isBoardFull(){
+        StrategoGameState testGameState =
+    }
+    @Test
     public void calculateNumberOfPiece(){
         StrategoGameState testGameState = new StrategoGameState();
 
@@ -74,7 +78,7 @@ public class CopyConstructorTest {
     //wriiten by Kavya Mandla
     //teste rank One to 3
     @Test
-    public void attackDifferentPiece(){
+    public void attackOneToThree(){
         StrategoGameState testGameState = new StrategoGameState();
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
                 Rank.ONE), 6, 7);
@@ -91,6 +95,7 @@ public class CopyConstructorTest {
         testGameState.tapOnSquarePLAY(5,7);
         testGameState.tapOnSquarePLAY(4,7);
         assertEquals(Rank.ONE,testGameState.getPieceAt(4,7).getPieceRank());
+
 
     }
 

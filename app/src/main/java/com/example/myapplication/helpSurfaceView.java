@@ -7,6 +7,9 @@ import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
 
+/**
+ * @author Kavya Mandla
+ */
 public class helpSurfaceView extends View {
 
     private ImageView rules;

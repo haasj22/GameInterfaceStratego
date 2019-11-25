@@ -12,6 +12,7 @@ import java.io.Serializable;
 
 /**
  * StrategoNotePadAction
+ * @author Kavya Mandla
  */
 public class StrategoNotepadAction extends GameAction implements Serializable {
 
