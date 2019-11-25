@@ -34,8 +34,8 @@ public class GameStateUnitTest {
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.FLAG), 3, 7);
         testGameState.transitionPhases();
         assertEquals(0, testGameState.isGameOver());
-        testGameState.tapOnSquarePLAY(6, 7);
-        testGameState.tapOnSquarePLAY(3,7);
+        testGameState.tapOnSquare(6, 7);
+        testGameState.tapOnSquare(3,7);
         assertEquals(1, testGameState.isGameOver());
     }
 
@@ -50,8 +50,8 @@ public class GameStateUnitTest {
         assertEquals(false, testGameState.getPieceAt(3, 7).getIsVisible());
         assertEquals(Rank.NINE, testGameState.getPieceAt(6,7).getPieceRank());
         assertEquals(Rank.ONE, testGameState.getPieceAt(3,7).getPieceRank());
-        testGameState.tapOnSquarePLAY(6, 7);
-        testGameState.tapOnSquarePLAY(3,7);
+        testGameState.tapOnSquare(6, 7);
+        testGameState.tapOnSquare(3,7);
         assertEquals(true, testGameState.getPieceAt(3, 7).getIsVisible());
         assertEquals(Rank.ONE, testGameState.getPieceAt(3,7).getPieceRank());
         assertEquals(null, testGameState.getPieceAt(6,7));
@@ -67,18 +67,18 @@ public class GameStateUnitTest {
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.BOMB), 3, 3);
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.SEVEN), 3, 7);
         testGameState.transitionPhases();
-        testGameState.tapOnSquarePLAY(6,3);
-        testGameState.tapOnSquarePLAY(5,3);
-        testGameState.tapOnSquarePLAY(3,7);
-        testGameState.tapOnSquarePLAY(4, 7);
-        testGameState.tapOnSquarePLAY(5,3);
-        testGameState.tapOnSquarePLAY(4,3);
-        testGameState.tapOnSquarePLAY(4,7);
-        testGameState.tapOnSquarePLAY(5,7);
-        testGameState.tapOnSquarePLAY(4,3);
-        testGameState.tapOnSquarePLAY(3,3);
-        testGameState.tapOnSquarePLAY(5,7);
-        testGameState.tapOnSquarePLAY(6,7);
+        testGameState.tapOnSquare(6,3);
+        testGameState.tapOnSquare(5,3);
+        testGameState.tapOnSquare(3,7);
+        testGameState.tapOnSquare(4, 7);
+        testGameState.tapOnSquare(5,3);
+        testGameState.tapOnSquare(4,3);
+        testGameState.tapOnSquare(4,7);
+        testGameState.tapOnSquare(5,7);
+        testGameState.tapOnSquare(4,3);
+        testGameState.tapOnSquare(3,3);
+        testGameState.tapOnSquare(5,7);
+        testGameState.tapOnSquare(6,7);
         assertEquals(testGameState.getPieceAt(6,7), null);
         assertEquals(testGameState.getPieceAt(3, 3).getPieceRank(), Rank.EIGHT);
     }
@@ -103,12 +103,12 @@ public class GameStateUnitTest {
         testGameState.transitionPhases();
         assertEquals(Rank.SPY, testGameState.getPieceAt(6,7).getPieceRank());
         assertEquals(Rank.ONE, testGameState.getPieceAt(3,7).getPieceRank());
-        testGameState.tapOnSquarePLAY(6, 7);
-        testGameState.tapOnSquarePLAY(5, 7);
-        testGameState.tapOnSquarePLAY(3,7);
-        testGameState.tapOnSquarePLAY(4,7);
-        testGameState.tapOnSquarePLAY(5,7);
-        testGameState.tapOnSquarePLAY(4,7);
+        testGameState.tapOnSquare(6, 7);
+        testGameState.tapOnSquare(5, 7);
+        testGameState.tapOnSquare(3,7);
+        testGameState.tapOnSquare(4,7);
+        testGameState.tapOnSquare(5,7);
+        testGameState.tapOnSquare(4,7);
         assertEquals(Rank.SPY, testGameState.getPieceAt(4, 7).getPieceRank());
     }
 
