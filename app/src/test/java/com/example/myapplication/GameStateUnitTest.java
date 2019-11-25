@@ -459,18 +459,18 @@ public class GameStateUnitTest {
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.BOMB),
                 3,7);
         testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(), Rank.SPY),
-                2, 8);
+                3, 2);
         testGameState.transitionPhases();
         assertEquals(Rank.EIGHT, testGameState.getPieceAt(6,7).getPieceRank());
         assertEquals(Rank.BOMB, testGameState.getPieceAt(3,7).getPieceRank());
         testGameState.tapOnSquare(6,7);
         testGameState.tapOnSquare(5,7);
-        testGameState.tapOnSquare(2,8);
-        testGameState.tapOnSquare(2,7);
+        testGameState.tapOnSquare(3,2);
+        testGameState.tapOnSquare(4,2);
         testGameState.tapOnSquare(5,7);
         testGameState.tapOnSquare(4,7);
-        testGameState.tapOnSquare(2,7);
-        testGameState.tapOnSquare(2,8);
+        testGameState.tapOnSquare(4,2);
+        testGameState.tapOnSquare(5,2);
         testGameState.tapOnSquare(4,7);
         testGameState.tapOnSquare(3,7);
         assertEquals(Rank.EIGHT, testGameState.getPieceAt(3,7).getPieceRank());

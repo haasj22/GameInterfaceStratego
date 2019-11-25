@@ -10,10 +10,6 @@ import com.example.myapplication.Game.actionMsg.GameAction;
 
 import java.io.Serializable;
 
-/**
- * StrategoNotePadAction
- * @author Kavya Mandla
- */
 public class StrategoNotepadAction extends GameAction implements Serializable {
 
     //to satisfy the serializable interface
