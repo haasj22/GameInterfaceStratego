@@ -434,7 +434,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             case R.id.muteButton:
                 StrategoMuteAction muteAction = new StrategoMuteAction(this);
                 this.game.sendAction(muteAction);
-                mediaPlayer.stop();
+                muteGame();
                 break;
             case R.id.infoButton:
                 Intent intent0 = new Intent(this.myActivity, HowToPlay.class);
@@ -457,8 +457,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     }
 
-    public boolean muteGame() {
-
+    private boolean muteGame() {
+        mediaPlayer.stop();
         return true;
     }
         /**

@@ -127,6 +127,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         else if (action instanceof StrategoMuteAction){
             StrategoMuteAction ma = (StrategoMuteAction)action;
             state.muteGame();
+
         }
         //handles a computers setup action by setting up the board
         else if (action instanceof StrategoSmartComputerSetupAction) {
