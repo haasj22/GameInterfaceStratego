@@ -112,6 +112,27 @@ public class CopyConstructorTest {
         assertEquals(Rank.ONE, testGameState.getPieceAt(6,7).getPieceRank());
     }
 
+    //written by Kavya
+    //if marshall attacks spy, spy loses and marshall remains
+    @Test
+    public void marshallAttacks(){
+        StrategoGameState testGameState = new StrategoGameState();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.ONE), 6, 7);
+        testGameState.transitionPhases();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.SPY), 3, 7);
+        testGameState.transitionPhases();
+        assertEquals(Rank.ONE, testGameState.getPieceAt(6, 7).getPieceRank());
+        assertEquals(Rank.SPY, testGameState.getPieceAt(3, 7).getPieceRank());
+        testGameState.tapOnSquarePLAY(6, 7);
+        testGameState.tapOnSquarePLAY(5, 7);
+        testGameState.tapOnSquarePLAY(3, 7);
+        testGameState.tapOnSquarePLAY(4, 7);
+        testGameState.tapOnSquarePLAY(5, 7);
+        testGameState.tapOnSquarePLAY(4, 7);
+        assertEquals(Rank.ONE, testGameState.getPieceAt(4, 7).getPieceRank());
+    }
     //wriiten by Kavya Mandla
     //teste rank One to 3
     @Test
