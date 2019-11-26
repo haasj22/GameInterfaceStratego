@@ -458,9 +458,12 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     }
 
-    private boolean muteGame() {
+    private void muteGame() {
         mediaPlayer.stop();
-        return true;
+    }
+
+    private void unmuteGame(){
+        mediaPlayer.start();
     }
         /**
          * changes color of all buttons to white when called
@@ -496,9 +499,10 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
 
         //starts the music
+
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.stratego);
         mediaPlayer.start();
-        mediaPlayer.isLooping();
+
 
         //makes sure the surface view works correctly
         surfaceView = activity.findViewById(R.id.boardImageView);
@@ -550,6 +554,9 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         notepadButton.setOnClickListener(this);
         endTurnButton = (Button)activity.findViewById(R.id.endTurnButton);
         endTurnButton.setOnClickListener(this);
+
+
+
     }
 
 
