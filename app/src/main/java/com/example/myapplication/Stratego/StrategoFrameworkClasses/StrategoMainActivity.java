@@ -30,7 +30,7 @@ public class StrategoMainActivity extends GameMainActivity {
         ArrayList<GamePlayerType> playerTypes= new ArrayList<GamePlayerType>();
 
         //human player's view
-        playerTypes.add(new GamePlayerType("Local Human Player (red-team)") {
+        playerTypes.add(new GamePlayerType("Local Human Player") {
             @Override
             public GamePlayer createPlayer(String name) {
                 return new StrategoHumanPlayer(name);

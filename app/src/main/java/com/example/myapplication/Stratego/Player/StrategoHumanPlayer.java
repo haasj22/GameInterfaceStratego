@@ -115,6 +115,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         if(info instanceof StrategoGameState) {
             if (surfaceView == null) return;
             surfaceView.setState((StrategoGameState) info);
+            surfaceView.setSurfaceViewOwner(this.playerNum);
 
             //sets the timer to the appropriate time
             if(surfaceView.getSurfaceViewOwner() == Team.RED_TEAM.getTEAMNUMBER()) {
@@ -501,6 +502,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         //makes sure the surface view works correctly
         surfaceView = activity.findViewById(R.id.boardImageView);
+        Log.i("playermsg", "" + this.playerNum);
         surfaceView.setSurfaceViewOwner(this.playerNum);
         surfaceView.setOnTouchListener(this);
 

@@ -163,6 +163,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
 
     public void setState(StrategoGameState sgt) {
         this.state = sgt;
+
     }
 
     public void setSurfaceViewOwner(int surfaceViewOwner) {

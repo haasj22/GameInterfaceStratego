@@ -145,7 +145,7 @@ public class SmartComputerPlayer extends GameComputerPlayer {
         //tries to go the opposite direction of where it first tried to move
         randoRow = (int) Math.pow(-1, this.playerNum);
         randoCol = 0;
-        if (pieceToCheck.getX() + randoRow <= 9 || pieceToCheck.getX() + randoRow > 0) {
+        if (pieceToCheck.getX() + randoRow <= 9 && pieceToCheck.getX() + randoRow > 0) {
             if (gameStateCopy.getBoard()[pieceToCheck.getX() + randoRow]
                     [pieceToCheck.getY() + randoCol].canOneMoveHere(this.playerNum)) {
                 this.sleep(.25);

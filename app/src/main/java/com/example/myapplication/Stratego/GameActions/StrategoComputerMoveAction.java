@@ -8,7 +8,9 @@ package com.example.myapplication.Stratego.GameActions;
 import com.example.myapplication.Game.GamePlayer;
 import com.example.myapplication.Game.actionMsg.GameAction;
 
-public class StrategoComputerMoveAction extends GameAction {
+import java.io.Serializable;
+
+public class StrategoComputerMoveAction extends GameAction implements Serializable {
     //variables that inform the game of where the computer wants to use
     int oldRow;
     int oldCol;

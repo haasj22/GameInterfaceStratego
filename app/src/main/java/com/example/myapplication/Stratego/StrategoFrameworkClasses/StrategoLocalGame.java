@@ -132,42 +132,7 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         //handles a computers setup action by setting up the board
         else if (action instanceof StrategoSmartComputerSetupAction) {
             StrategoSmartComputerSetupAction ssca = (StrategoSmartComputerSetupAction)action;
-
-            //generates a random spot for the flag
-            int randomRow = (int)(Math.random() * 2);
-            int randomCol = (int)(Math.random() * 10);
-
-            //adjusts the flag for the proper team
-            if(state.getCurrentTeamsTurn().getTEAMNUMBER() == 0) {
-                randomRow += 8;
-            }
-
-            //adds the flag to the board
-            state.setLastTappedPieceButton(Rank.FLAG);
-            state.tapOnSquare(randomRow, randomCol);
-            state.tapOnSquare(randomRow, randomCol);
-
-            //places bombs around the flag if possible
-            state.setLastTappedPieceButton(Rank.BOMB);
-            if(randomRow != 0) {
-                state.tapOnSquare(randomRow - 1, randomCol);
-                state.tapOnSquare(randomRow - 1, randomCol);
-            }
-            if(randomRow != 9) {
-                state.tapOnSquare(randomRow + 1, randomCol);
-                state.tapOnSquare(randomRow + 1, randomCol);
-            }
-            if(randomCol != 0) {
-                state.tapOnSquare(randomRow, randomCol -1);
-                state.tapOnSquare(randomRow, randomCol -1);
-            }
-            if(randomCol != 9) {
-                state.tapOnSquare(randomRow, randomCol + 1);
-                state.tapOnSquare(randomRow, randomCol + 1);
-            }
-
-            //transitions the player to play phase
-            state.transitionPhases();
+            this.letSmartComputerSetup();
         }
         //allows computers to make two dependant moves with one action
         else if (action instanceof StrategoComputerMoveAction) {
@@ -191,6 +156,47 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
             state.removeTemporaryVisiblePiece();
         }
         return true;
+    }
+
+    /**
+     * method that allows the smart player to setup their game board
+     */
+    public void letSmartComputerSetup() {
+        //generates a random spot for the flag
+        int randomRow = (int)(Math.random() * 2);
+        int randomCol = (int)(Math.random() * 10);
+
+        //adjusts the flag for the proper team
+        if(state.getCurrentTeamsTurn().getTEAMNUMBER() == 0) {
+            randomRow += 8;
+        }
+
+        //adds the flag to the board
+        state.setLastTappedPieceButton(Rank.FLAG);
+        state.tapOnSquare(randomRow, randomCol);
+        state.tapOnSquare(randomRow, randomCol);
+
+        //places bombs around the flag if possible
+        state.setLastTappedPieceButton(Rank.BOMB);
+        if(randomRow != 0) {
+            state.tapOnSquare(randomRow - 1, randomCol);
+            state.tapOnSquare(randomRow - 1, randomCol);
+        }
+        if(randomRow != 9) {
+            state.tapOnSquare(randomRow + 1, randomCol);
+            state.tapOnSquare(randomRow + 1, randomCol);
+        }
+        if(randomCol != 0) {
+            state.tapOnSquare(randomRow, randomCol -1);
+            state.tapOnSquare(randomRow, randomCol -1);
+        }
+        if(randomCol != 9) {
+            state.tapOnSquare(randomRow, randomCol + 1);
+            state.tapOnSquare(randomRow, randomCol + 1);
+        }
+
+        //transitions the player to play phase
+        state.transitionPhases();
     }
 
     /**

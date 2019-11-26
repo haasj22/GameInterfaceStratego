@@ -223,11 +223,16 @@ public class StrategoGameState extends GameState implements Serializable {
     }
 
     public void setBlueTeamSeconds(int blueTeamSeconds) {
+        if(blueTeamSeconds <= 0) {
+            this.forfeitGame();
+            return;
+        }
         this.blueTeamSeconds = blueTeamSeconds;
     }
     public void setRedTeamSeconds(int redTeamSeconds) {
         if(redTeamSeconds <= 0) {
             this.forfeitGame();
+            return;
         }
         this.redTeamSeconds = redTeamSeconds;
     }
@@ -247,12 +252,18 @@ public class StrategoGameState extends GameState implements Serializable {
      */
     public boolean tapOnSquareSETUP(int row, int col) {
 
+        if(row < this.getCurrentTeamsTurn().getTOPBOUNDARYINDEX() ||
+                row > this.getCurrentTeamsTurn().getBOTTOMBOUNDARYINDEX()) {
+            return true;
+        }
+
         //if tapped piece is empty and highlighted adds a piece to the game
         if(board[row][col].getContainedPiece() == null && didLastBlockContainPiece == false
                 && lastTappedRow == row && lastTappedCol == col) {
             addPieceToGame(new Piece(currentTeamsTurn, this.getLastTappedPieceButton()), row, col);
             lastTappedRow = EMPTY;
             lastTappedCol = EMPTY;
+            this.removeHighlightedBlocks();
         }
         //if the player taps a spot containing a piece twice removes it from board
         else if(row == lastTappedRow && col == lastTappedCol && didLastBlockContainPiece==true) {
@@ -261,6 +272,7 @@ public class StrategoGameState extends GameState implements Serializable {
             lastTappedRow = EMPTY;
             lastTappedCol = EMPTY;
             didLastBlockContainPiece=false;
+            this.removeHighlightedBlocks();
         }
         //if the player taps a placed piece then another piece moves it around
         else if(didLastBlockContainPiece){
@@ -269,6 +281,7 @@ public class StrategoGameState extends GameState implements Serializable {
             lastTappedRow = EMPTY;
             lastTappedCol = EMPTY;
             didLastBlockContainPiece=false;
+            this.removeHighlightedBlocks();
         }
         //if piece contains piece but there is no previous tap readies the piece for deletion
         else if(board[row][col].containsPiece()) {
@@ -338,7 +351,6 @@ public class StrategoGameState extends GameState implements Serializable {
                 setblueTeamHasFlag(true);
             }
         }
-
         return true;
     }
 
@@ -534,10 +546,10 @@ public class StrategoGameState extends GameState implements Serializable {
     public boolean transitionTurns() {
         //switches the current team
         if(currentTeamsTurn == Team.RED_TEAM) {
-            this.blueTeamSeconds += 5;
+            this.redTeamSeconds += 5;
             currentTeamsTurn = Team.BLUE_TEAM;
         } else if(currentTeamsTurn == Team.BLUE_TEAM) {
-            this.redTeamSeconds += 5;
+            this.blueTeamSeconds += 5;
             currentTeamsTurn = Team.RED_TEAM;
         }
         return true;
