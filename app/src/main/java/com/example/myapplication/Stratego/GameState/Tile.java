@@ -6,8 +6,10 @@
 
 package com.example.myapplication.Stratego.GameState;
 
+import java.io.Serializable;
+
 //used for highlighting blocks
-enum Tile{
+enum Tile implements Serializable {
     WATER {
         @Override
         public String toString() {

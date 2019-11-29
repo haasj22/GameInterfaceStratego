@@ -7,7 +7,9 @@
 package com.example.myapplication.Stratego.GameState;
 
 
-public class Block {
+import java.io.Serializable;
+
+public class Block implements Serializable {
 
     //instance variables
     private Tile blockType;

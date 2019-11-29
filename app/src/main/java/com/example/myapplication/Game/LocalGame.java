@@ -14,7 +14,6 @@ import com.example.myapplication.Game.infoMsg.StartGameInfo;
 import com.example.myapplication.Game.util.GameTimer;
 import com.example.myapplication.Game.util.Logger;
 import com.example.myapplication.Game.util.Tickable;
-import com.example.myapplication.Stratego.GameActions.AnytimeAction;
 
 import android.os.Handler;
 import android.os.Looper;

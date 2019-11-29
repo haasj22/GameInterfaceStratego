@@ -7,6 +7,8 @@
 package com.example.myapplication.Stratego.GameState;
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
+
 /**
  * External Citation
  * Date Writing: 13 October 2019
@@ -16,7 +18,7 @@ import androidx.annotation.NonNull;
  * Resource: https://www.geeksforgeeks.org/enum-in-java/
  * Solution: I referenced a lot of the starter code in this webpage
  */
-public enum Rank {
+public enum Rank implements Serializable {
     ONE(1) { //0
         @Override
         public String toString() { return "One"; }

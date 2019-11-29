@@ -6,7 +6,9 @@
 
 package com.example.myapplication.Stratego.GameState;
 
-public enum Team {
+import java.io.Serializable;
+
+public enum Team implements Serializable {
     RED_TEAM('R') {
         @Override
         public String toString() {
