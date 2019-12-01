@@ -173,6 +173,12 @@ public class SmartComputerPlayer extends GameComputerPlayer {
      *         false if no moves are sent
      */
     public boolean findAndSendMove(MovablePiece pieceToCheck) {
+        //if in the enemy territory move around
+        if(pieceToCheck.getY() > gameStateCopy.getEnemyTeam().getTOPBOUNDARYINDEX()
+                || pieceToCheck.getY() <= gameStateCopy.getEnemyTeam().getBOTTOMBOUNDARYINDEX()) {
+            return disperseRandomly(pieceToCheck);
+        }
+
         // picks either up or down according to which is the aggressive play
         int randoRow = (int) Math.pow(-1, this.playerNum + 1);
         int randoCol = 0;
@@ -226,4 +232,43 @@ public class SmartComputerPlayer extends GameComputerPlayer {
         }
         return false;
     }
+
+    public boolean disperseRandomly(MovablePiece pieceToCheck) {
+        //creates a coordinate mapping that a piece could be offset to
+        int randoRow = (int)(Math.random() * 3 - 1);
+        int randoCol;
+        if (randoRow != 0) {
+            randoCol = 0;
+        } else {
+            randoCol=(int)Math.pow(-1, (int)(Math.random() * 2 + 1));
+        }
+
+        //goes through each cardinal direction and tries to move there
+        for(int i=0; i<2; i++) {
+            for(int j=0; j<2; j++) {
+                if(pieceToCheck.getX() + randoRow > 9 || pieceToCheck.getX() + randoRow < 0) {
+                    continue;
+                }
+                if(pieceToCheck.getY() + randoCol > 9 || pieceToCheck.getY() + randoCol < 0) {
+                    continue;
+                }
+                if(gameStateCopy.getBoard()[pieceToCheck.getX() + randoRow]
+                        [pieceToCheck.getY() + randoCol].canOneMoveHere(this.playerNum)) {
+                    this.sleep(.25);
+                    game.sendAction(new StrategoComputerMoveAction(this,
+                            pieceToCheck.getX(), pieceToCheck.getY(), pieceToCheck.getX() + randoRow,
+                            pieceToCheck.getY() + randoCol));
+                    return true;
+                }
+                randoCol *= -1;
+                randoRow *= -1;
+            }
+            int temp = randoRow;
+            randoRow = randoCol;
+            randoCol = temp;
+        }
+        //returns false if there is no actual place to move
+        return false;
+    }
+
 }

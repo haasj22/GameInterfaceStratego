@@ -106,7 +106,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
         strategoBitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.red_basepiece_bomb));
         strategoBitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.red_basepiecef));
         strategoBitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.red_basepiece));
-        strategoBitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.base_board));
+        strategoBitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.base_stratego_board));
     }
 
     public int getSurfaceViewOwner() {
@@ -211,7 +211,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
         } else {
             teamOffset=0;
         }
-        /*
+
         if(currentTeam.getTEAMNUMBER() == surfaceViewOwner
                 && drawThisPiece.getPieceTeam().getTEAMNUMBER() != surfaceViewOwner
                 && drawThisPiece.getIsVisible() == false
@@ -222,12 +222,12 @@ public class StrategoSurfaceView extends FlashSurfaceView {
             canvas.drawBitmap(strategoBitmaps.get(12 + teamOffset), canvas.getWidth() * 2 / 100 +
                     canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
             return;
-        }*/
-        //else {
+        }
+        else {
             canvas.drawBitmap(strategoBitmaps.get(drawThisPiece.getPieceRank().ordinal() + teamOffset),
                     canvas.getWidth() * 2 / 100 + canvas.getWidth() * col / 10,
                     canvas.getHeight() * row / 10, null);
             return;
-        //}
+        }
     }
 }

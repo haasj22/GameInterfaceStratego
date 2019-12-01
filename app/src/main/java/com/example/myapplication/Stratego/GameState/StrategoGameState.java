@@ -95,10 +95,10 @@ public class StrategoGameState extends GameState implements Serializable {
                     continue;
                 }
                 if(j != 2 && j != 3 && j != 6 && j != 7) {
-                    board[i][j] = new Block(Tile.WATER);
+                    board[i][j] = new Block(Tile.BRIDGE);
                     continue;
                 }
-                board[i][j] = new Block(Tile.BRIDGE);
+                board[i][j] = new Block(Tile.WATER);
             }
         }
 
