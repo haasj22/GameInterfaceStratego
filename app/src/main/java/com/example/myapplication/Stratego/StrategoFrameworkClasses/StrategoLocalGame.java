@@ -8,6 +8,7 @@ import com.example.myapplication.Game.GamePlayer;
 import com.example.myapplication.Game.LocalGame;
 import com.example.myapplication.Game.actionMsg.GameAction;
 import com.example.myapplication.Game.util.GameTimer;
+import com.example.myapplication.Stratego.GameActions.NoVendettaAction;
 import com.example.myapplication.Stratego.GameActions.StrategoButtonPieceAction;
 import com.example.myapplication.Stratego.GameActions.StrategoComputerMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
@@ -153,7 +154,14 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
             } catch(InterruptedException e) {
 
             }
-            state.removeTemporaryVisiblePiece();
+            if(state.getVisiblePiece() != null) {
+                state.removeTemporaryVisiblePiece();
+            }
+        }
+        else if (action instanceof NoVendettaAction) {
+            Log.i("smrtmsg", "enteredNoVendetta");
+            NoVendettaAction nva = (NoVendettaAction)action;
+            state.setLastKilledPiece(null);
         }
         return true;
     }

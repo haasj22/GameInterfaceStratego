@@ -58,6 +58,9 @@ public class StrategoGameState extends GameState implements Serializable {
     //piece that is temporarily visible
     private Piece visiblePiece;
 
+    //used for smartPlayerAI
+    private MovablePiece lastKilledPiece;
+
     //last tapped button that is used for piece highlights
     private Rank lastTappedPieceButton;
 
@@ -102,9 +105,12 @@ public class StrategoGameState extends GameState implements Serializable {
         //sets default tapped row and column
         lastTappedRow = EMPTY;
         lastTappedCol = EMPTY;
+
+        //move calculation variables
         didLastBlockContainPiece = false;
         lastTappedPieceButton = null;
         visiblePiece=null;
+        lastKilledPiece=null;
     }
 
     /**
@@ -154,6 +160,7 @@ public class StrategoGameState extends GameState implements Serializable {
         this.lastTappedCol = trueState.lastTappedCol;
         this.didLastBlockContainPiece = trueState.didLastBlockContainPiece;
         this.visiblePiece = trueState.visiblePiece;
+        this.lastKilledPiece = trueState.lastKilledPiece;
 
         this.lastTappedPieceButton = trueState.lastTappedPieceButton;
     }
@@ -192,6 +199,7 @@ public class StrategoGameState extends GameState implements Serializable {
     public Piece getPieceAt(int row, int col) {
         return board[row][col].getContainedPiece();
     }
+    public MovablePiece getLastKilledPiece() { return lastKilledPiece; }
     public int getEMPTY() { return EMPTY; }
 
     /**
@@ -237,6 +245,7 @@ public class StrategoGameState extends GameState implements Serializable {
         this.redTeamSeconds = redTeamSeconds;
     }
 
+    public void setLastKilledPiece(MovablePiece lastKilledPiece) { this.lastKilledPiece = lastKilledPiece; }
     public void setVisiblePiece(Piece visiblePiece) {
         this.visiblePiece = visiblePiece;
     }
@@ -704,6 +713,9 @@ public class StrategoGameState extends GameState implements Serializable {
             //removes defender from arraylist
             removePieceFromPlayer(getEnemyTeam(), defender.getPieceRank());
             //moves attacker to desired location
+            Log.i("smrtmsg", "setting vendetta");
+            lastKilledPiece = new MovablePiece(row2, col2, board[row1][col1].getContainedPiece().getPieceRank());
+            Log.i("smrtmsg", lastKilledPiece.toString());
             return movePiece(row1, col1, row2, col2);
         }
         //if attacker and defender are equal rank kill both
@@ -756,6 +768,7 @@ public class StrategoGameState extends GameState implements Serializable {
         //if spy attacks Marshall, removes marshall from board
         if(board[row2][col2].getContainedPiece().getPieceRank() == Rank.ONE) {
             removePieceFromPlayer(getEnemyTeam(), board[row2][col2].getContainedPiece().getPieceRank());
+            lastKilledPiece = new MovablePiece(row2, col2, Rank.SPY);
             return movePiece(row1, col1, row2, col2);
         }
         //else treat spy like normal piece

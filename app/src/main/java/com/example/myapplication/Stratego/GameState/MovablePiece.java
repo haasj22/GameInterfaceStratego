@@ -24,6 +24,14 @@ public class MovablePiece {
         pieceRank=knownRank;
     }
 
+    public String toString() {
+        String movableString = "";
+        movableString += "X: " + x + "\n";
+        movableString += "Y: " + y + "\n";
+        movableString += "Rank: " + pieceRank + "\n";
+        return movableString;
+    }
+
     public int getX() {
         return x;
     }

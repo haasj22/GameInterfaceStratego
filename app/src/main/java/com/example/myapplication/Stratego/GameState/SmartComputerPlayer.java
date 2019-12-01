@@ -47,12 +47,81 @@ public class SmartComputerPlayer extends GameComputerPlayer {
             }
             //else it calculates the best play phase move and does that
             else {
+                if(gameStateCopy.getLastKilledPiece() != null) {
+                    Log.i("smrtmsg", "" + gameStateCopy.getLastKilledPiece());
+                } else {
+                    Log.i("smrtmsg", "noKilledPiece");
+                }
+                vendettaAttack();
+
                 //attacks an enemy if its nearby
                 ArrayList<MovablePiece> computerMovablePieces = new ArrayList<>();
                 addMovablePieces(computerMovablePieces);
                 generateLegalMove(computerMovablePieces);
             }
         }
+    }
+
+    public void vendettaAttack() {
+        if(gameStateCopy.getLastKilledPiece() == null) {
+            return;
+        }
+        int moveThisX = 100;
+        int moveThisY = 100;
+
+        int lastKilledX = gameStateCopy.getLastKilledPiece().getX();
+        int lastKilledY = gameStateCopy.getLastKilledPiece().getY();
+        Rank lastKilledRank = gameStateCopy.getLastKilledPiece().getPieceRank();
+
+        int x=1;
+        int y=0;
+        for(int i=0; i<2; i++) {
+            for(int j=0; j<2; j++) {
+                x*=-1;
+                y*=-1;
+                if(lastKilledX + x < gameStateCopy.getROWMIN()
+                        || lastKilledX + x >= gameStateCopy.getROWMAX()
+                        || lastKilledY + y < gameStateCopy.getCOLMIN()
+                        || lastKilledY + y >= gameStateCopy.getCOLMAX()) {
+                    continue;
+                }
+
+                if(gameStateCopy.getBoard()[lastKilledX + x][lastKilledY + y].getContainedPiece() == null) {
+                    continue;
+                }
+
+                if(moveThisX == 100 && moveThisY == 100
+                        && gameStateCopy.getBoard()[lastKilledX + x][lastKilledY + y].getContainedPiece().getPieceRank().ordinal()
+                        <= gameStateCopy.getBoard()[lastKilledX][lastKilledY].getContainedPiece().getPieceRank().ordinal()) {
+                    moveThisX = lastKilledX + x;
+                    moveThisY = lastKilledY + y;
+                }
+                else if(moveThisX != 100 && moveThisY != 100 &&
+                        gameStateCopy.getBoard()[lastKilledX + x][lastKilledY + y].getContainedPiece().getPieceRank().ordinal()
+                        > gameStateCopy.getBoard()[moveThisX][moveThisY].getContainedPiece().getPieceRank().ordinal()
+                        && gameStateCopy.getBoard()[lastKilledX +x][lastKilledY + y].getContainedPiece().getPieceRank().ordinal()
+                        <= gameStateCopy.getBoard()[lastKilledX][lastKilledY].getContainedPiece().getPieceRank().ordinal()) {
+                    moveThisX = lastKilledX + x;
+                    moveThisY = lastKilledY + y;
+                } else if(gameStateCopy.getBoard()[lastKilledX + x][lastKilledY + y].getContainedPiece().getPieceRank() == Rank.SPY
+                        && lastKilledRank == Rank.ONE) {
+                    this.game.sendAction(new StrategoComputerMoveAction
+                            (this, lastKilledX+x, lastKilledY+y, lastKilledX,
+                            lastKilledY));
+                    return;
+                }
+            }
+            int temp = x;
+            x=y;
+            y=temp;
+        }
+        if(moveThisX == 100 || moveThisY == 100) {
+            return;
+        } else {
+            this.game.sendAction(new StrategoComputerMoveAction(this, moveThisX, moveThisY,
+                    lastKilledX, lastKilledY));
+        }
+
     }
 
     /**

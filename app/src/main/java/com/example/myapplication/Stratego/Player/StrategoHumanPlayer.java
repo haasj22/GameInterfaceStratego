@@ -23,6 +23,7 @@ import com.example.myapplication.Game.infoMsg.IllegalMoveInfo;
 import com.example.myapplication.Game.infoMsg.NotYourTurnInfo;
 import com.example.myapplication.HowToPlay;
 import com.example.myapplication.R;
+import com.example.myapplication.Stratego.GameActions.NoVendettaAction;
 import com.example.myapplication.Stratego.GameActions.StrategoButtonPieceAction;
 import com.example.myapplication.Stratego.GameActions.StrategoForfeitAction;
 import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
@@ -37,6 +38,8 @@ import com.example.myapplication.Stratego.GameState.Team;
 import com.example.myapplication.Stratego.StrategoFrameworkClasses.StrategoSurfaceView;
 import com.example.myapplication.notepadSurfaceView;
 import com.example.myapplication.notepadActivity;
+
+import java.util.ArrayList;
 
 public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClickListener, View.OnTouchListener{
 
@@ -66,6 +69,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private Button helpButton;
     private Button muteButton;
     private Button endTurnButton;
+
+    ArrayList<Button> strategoPieceButtons = new ArrayList<Button>();
 
     //buttons for pieces
     private Button marshallButton;
@@ -113,6 +118,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
         //set game state onto surface view
         if(info instanceof StrategoGameState) {
+
             if (surfaceView == null) return;
             surfaceView.setState((StrategoGameState) info);
             surfaceView.setSurfaceViewOwner(this.playerNum);
@@ -138,6 +144,10 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 }
                 if(surfaceView.getState().getCurrentTeamsTurn().getTEAMNUMBER() == this.playerNum) {
                     this.setEnemyLeft(surfaceView.getState());
+                    if(this.surfaceView.getState().getLastKilledPiece() != null) {
+                        Log.i("smrtmsg", "removing vendetta");
+                        game.sendAction(new NoVendettaAction(this));
+                    }
                 }
             }
 
@@ -342,6 +352,16 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     @Override
     public void onClick(View v) {
+        /*
+        //TODO WORK ON GETTING THIS TO WORK
+        for(int i = 0; i < strategoPieceButtons.size(); i++) {
+            if(v.getId() == strategoPieceButtons.get(i).getId()) {
+                setWhiteButtons(v);
+                strategoPieceButtons.get(i).setBackgroundColor(Color.GREEN);
+                this.game.sendAction(new StrategoButtonPieceAction(this, strategoPieceButtons.get(i)));
+            }
+        }
+         */
         //action type - send action
         switch (v.getId()){
             case R.id.marshallButton:
@@ -516,6 +536,22 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         lastButtonText = (TextView)activity.findViewById(R.id.lastTappedButtonText);
         helpScreenText = (TextView)activity.findViewById(R.id.helpScreenText);
         currentTimerText = (TextView)activity.findViewById(R.id.currentPlayerTimer);
+
+        strategoPieceButtons.add((Button)activity.findViewById(R.id.marshallButton));
+        strategoPieceButtons.add((Button)activity.findViewById(R.id.generalButton));
+        strategoPieceButtons.add((Button)activity.findViewById(R.id.colonelButton));
+        strategoPieceButtons.add((Button)activity.findViewById(R.id.majorButton));
+        strategoPieceButtons.add((Button)activity.findViewById(R.id.captainButton));
+        strategoPieceButtons.add((Button)activity.findViewById(R.id.lieutenantButton));
+        strategoPieceButtons.add((Button)activity.findViewById(R.id.sergeantButton));
+        strategoPieceButtons.add((Button)activity.findViewById(R.id.minerButton));
+        strategoPieceButtons.add((Button)activity.findViewById(R.id.scoutButton));
+        strategoPieceButtons.add((Button)activity.findViewById(R.id.spyButton));
+        strategoPieceButtons.add((Button)activity.findViewById(R.id.bombButton));
+        strategoPieceButtons.add((Button)activity.findViewById(R.id.flagButton));
+        for(int i = 0; i < strategoPieceButtons.size(); i++) {
+            strategoPieceButtons.get(i).setOnClickListener(this);
+        }
 
         //piece buttons
         marshallButton = (Button)activity.findViewById(R.id.marshallButton);

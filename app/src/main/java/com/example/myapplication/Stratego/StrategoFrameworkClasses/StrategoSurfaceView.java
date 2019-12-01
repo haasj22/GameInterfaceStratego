@@ -211,6 +211,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
         } else {
             teamOffset=0;
         }
+        /*
         if(currentTeam.getTEAMNUMBER() == surfaceViewOwner
                 && drawThisPiece.getPieceTeam().getTEAMNUMBER() != surfaceViewOwner
                 && drawThisPiece.getIsVisible() == false
@@ -221,11 +222,12 @@ public class StrategoSurfaceView extends FlashSurfaceView {
             canvas.drawBitmap(strategoBitmaps.get(12 + teamOffset), canvas.getWidth() * 2 / 100 +
                     canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
             return;
-        } else {
+        }*/
+        //else {
             canvas.drawBitmap(strategoBitmaps.get(drawThisPiece.getPieceRank().ordinal() + teamOffset),
                     canvas.getWidth() * 2 / 100 + canvas.getWidth() * col / 10,
                     canvas.getHeight() * row / 10, null);
             return;
-        }
+        //}
     }
 }
