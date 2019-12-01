@@ -62,23 +62,31 @@ public class SmartComputerPlayer extends GameComputerPlayer {
         }
     }
 
+    /**
+     * method that allows the computer to kill pieces that just killed one of its own
+     */
     public void vendettaAttack() {
+        //makes sure something just died
         if(gameStateCopy.getLastKilledPiece() == null) {
             return;
         }
+        //default values
         int moveThisX = 100;
         int moveThisY = 100;
 
+        //finds out where stuff got killed
         int lastKilledX = gameStateCopy.getLastKilledPiece().getX();
         int lastKilledY = gameStateCopy.getLastKilledPiece().getY();
         Rank lastKilledRank = gameStateCopy.getLastKilledPiece().getPieceRank();
 
+        //looks next to the piece that just killed an enemy
         int x=1;
         int y=0;
         for(int i=0; i<2; i++) {
             for(int j=0; j<2; j++) {
                 x*=-1;
                 y*=-1;
+                //makes sure the place its about to check is a valid location
                 if(lastKilledX + x < gameStateCopy.getROWMIN()
                         || lastKilledX + x >= gameStateCopy.getROWMAX()
                         || lastKilledY + y < gameStateCopy.getCOLMIN()
@@ -86,10 +94,12 @@ public class SmartComputerPlayer extends GameComputerPlayer {
                     continue;
                 }
 
+                //makes sure the place its about to check has a stratego piece
                 if(gameStateCopy.getBoard()[lastKilledX + x][lastKilledY + y].getContainedPiece() == null) {
                     continue;
                 }
 
+                //finds the lowest piece number that will be able to kill the desired piece
                 if(moveThisX == 100 && moveThisY == 100
                         && gameStateCopy.getBoard()[lastKilledX + x][lastKilledY + y].getContainedPiece().getPieceRank().ordinal()
                         <= gameStateCopy.getBoard()[lastKilledX][lastKilledY].getContainedPiece().getPieceRank().ordinal()) {
@@ -115,6 +125,7 @@ public class SmartComputerPlayer extends GameComputerPlayer {
             x=y;
             y=temp;
         }
+        //if the desired enemy can be killed, it is killed
         if(moveThisX == 100 || moveThisY == 100) {
             return;
         } else {
@@ -233,6 +244,12 @@ public class SmartComputerPlayer extends GameComputerPlayer {
         return false;
     }
 
+    /**
+     * method that tells units on the opponents side of the board to move randomly
+     *
+     * @param pieceToCheck
+     * @return
+     */
     public boolean disperseRandomly(MovablePiece pieceToCheck) {
         //creates a coordinate mapping that a piece could be offset to
         int randoRow = (int)(Math.random() * 3 - 1);

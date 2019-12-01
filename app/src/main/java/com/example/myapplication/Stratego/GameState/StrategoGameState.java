@@ -1100,5 +1100,4 @@ public class StrategoGameState extends GameState implements Serializable {
 
 
     /**-------------------------------------------------------------------------------------------*/
-
 }
