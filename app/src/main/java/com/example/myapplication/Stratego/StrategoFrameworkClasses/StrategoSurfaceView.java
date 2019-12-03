@@ -177,13 +177,13 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                 }
 
                 //shows pieces if they're visible
-                /*if(state.getBoard()[row][col].getContainedPiece() != null
+                if(state.getBoard()[row][col].getContainedPiece() != null
                 && state.getBoard()[row][col].getContainedPiece().getIsVisible() == true
                 && state.getBoard()[row][col].getContainedPiece().getPieceTeam() == state.getCurrentTeamsTurn()) {
                     g.drawRect((width*col)/10, (height*row)/10,
                             (width * (col + 1))/10,
                             (height*(row+1))/10, visiblePaint);
-                }*/
+                }
 
                 //only draws pieces on spaces that contain them
                 if(state.getBoard()[row][col].getContainedPiece() == null) {
