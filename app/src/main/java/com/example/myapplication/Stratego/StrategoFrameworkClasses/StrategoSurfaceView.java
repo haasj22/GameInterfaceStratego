@@ -79,7 +79,10 @@ public class StrategoSurfaceView extends FlashSurfaceView {
         visiblePaint.setColor(Color.YELLOW);
     }
 
-    public void addBitmaps() { ;
+    /**
+     * method that adds all the necessary bitmaps to the arrayList
+     */
+    public void addBitmaps() {
         strategoBitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.base_piece1));
         strategoBitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.base_piece2));
         strategoBitmaps.add(BitmapFactory.decodeResource(getResources(), R.drawable.base_piece3));
