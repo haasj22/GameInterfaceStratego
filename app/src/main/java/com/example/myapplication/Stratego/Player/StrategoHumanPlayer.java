@@ -457,7 +457,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             case R.id.muteButton:
                 StrategoMuteAction muteAction = new StrategoMuteAction(this);
                 this.game.sendAction(muteAction);
-                //muteGame();
                 break;
             case R.id.infoButton:
                 Intent intent0 = new Intent(this.myActivity, HowToPlay.class);
@@ -480,6 +479,15 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                     setWhiteButtons(v);
                     break;
         }
+        if (v == muteButton) {
+            if(mediaPlayer.isPlaying()){
+                mediaPlayer.pause();
+            }
+            else{
+                mediaPlayer.start();
+            }
+        }
+
         /**
          * External Citation
          * Problem: Could not fix mute button
@@ -487,14 +495,14 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
          * Source: https://stackoverflow.com/questions/9461056/android-media-player-play-pause-button
          * Solution: Added if statements using isPlaying()
          */
-        if(v == muteButton){
-            if(mediaPlayer.isPlaying()){
-                mediaPlayer.pause();
-            } else{
-                mediaPlayer.start();
-            }
-
-        }
+//        if (v == muteButton) {
+//            if(mediaPlayer.isPlaying()){
+//                mediaPlayer.pause();
+//            }
+//            else{
+//                mediaPlayer.start();
+//            }
+//        }
     }
         /**
          * changes color of all buttons to white when called
