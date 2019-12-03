@@ -5,7 +5,9 @@
  */
 package com.example.myapplication.Stratego.GameState;
 
-public class MovablePiece {
+import java.io.Serializable;
+
+public class MovablePiece implements Serializable{
 
     private int x;
     private int y;
@@ -18,7 +20,9 @@ public class MovablePiece {
      * @param knownY y location of the piece
      * @param knownRank rank of the piece
      */
-    public MovablePiece(int knownX, int knownY, Rank knownRank) {
+    public MovablePiece(int knownX, int knownY, Rank knownRank)
+
+    {
         x=knownX;
         y=knownY;
         pieceRank=knownRank;
