@@ -107,7 +107,6 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         // uses the actions to check instances of player actions
         //handles a move action by tapping on a square
         if(action instanceof StrategoMoveAction) {
-            Log.i("ntwrkmsg", "Move read");
             StrategoMoveAction sma = (StrategoMoveAction)action;
             state.tapOnSquare(sma.getRow(), sma.getCol());
         }
@@ -129,7 +128,6 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         else if (action instanceof StrategoMuteAction){
             StrategoMuteAction ma = (StrategoMuteAction)action;
             state.muteGame();
-
         }
         //handles a computers setup action by setting up the board
         else if (action instanceof StrategoSmartComputerSetupAction) {
