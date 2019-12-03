@@ -120,6 +120,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         if(info instanceof StrategoGameState) {
 
             if (surfaceView == null) return;
+            Log.i("statemsg", "state set");
             surfaceView.setState((StrategoGameState) info);
             surfaceView.setSurfaceViewOwner(this.playerNum);
 
@@ -155,6 +156,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             this.setLastTappedButtonText(surfaceView.getState());
             this.setHelpScreenText(surfaceView.getState());
             this.setCurrentTeamsTurnText(surfaceView.getState());
+            Log.i("statemsg", "" + this.playerNum + " invalidated");
             surfaceView.invalidate();
 
             if(surfaceView.getState().getVisiblePiece() != null) {
@@ -455,7 +457,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
             case R.id.muteButton:
                 StrategoMuteAction muteAction = new StrategoMuteAction(this);
                 this.game.sendAction(muteAction);
-                muteGame();
+                //muteGame();
                 break;
             case R.id.infoButton:
                 Intent intent0 = new Intent(this.myActivity, HowToPlay.class);
@@ -475,15 +477,21 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                     setWhiteButtons(v);
                     break;
         }
+        /**
+         * External Citation
+         * Problem: Could not fix mute button
+         * Date: 3 December 2019
+         * Source: https://stackoverflow.com/questions/9461056/android-media-player-play-pause-button
+         * Solution: Added if statements using isPlaying()
+         */
+        if(v == muteButton){
+            if(mediaPlayer.isPlaying()){
+                mediaPlayer.pause();
+            } else{
+                mediaPlayer.start();
+            }
 
-    }
-
-    private void muteGame() {
-        mediaPlayer.stop();
-    }
-
-    private void unmuteGame(){
-        mediaPlayer.start();
+        }
     }
         /**
          * changes color of all buttons to white when called
