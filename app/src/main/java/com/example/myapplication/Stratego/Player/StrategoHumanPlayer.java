@@ -468,10 +468,13 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 notepadButton.getContext().startActivity(intent1);
                 break;
             case R.id.endTurnButton:
-                endTurnButton.setVisibility(View.INVISIBLE);
-                StrategoTransitionAction transitionAction =
-                        new StrategoTransitionAction(this);
-                this.game.sendAction(transitionAction);
+                if(this.playerNum == this.surfaceView.getState().getCurrentTeamsTurn().getTEAMNUMBER()) {
+                    endTurnButton.setVisibility(View.INVISIBLE);
+
+                    StrategoTransitionAction transitionAction =
+                            new StrategoTransitionAction(this);
+                    this.game.sendAction(transitionAction);
+                }
                 break;
                 default:
                     setWhiteButtons(v);
