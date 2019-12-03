@@ -11,6 +11,9 @@ import com.example.myapplication.Game.actionMsg.GameAction;
 import java.io.Serializable;
 
 public class StrategoComputerMoveAction extends GameAction implements Serializable {
+
+    //to satisfy the serializable interface
+    private static final long serialVersionUID = 6467656984343L;
     //variables that inform the game of where the computer wants to use
     int oldRow;
     int oldCol;

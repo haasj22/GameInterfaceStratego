@@ -5,7 +5,7 @@
     android:id="@+id/StrategoInGameLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Stratego.StrategoFrameworkClasses.StrategoMainActivity">
 
     <LinearLayout
         android:id="@+id/gameOverlord"
@@ -32,13 +32,15 @@
                 android:textSize="36sp" />
 
             <TextView
-                android:id="@+id/unitTextView"
+                android:id="@+id/helpScreenText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="198dp"
                 android:fontFamily="sans-serif-black"
-                android:text="@string/enemyList"
+                android:gravity="center"
+                android:outlineProvider="background"
+                android:text="@string/helpScreen"
                 android:textColor="#FFFFFF"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <!--
                 Person Commenting: John Haas
@@ -69,13 +71,20 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/helpScreenText"
+                        android:id="@+id/unitTextView"
+                        android:layout_width="285dp"
+                        android:layout_height="486dp"
+                        android:fontFamily="sans-serif-black"
+                        android:gravity="center"
+                        android:text="@string/enemyList"
+                        android:textColor="#FFFFFF"
+                        android:textSize="24sp" />
+
+                    <Space
+                        android:id="@+id/RightSpace"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:fontFamily="sans-serif-black"
-                        android:text="@string/helpScreen"
-                        android:textColor="#FFFFFF"
-                        android:textSize="18sp" />
+                        android:layout_weight="1" />
                 </LinearLayout>
             </ScrollView>
 
@@ -117,7 +126,7 @@
             <TextView
                 android:id="@+id/titleTextView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="90sp"
                 android:gravity="center"
                 android:text="STRATEGO X UP EDITION"
                 android:textColor="#F3FFFFFF"
@@ -181,6 +190,16 @@
                 android:id="@+id/topRightSpace"
                 android:layout_width="match_parent"
                 android:layout_height="45sp" />
+
+            <TextView
+                android:id="@+id/topTextView"
+                android:layout_width="match_parent"
+                android:layout_height="45sp"
+                android:gravity="center"
+                android:text="Pieces"
+                android:textColor="#FFFFFF"
+                android:textSize="30sp"
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/row1"
@@ -486,13 +505,12 @@
 
                 <Button
                     android:id="@+id/infoButton"
-                    android:layout_width="50dp"
+                    android:layout_width="65dp"
                     android:layout_height="80dp"
                     android:adjustViewBounds="true"
-                    android:background="#200200"
                     android:scaleType="fitCenter"
                     android:text="INFO"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#000000"
                     android:tint="#FFFFFF"
                     app:srcCompat="@drawable/info4" />
 
@@ -504,13 +522,12 @@
 
                 <Button
                     android:id="@+id/muteButton"
-                    android:layout_width="55dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="#200200"
+                    android:layout_width="65dp"
+                    android:layout_height="80dp"
                     android:scaleType="fitCenter"
                     android:text="Mute"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
                     android:tint="#FFFFFF"
                     app:srcCompat="@drawable/mute" />
 
@@ -522,9 +539,10 @@
 
                 <Button
                     android:id="@+id/forfeitButton"
-                    android:layout_width="64dp"
+                    android:layout_width="65dp"
                     android:layout_height="80dp"
                     android:text="FORFEIT"
+                    android:textColor="#000000"
                     android:textSize="10sp" />
                 <Space
                     android:id="@+id/buttonSpace17"
