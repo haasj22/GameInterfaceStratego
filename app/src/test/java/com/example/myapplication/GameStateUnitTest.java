@@ -320,6 +320,27 @@ public class GameStateUnitTest {
         assertEquals(Rank.ONE, testGameState.getPieceAt(4, 7).getPieceRank());
     }
 
+
+    //written by Kavya Mandla
+    @Test
+    public void attackFiveToThree(){
+        StrategoGameState testGameState = new StrategoGameState();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.FIVE), 6,7);
+        testGameState.transitionPhases();
+        testGameState.addPieceToGame(new Piece(testGameState.getCurrentTeamsTurn(),
+                Rank.THREE),3,7);
+        assertEquals(Rank.FIVE, testGameState.getPieceAt(6,7).getPieceRank());
+        assertEquals(Rank.THREE, testGameState.getPieceAt(3,7).getPieceRank());
+        testGameState.tapOnSquarePLAY(6, 7);
+        testGameState.tapOnSquarePLAY(5, 7);
+        testGameState.tapOnSquarePLAY(3, 7);
+        testGameState.tapOnSquarePLAY(4, 7);
+        testGameState.tapOnSquarePLAY(5, 7);
+        testGameState.tapOnSquarePLAY(4, 7);
+        assertEquals(Rank.THREE, testGameState.getPieceAt(4,7).getPieceRank());
+
+    }
     //written by Kavya Mandla
     //checks to see if 5 loses to 4
     @Test
@@ -344,7 +365,6 @@ public class GameStateUnitTest {
     }
 
 
-
     // written by Jordan Ho
     @Test
     public void movePiece(){
@@ -353,7 +373,7 @@ public class GameStateUnitTest {
                 6,7);
         testGameState.tapOnSquare(6,7);
         testGameState.tapOnSquare(6,6);
-        assertEquals(testGameState.getPieceAt(6,7), null);
+        assertNull(testGameState.getPieceAt(6, 7));
         assertEquals(testGameState.getPieceAt(6,6).getPieceRank(), Rank.ONE);
     }
 
