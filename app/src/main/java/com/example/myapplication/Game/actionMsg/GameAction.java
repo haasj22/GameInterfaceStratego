@@ -6,6 +6,7 @@ import com.example.myapplication.Game.GamePlayer;
 import java.io.Serializable;
 
 public abstract class GameAction implements Serializable {
+
     // to support the Serializable interface
     private static final long serialVersionUID = 30672013L;
 

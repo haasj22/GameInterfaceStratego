@@ -31,17 +31,6 @@
                 android:text="NOTEPAD"
                 android:textSize="36sp" />
 
-            <TextView
-                android:id="@+id/helpScreenText"
-                android:layout_width="match_parent"
-                android:layout_height="198dp"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:outlineProvider="background"
-                android:text="@string/helpScreen"
-                android:textColor="#FFFFFF"
-                android:textSize="18sp" />
-
             <!--
                 Person Commenting: John Haas
 
@@ -53,11 +42,6 @@
                         https://developer.android.com/reference/android/widget/ScrollView
                     Solution: Using a scrollView with a TextView Inside like the documentation says
             -->
-            <Space
-                android:id="@+id/leftSpace"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
 
             <ScrollView
                 android:id="@+id/helpScreenScrollView"
@@ -72,8 +56,8 @@
 
                     <TextView
                         android:id="@+id/unitTextView"
-                        android:layout_width="285dp"
-                        android:layout_height="486dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-black"
                         android:gravity="center"
                         android:text="@string/enemyList"
@@ -81,10 +65,55 @@
                         android:textSize="24sp" />
 
                     <Space
-                        android:id="@+id/RightSpace"
+                        android:id="@+id/topRightSpace"
+                        android:layout_width="match_parent"
+                        android:layout_height="193dp" />
+
+                    <LinearLayout
+                        android:id="@+id/actionButtons"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:orientation="horizontal">
+
+                        <Space
+                            android:id="@+id/buttonSpace16"
+                            android:layout_width="35dp"
+                            android:layout_height="wrap_content" />
+
+                        <Button
+                            android:id="@+id/infoButton"
+                            android:layout_width="65dp"
+                            android:layout_height="80dp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="fitCenter"
+                            android:text="INFO"
+                            android:textColor="#000000"
+                            android:tint="#FFFFFF"
+                            app:srcCompat="@drawable/info4" />
+
+
+                        <Button
+                            android:id="@+id/muteButton"
+                            android:layout_width="65dp"
+                            android:layout_height="80dp"
+                            android:scaleType="fitCenter"
+                            android:text="Mute"
+                            android:textColor="#000000"
+                            android:textSize="14sp"
+                            android:tint="#FFFFFF"
+                            app:srcCompat="@drawable/mute" />
+
+                        <Button
+                            android:id="@+id/forfeitButton"
+                            android:layout_width="65dp"
+                            android:layout_height="80dp"
+                            android:text="FORFEIT"
+                            android:textColor="#000000"
+                            android:textSize="10sp" />
+
+
+                    </LinearLayout>
+
                 </LinearLayout>
             </ScrollView>
 
@@ -149,7 +178,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintDimensionRatio="12:9" />
+                    app:layout_constraintDimensionRatio="12:9"
+                    tools:layout_editor_absoluteX="-88dp" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -461,9 +491,20 @@
                 android:orientation="horizontal" />
 
             <TextView
+                android:id="@+id/helpScreenText"
+                android:layout_width="match_parent"
+                android:layout_height="198dp"
+                android:fontFamily="sans-serif-black"
+                android:gravity="center"
+                android:outlineProvider="background"
+                android:text="@string/helpScreen"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp" />
+
+            <TextView
                 android:id="@+id/lastTappedButtonText"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="75dp"
                 android:text="Last Tapped Button: N/A"
                 android:textAlignment="center"
                 android:textColor="@android:color/white"
@@ -489,69 +530,6 @@
                 android:text="RED'S TURN"
                 android:textColor="#FFFFFF"
                 android:textSize="30sp" />
-
-            <LinearLayout
-                android:id="@+id/actionButtons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <Space
-                    android:id="@+id/buttonSpace13"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1" />
-
-
-                <Button
-                    android:id="@+id/infoButton"
-                    android:layout_width="65dp"
-                    android:layout_height="80dp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="fitCenter"
-                    android:text="INFO"
-                    android:textColor="#000000"
-                    android:tint="#FFFFFF"
-                    app:srcCompat="@drawable/info4" />
-
-                <Space
-                    android:id="@+id/buttonSpace15"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5" />
-
-                <Button
-                    android:id="@+id/muteButton"
-                    android:layout_width="65dp"
-                    android:layout_height="80dp"
-                    android:scaleType="fitCenter"
-                    android:text="Mute"
-                    android:textColor="#000000"
-                    android:textSize="14sp"
-                    android:tint="#FFFFFF"
-                    app:srcCompat="@drawable/mute" />
-
-                <Space
-                    android:id="@+id/buttonSpace16"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5" />
-
-                <Button
-                    android:id="@+id/forfeitButton"
-                    android:layout_width="65dp"
-                    android:layout_height="80dp"
-                    android:text="FORFEIT"
-                    android:textColor="#000000"
-                    android:textSize="10sp" />
-                <Space
-                    android:id="@+id/buttonSpace17"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1.5" />
-
-
-            </LinearLayout>
 
         </LinearLayout>
 

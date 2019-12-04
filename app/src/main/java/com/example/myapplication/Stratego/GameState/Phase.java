@@ -18,6 +18,8 @@ import java.io.Serializable;
  * Solution: I used the sample code found on this site
  */
 public enum Phase implements Serializable {
+
+
     SETUP_PHASE {
         @Override
         public String toString() {

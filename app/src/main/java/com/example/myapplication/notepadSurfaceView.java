@@ -37,6 +37,7 @@ public class notepadSurfaceView  extends View {
     protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
         canvas.drawPath(path, paint);
+        canvas.save();
     }
 
     @Override
