@@ -32,6 +32,7 @@ import com.example.myapplication.Stratego.GameActions.StrategoPassAction;
 import com.example.myapplication.Stratego.GameActions.StrategoRemoveVisibilityAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import com.example.myapplication.Stratego.GameState.Phase;
+import com.example.myapplication.Stratego.GameState.Piece;
 import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.GameState.Team;
@@ -70,7 +71,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private Button muteButton;
     private Button endTurnButton;
 
-    ArrayList<Button> strategoPieceButtons = new ArrayList<Button>();
+    ArrayList<PieceButton> strategoPieceButtons = new ArrayList<PieceButton>();
 
     //buttons for pieces
     private Button marshallButton;
@@ -354,102 +355,21 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
      */
     @Override
     public void onClick(View v) {
-        /*
+
         //TODO WORK ON GETTING THIS TO WORK
+
         for(int i = 0; i < strategoPieceButtons.size(); i++) {
-            if(v.getId() == strategoPieceButtons.get(i).getId()) {
+            if(v.getId() == strategoPieceButtons.get(i).getContainedButton().getId()) {
                 setWhiteButtons(v);
-                strategoPieceButtons.get(i).setBackgroundColor(Color.GREEN);
-                this.game.sendAction(new StrategoButtonPieceAction(this, strategoPieceButtons.get(i)));
+                strategoPieceButtons.get(i).getContainedButton().setBackgroundColor(Color.GREEN);
+                this.game.sendAction(
+                        new StrategoButtonPieceAction(this, strategoPieceButtons.get(i).getButtonRank()));
+                return;
             }
         }
-         */
+
         //action type - send action
         switch (v.getId()){
-            case R.id.marshallButton:
-                setWhiteButtons(v);
-                marshallButton.setBackgroundColor(Color.GREEN);
-                StrategoButtonPieceAction marshallButtonAction =
-                        new StrategoButtonPieceAction(this, Rank.ONE);
-                this.game.sendAction(marshallButtonAction);
-                break;
-            case R.id.generalButton:
-                setWhiteButtons(v);
-                generalButton.setBackgroundColor(Color.GREEN);
-                StrategoButtonPieceAction generalButtonAction =
-                        new StrategoButtonPieceAction(this, Rank.TWO);
-                this.game.sendAction(generalButtonAction);
-                break;
-            case R.id.colonelButton:
-                setWhiteButtons(v);
-                colonelButton.setBackgroundColor(Color.GREEN);
-                StrategoButtonPieceAction colonelButtonAction =
-                        new StrategoButtonPieceAction(this, Rank.THREE);
-                this.game.sendAction(colonelButtonAction);
-                break;
-            case R.id.majorButton:
-                setWhiteButtons(v);
-                majorButton.setBackgroundColor(Color.GREEN);
-                StrategoButtonPieceAction majorButtonAction =
-                        new StrategoButtonPieceAction(this, Rank.FOUR);
-                this.game.sendAction(majorButtonAction);
-                break;
-            case R.id.captainButton:
-                setWhiteButtons(v);
-                captainButton.setBackgroundColor(Color.GREEN);
-                StrategoButtonPieceAction captainButtonAction =
-                        new StrategoButtonPieceAction(this, Rank.FIVE);
-                this.game.sendAction(captainButtonAction);
-                break;
-            case R.id.lieutenantButton:
-                setWhiteButtons(v);
-                lieutenantButton.setBackgroundColor(Color.GREEN);
-                StrategoButtonPieceAction lieutenantButtonAction =
-                        new StrategoButtonPieceAction(this, Rank.SIX);
-                this.game.sendAction(lieutenantButtonAction);
-                break;
-            case R.id.sergeantButton:
-                setWhiteButtons(v);
-                sergeantButton.setBackgroundColor(Color.GREEN);
-                StrategoButtonPieceAction sergeantButtonAction =
-                        new StrategoButtonPieceAction(this, Rank.SEVEN);
-                this.game.sendAction(sergeantButtonAction);
-                break;
-            case R.id.minerButton:
-                setWhiteButtons(v);
-                minerButton.setBackgroundColor(Color.GREEN);
-                StrategoButtonPieceAction minerButtonAction =
-                        new StrategoButtonPieceAction(this, Rank.EIGHT);
-                this.game.sendAction(minerButtonAction);
-                break;
-            case R.id.scoutButton:
-                setWhiteButtons(v);
-                scoutButton.setBackgroundColor(Color.GREEN);
-                StrategoButtonPieceAction scoutButtonAction =
-                        new StrategoButtonPieceAction(this, Rank.NINE);
-                this.game.sendAction(scoutButtonAction);
-                break;
-            case R.id.spyButton:
-                setWhiteButtons(v);
-                spyButton.setBackgroundColor(Color.GREEN);
-                StrategoButtonPieceAction spyButtonAction =
-                        new StrategoButtonPieceAction(this, Rank.SPY);
-                this.game.sendAction(spyButtonAction);
-                break;
-            case R.id.flagButton:
-                setWhiteButtons(v);
-                flagButton.setBackgroundColor(Color.GREEN);
-                StrategoButtonPieceAction flagButtonAction =
-                        new StrategoButtonPieceAction(this, Rank.FLAG);
-                this.game.sendAction(flagButtonAction);
-                break;
-            case R.id.bombButton:
-                setWhiteButtons(v);
-                bombButton.setBackgroundColor(Color.GREEN);
-                StrategoButtonPieceAction bombButtonAction =
-                        new StrategoButtonPieceAction(this, Rank.BOMB);
-                this.game.sendAction(bombButtonAction);
-                break;
             case R.id.forfeitButton:
                 StrategoForfeitAction forfeitAction = new StrategoForfeitAction(this);
                 this.game.sendAction(forfeitAction);
@@ -548,47 +468,33 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         helpScreenText = (TextView)activity.findViewById(R.id.helpScreenText);
         currentTimerText = (TextView)activity.findViewById(R.id.currentPlayerTimer);
 
-        strategoPieceButtons.add((Button)activity.findViewById(R.id.marshallButton));
-        strategoPieceButtons.add((Button)activity.findViewById(R.id.generalButton));
-        strategoPieceButtons.add((Button)activity.findViewById(R.id.colonelButton));
-        strategoPieceButtons.add((Button)activity.findViewById(R.id.majorButton));
-        strategoPieceButtons.add((Button)activity.findViewById(R.id.captainButton));
-        strategoPieceButtons.add((Button)activity.findViewById(R.id.lieutenantButton));
-        strategoPieceButtons.add((Button)activity.findViewById(R.id.sergeantButton));
-        strategoPieceButtons.add((Button)activity.findViewById(R.id.minerButton));
-        strategoPieceButtons.add((Button)activity.findViewById(R.id.scoutButton));
-        strategoPieceButtons.add((Button)activity.findViewById(R.id.spyButton));
-        strategoPieceButtons.add((Button)activity.findViewById(R.id.bombButton));
-        strategoPieceButtons.add((Button)activity.findViewById(R.id.flagButton));
+        strategoPieceButtons.add
+                (new PieceButton((Button)activity.findViewById(R.id.marshallButton), Rank.ONE));
+        strategoPieceButtons.add
+                (new PieceButton((Button)activity.findViewById(R.id.generalButton), Rank.TWO));
+        strategoPieceButtons.add
+                (new PieceButton((Button)activity.findViewById(R.id.colonelButton), Rank.THREE));
+        strategoPieceButtons.add
+                (new PieceButton((Button)activity.findViewById(R.id.majorButton), Rank.FOUR));
+        strategoPieceButtons.add
+                (new PieceButton((Button)activity.findViewById(R.id.captainButton), Rank.FIVE));
+        strategoPieceButtons.add
+                (new PieceButton((Button)activity.findViewById(R.id.lieutenantButton), Rank.SIX));
+        strategoPieceButtons.add
+                (new PieceButton((Button)activity.findViewById(R.id.sergeantButton), Rank.SEVEN));
+        strategoPieceButtons.add
+                (new PieceButton((Button)activity.findViewById(R.id.minerButton), Rank.EIGHT));
+        strategoPieceButtons.add
+                (new PieceButton((Button)activity.findViewById(R.id.scoutButton), Rank.NINE));
+        strategoPieceButtons.add
+                (new PieceButton((Button)activity.findViewById(R.id.spyButton), Rank.SPY));
+        strategoPieceButtons.add
+                (new PieceButton((Button)activity.findViewById(R.id.bombButton), Rank.BOMB));
+        strategoPieceButtons.add
+                (new PieceButton((Button)activity.findViewById(R.id.flagButton), Rank.FLAG));
         for(int i = 0; i < strategoPieceButtons.size(); i++) {
-            strategoPieceButtons.get(i).setOnClickListener(this);
+            strategoPieceButtons.get(i).getContainedButton().setOnClickListener(this);
         }
-
-        //piece buttons
-        marshallButton = (Button)activity.findViewById(R.id.marshallButton);
-        marshallButton.setOnClickListener(this);
-        generalButton = (Button)activity.findViewById(R.id.generalButton);
-        generalButton.setOnClickListener(this);
-        colonelButton = (Button)activity.findViewById(R.id.colonelButton);
-        colonelButton.setOnClickListener(this);
-        majorButton = (Button)activity.findViewById(R.id.majorButton);
-        majorButton.setOnClickListener(this);
-        captainButton = (Button)activity.findViewById(R.id.captainButton);
-        captainButton.setOnClickListener(this);
-        lieutenantButton = (Button)activity.findViewById(R.id.lieutenantButton);
-        lieutenantButton.setOnClickListener(this);
-        sergeantButton = (Button)activity.findViewById(R.id.sergeantButton);
-        sergeantButton.setOnClickListener(this);
-        minerButton = (Button)activity.findViewById(R.id.minerButton);
-        minerButton.setOnClickListener(this);
-        scoutButton = (Button)activity.findViewById(R.id.scoutButton);
-        scoutButton.setOnClickListener(this);
-        spyButton = (Button)activity.findViewById(R.id.spyButton);
-        spyButton.setOnClickListener(this);
-        bombButton = (Button)activity.findViewById(R.id.bombButton);
-        bombButton.setOnClickListener(this);
-        flagButton = (Button)activity.findViewById(R.id.flagButton);
-        flagButton.setOnClickListener(this);
 
         //action buttons on GUI
         helpButton = (Button)activity.findViewById(R.id.infoButton);
