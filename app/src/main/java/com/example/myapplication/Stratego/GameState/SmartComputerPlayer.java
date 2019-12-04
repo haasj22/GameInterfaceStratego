@@ -255,6 +255,7 @@ public class SmartComputerPlayer extends GameComputerPlayer {
         } else {
             randoCol=(int)Math.pow(-1, (int)(Math.random() * 2 + 1));
         }
+
         //goes through each cardinal direction and tries to move there
         for(int i=0; i<2; i++) {
             for(int j=0; j<2; j++) {
