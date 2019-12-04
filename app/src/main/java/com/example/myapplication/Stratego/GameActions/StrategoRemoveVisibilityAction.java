@@ -1,3 +1,8 @@
+/**
+ * action that removes the visibility of a temporarily visible piece
+ *
+ * @author John Haas
+ */
 package com.example.myapplication.Stratego.GameActions;
 
         import com.example.myapplication.Game.GamePlayer;

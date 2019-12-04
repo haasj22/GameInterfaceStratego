@@ -19,6 +19,7 @@ import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
 import java.util.ArrayList;
 
 public class SmartComputerPlayer extends GameComputerPlayer {
+    //computer player's game state
     StrategoGameState gameStateCopy;
 
     public SmartComputerPlayer(String name) {
@@ -47,11 +48,6 @@ public class SmartComputerPlayer extends GameComputerPlayer {
             }
             //else it calculates the best play phase move and does that
             else {
-                if(gameStateCopy.getLastKilledPiece() != null) {
-                    Log.i("smrtmsg", "" + gameStateCopy.getLastKilledPiece());
-                } else {
-                    Log.i("smrtmsg", "noKilledPiece");
-                }
                 vendettaAttack();
 
                 //attacks an enemy if its nearby
@@ -70,7 +66,7 @@ public class SmartComputerPlayer extends GameComputerPlayer {
         if(gameStateCopy.getLastKilledPiece() == null) {
             return;
         }
-        //default values
+        //100 functions as a default value
         int moveThisX = 100;
         int moveThisY = 100;
 
@@ -259,7 +255,6 @@ public class SmartComputerPlayer extends GameComputerPlayer {
         } else {
             randoCol=(int)Math.pow(-1, (int)(Math.random() * 2 + 1));
         }
-
         //goes through each cardinal direction and tries to move there
         for(int i=0; i<2; i++) {
             for(int j=0; j<2; j++) {

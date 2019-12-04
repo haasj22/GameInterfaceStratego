@@ -1,3 +1,8 @@
+/**
+ * action that allows the game state to wipe the last attacked piece variable in the game state
+ *
+ * @author John Haas
+ */
 package com.example.myapplication.Stratego.GameActions;
 
 import com.example.myapplication.Game.GamePlayer;

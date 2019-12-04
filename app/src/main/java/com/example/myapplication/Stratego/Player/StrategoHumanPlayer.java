@@ -73,20 +73,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
     ArrayList<PieceButton> strategoPieceButtons = new ArrayList<PieceButton>();
 
-    //buttons for pieces
-    private Button marshallButton;
-    private Button generalButton;
-    private Button colonelButton;
-    private Button majorButton;
-    private Button captainButton;
-    private Button lieutenantButton;
-    private Button sergeantButton;
-    private Button minerButton;
-    private Button scoutButton;
-    private Button spyButton;
-    private Button bombButton;
-    private Button flagButton;
-
     /**
      * StrategoHumanPlayer method
      *
@@ -430,18 +416,9 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
          * @param v
          */
     public void setWhiteButtons(View v){
-        marshallButton.setBackgroundColor(Color.WHITE);
-        generalButton.setBackgroundColor(Color.WHITE);
-        colonelButton.setBackgroundColor(Color.WHITE);
-        majorButton.setBackgroundColor(Color.WHITE);
-        captainButton.setBackgroundColor(Color.WHITE);
-        lieutenantButton.setBackgroundColor(Color.WHITE);
-        sergeantButton.setBackgroundColor(Color.WHITE);
-        minerButton.setBackgroundColor(Color.WHITE);
-        scoutButton.setBackgroundColor(Color.WHITE);
-        spyButton.setBackgroundColor(Color.WHITE);
-        bombButton.setBackgroundColor(Color.WHITE);
-        flagButton.setBackgroundColor(Color.WHITE);
+        for(int x = 0; x < strategoPieceButtons.size(); x++) {
+            strategoPieceButtons.get(x).getContainedButton().setBackgroundColor(Color.WHITE);
+        }
     }
 
     /**
@@ -458,7 +435,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
 
         //starts the music
-
         mediaPlayer = MediaPlayer.create(activity.getApplicationContext(), R.raw.stratego);
         mediaPlayer.start();
 
@@ -515,9 +491,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         notepadButton.setOnClickListener(this);
         endTurnButton = (Button)activity.findViewById(R.id.endTurnButton);
         endTurnButton.setOnClickListener(this);
-
-
-
     }
 
 

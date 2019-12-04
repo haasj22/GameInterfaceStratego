@@ -161,7 +161,6 @@ public class StrategoGameState extends GameState implements Serializable {
         this.didLastBlockContainPiece = trueState.didLastBlockContainPiece;
         this.visiblePiece = trueState.visiblePiece;
         this.lastKilledPiece = trueState.lastKilledPiece;
-
         this.lastTappedPieceButton = trueState.lastTappedPieceButton;
     }
     /**-----------------------------------GETTER METHODS------------------------------------------*/

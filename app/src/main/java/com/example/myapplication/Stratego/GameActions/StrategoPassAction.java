@@ -1,3 +1,8 @@
+/**
+ * action that allows the user to pass when they cannot take a turn
+ *
+ * @author John Haas
+ */
 package com.example.myapplication.Stratego.GameActions;
 
 import com.example.myapplication.Game.GamePlayer;
