@@ -23,7 +23,7 @@ public class notepadSurfaceView  extends View {
 
     /**
      * External Citation:
-     * Person Commenting: John Haas
+     * Person Commenting: Kavya Mandla
      * 5 December 2019
      * Problem: wanted to implement a free hand drawing ability to strategize moves
      * Resource: https://www.youtube.com/watch?v=Tsg0HDUeiAs
