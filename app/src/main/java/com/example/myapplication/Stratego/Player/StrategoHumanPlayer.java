@@ -42,7 +42,8 @@ import com.example.myapplication.notepadActivity;
 
 import java.util.ArrayList;
 
-public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClickListener, View.OnTouchListener{
+public class StrategoHumanPlayer extends GameHumanPlayer implements
+        View.OnClickListener, View.OnTouchListener{
 
     //tag for logging
     private static final String TAG = "StrategoHumanPlayer";
@@ -113,10 +114,12 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
 
             //sets the timer to the appropriate time
             if(surfaceView.getSurfaceViewOwner() == Team.RED_TEAM.getTEAMNUMBER()) {
-                currentTimerText.setText("Time Left:" + (surfaceView.getState().getRedTeamSeconds() / 60)
+                currentTimerText.setText("Time Left:" +
+                        (surfaceView.getState().getRedTeamSeconds() / 60)
                         + ":" + (surfaceView.getState().getRedTeamSeconds() % 60));
             } else {
-                currentTimerText.setText("Time Left:" + (surfaceView.getState().getBlueTeamSeconds() / 60)
+                currentTimerText.setText("Time Left:" +
+                        (surfaceView.getState().getBlueTeamSeconds() / 60)
                         + ":" + (surfaceView.getState().getBlueTeamSeconds() % 60));
             }
 
@@ -188,29 +191,41 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private void setUnitText(StrategoGameState gsc) {
         //writes the current amount of pieces that the player has left to place
         String unitsLeftToPlace = "Pieces left to Setup:\n";
-        unitsLeftToPlace += Rank.ONE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.ONE)
+        unitsLeftToPlace += Rank.ONE.getMaxAmountOfPieces() -
+                gsc.calculateNumberOfPieces(Rank.ONE)
                 + " x Marshals (1)\n";
-        unitsLeftToPlace += Rank.TWO.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.TWO)
+        unitsLeftToPlace += Rank.TWO.getMaxAmountOfPieces() -
+                gsc.calculateNumberOfPieces(Rank.TWO)
                 + " x Generals (2)\n";
-        unitsLeftToPlace += Rank.THREE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.THREE)
+        unitsLeftToPlace += Rank.THREE.getMaxAmountOfPieces() -
+                gsc.calculateNumberOfPieces(Rank.THREE)
                 + " x Colonels (3)\n";
-        unitsLeftToPlace += Rank.FOUR.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.FOUR)
+        unitsLeftToPlace += Rank.FOUR.getMaxAmountOfPieces() -
+                gsc.calculateNumberOfPieces(Rank.FOUR)
                 + " x Majors (4)\n";
-        unitsLeftToPlace += Rank.FIVE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.FIVE)
+        unitsLeftToPlace += Rank.FIVE.getMaxAmountOfPieces() -
+                gsc.calculateNumberOfPieces(Rank.FIVE)
                 + " x Captains (5)\n";
-        unitsLeftToPlace += Rank.SIX.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.SIX)
+        unitsLeftToPlace += Rank.SIX.getMaxAmountOfPieces() -
+                gsc.calculateNumberOfPieces(Rank.SIX)
                 + " x Lieutenants(6)\n";
-        unitsLeftToPlace += Rank.SEVEN.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.SEVEN)
+        unitsLeftToPlace += Rank.SEVEN.getMaxAmountOfPieces() -
+                gsc.calculateNumberOfPieces(Rank.SEVEN)
                 + " x Sergeants (7)\n";
-        unitsLeftToPlace += Rank.EIGHT.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.EIGHT)
+        unitsLeftToPlace += Rank.EIGHT.getMaxAmountOfPieces() -
+                gsc.calculateNumberOfPieces(Rank.EIGHT)
                 + " x Miners (8)\n";
-        unitsLeftToPlace += Rank.NINE.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.NINE)
+        unitsLeftToPlace += Rank.NINE.getMaxAmountOfPieces() -
+                gsc.calculateNumberOfPieces(Rank.NINE)
                 + " x Scouts (9)\n";
-        unitsLeftToPlace += Rank.SPY.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.SPY)
+        unitsLeftToPlace += Rank.SPY.getMaxAmountOfPieces() -
+                gsc.calculateNumberOfPieces(Rank.SPY)
                 + " x Spies (S)\n";
-        unitsLeftToPlace += Rank.BOMB.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.BOMB)
+        unitsLeftToPlace += Rank.BOMB.getMaxAmountOfPieces() -
+                gsc.calculateNumberOfPieces(Rank.BOMB)
                 + " x Bomb\n";
-        unitsLeftToPlace += Rank.FLAG.getMaxAmountOfPieces() - gsc.calculateNumberOfPieces(Rank.FLAG)
+        unitsLeftToPlace += Rank.FLAG.getMaxAmountOfPieces() -
+                gsc.calculateNumberOfPieces(Rank.FLAG)
                 + " x Flag\n";
         unitText.setText(unitsLeftToPlace);
     }
@@ -349,7 +364,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 setWhiteButtons(v);
                 strategoPieceButtons.get(i).getContainedButton().setBackgroundColor(Color.GREEN);
                 this.game.sendAction(
-                        new StrategoButtonPieceAction(this, strategoPieceButtons.get(i).getButtonRank()));
+                        new StrategoButtonPieceAction(this,
+                                strategoPieceButtons.get(i).getButtonRank()));
                 return;
             }
         }
@@ -373,7 +389,8 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 notepadButton.getContext().startActivity(intent1);
                 break;
             case R.id.endTurnButton:
-                if(this.playerNum == this.surfaceView.getState().getCurrentTeamsTurn().getTEAMNUMBER()) {
+                if(this.playerNum ==
+                        this.surfaceView.getState().getCurrentTeamsTurn().getTEAMNUMBER()) {
                     endTurnButton.setVisibility(View.INVISIBLE);
 
                     StrategoTransitionAction transitionAction =
