@@ -582,12 +582,10 @@ public class StrategoGameState extends GameState implements Serializable {
         }
         //procedure for attacking piece
         if(board[row][col].isHighLighted() && board[row][col].containsPiece()) {
-            Log.i("ntwrkmsg", "attacking");
             attackPiece(lastTappedRow, lastTappedCol, row, col);
             removeHighlightedBlocks();
             lastTappedRow = EMPTY;
             lastTappedCol = EMPTY;
-            Log.i("ntwrkmsg", "transitioning turns");
             transitionTurns();
             return true;
         //procedure for moving piece
@@ -646,7 +644,6 @@ public class StrategoGameState extends GameState implements Serializable {
      */
     private boolean movePiece(int row1, int col1, int row2, int col2) {
         //moves the pieces to their according places
-        Log.i("ntwrkmsg", "moving");
         board[row2][col2].setContainedPiece(board[row1][col1].getContainedPiece());
         board[row1][col1].setContainedPiece(null);
         return true;
@@ -680,7 +677,6 @@ public class StrategoGameState extends GameState implements Serializable {
             return scoutAttacks(row1, col1, row2, col2);
         }
         //otherwise treats all other collisions as normal unit attacks
-        Log.i("ntwrkmsg", "attacketing");
         return unitAttacks(row1, col1, row2, col2);
     }
 
@@ -716,9 +712,7 @@ public class StrategoGameState extends GameState implements Serializable {
             //removes defender from arraylist
             removePieceFromPlayer(getEnemyTeam(), defender.getPieceRank());
             //moves attacker to desired location
-            Log.i("ntwrkmsg", "setting vendetta");
             lastKilledPiece = new MovablePiece(row2, col2, board[row1][col1].getContainedPiece().getPieceRank());
-            Log.i("ntwrkmsg", lastKilledPiece.toString());
             return movePiece(row1, col1, row2, col2);
         }
         //if attacker and defender are equal rank kill both
