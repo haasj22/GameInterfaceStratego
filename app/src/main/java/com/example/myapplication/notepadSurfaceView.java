@@ -21,6 +21,20 @@ public class notepadSurfaceView  extends View {
 
     Path path;
 
+    /**
+     * External Citation:
+     * Person Commenting: John Haas
+     * 5 December 2019
+     * Problem: wanted to implement a free hand drawing ability to strategize moves
+     * Resource: https://www.youtube.com/watch?v=Tsg0HDUeiAs
+     * Solution: used the code in this video to help me with this.
+     **/
+
+
+    /**
+     * @param context
+     * @param attrs
+     */
     public notepadSurfaceView(Context context, AttributeSet attrs) {
         super(context, attrs);
         paint = new Paint();
