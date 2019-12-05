@@ -12,15 +12,11 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
-import android.util.Log;
 
 import com.example.myapplication.Game.util.FlashSurfaceView;
-import com.example.myapplication.Game.util.Logger;
 import com.example.myapplication.R;
 import com.example.myapplication.Stratego.GameState.Piece;
-import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
-import com.example.myapplication.Game.Game;
 import com.example.myapplication.Stratego.GameState.Team;
 
 import java.util.ArrayList;
@@ -31,15 +27,12 @@ public class StrategoSurfaceView extends FlashSurfaceView {
 
     private int surfaceViewOwner;
     protected StrategoGameState state;
-    //private Game game;
 
     //the paint that appears as a highight
     Paint highlightPaint;
     Paint visiblePaint;
 
     ArrayList<Bitmap> strategoBitmaps = new ArrayList<>();
-
-
 
     //dimensions of the board
     int width = 0;
@@ -115,7 +108,6 @@ public class StrategoSurfaceView extends FlashSurfaceView {
     public int getSurfaceViewOwner() {
         return surfaceViewOwner;
     }
-
     public StrategoGameState getState() {
         return state;
     }
@@ -138,7 +130,6 @@ public class StrategoSurfaceView extends FlashSurfaceView {
      */
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
-
         //adjusts the dimension variables accordingly
         width = w;
         height = h;
@@ -168,6 +159,8 @@ public class StrategoSurfaceView extends FlashSurfaceView {
         //goes through each position on the board
         for(int row=0; row<state.getROWMAX(); row++) {
             for(int col=0; col<state.getCOLMAX(); col++) {
+                Piece desiredPiece = state.getBoard()[row][col].getContainedPiece();
+
                 //draws highlights where they need to be
                 if(state.getBoard()[row][col].isHighLighted()
                         && state.getCurrentTeamsTurn().getTEAMNUMBER() == surfaceViewOwner) {
@@ -177,22 +170,20 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                 }
 
                 //shows pieces if they're visible
-                if(state.getBoard()[row][col].getContainedPiece() != null
-                && state.getBoard()[row][col].getContainedPiece().getIsVisible() == true
-                && state.getBoard()[row][col].getContainedPiece().getPieceTeam().getTEAMNUMBER() == surfaceViewOwner) {
+                if(desiredPiece != null && desiredPiece.getIsVisible() == true
+                && desiredPiece.getPieceTeam().getTEAMNUMBER() == surfaceViewOwner) {
                     g.drawRect((width*col)/10, (height*row)/10,
                             (width * (col + 1))/10,
                             (height*(row+1))/10, visiblePaint);
                 }
 
                 //only draws pieces on spaces that contain them
-                if(state.getBoard()[row][col].getContainedPiece() == null) {
+                if(desiredPiece == null) {
                     continue;
                 }
 
                 //get the piece at the desired board location and draws it
-                Piece piece = state.getBoard()[row][col].getContainedPiece();
-                drawPiece(g, state.getCurrentTeamsTurn(), piece, row, col);
+                drawPiece(g, state.getCurrentTeamsTurn(), desiredPiece, row, col);
             }
         }
     }

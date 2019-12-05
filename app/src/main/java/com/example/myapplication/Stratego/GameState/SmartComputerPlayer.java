@@ -90,27 +90,28 @@ public class SmartComputerPlayer extends GameComputerPlayer {
                     continue;
                 }
 
+                Piece attacker=gameStateCopy.getBoard()[lastKilledX][lastKilledY].getContainedPiece();
+                Piece desiredPiece=gameStateCopy.getBoard()[lastKilledX+x][lastKilledY + y].getContainedPiece();
+
                 //makes sure the place its about to check has a stratego piece
-                if(gameStateCopy.getBoard()[lastKilledX + x][lastKilledY + y].getContainedPiece() == null) {
+                if(desiredPiece == null) {
                     continue;
                 }
 
                 //finds the lowest piece number that will be able to kill the desired piece
                 if(moveThisX == 100 && moveThisY == 100
-                        && gameStateCopy.getBoard()[lastKilledX + x][lastKilledY + y].getContainedPiece().getPieceRank().ordinal()
-                        <= gameStateCopy.getBoard()[lastKilledX][lastKilledY].getContainedPiece().getPieceRank().ordinal()) {
+                        && desiredPiece.getPieceRank().ordinal()
+                        <= attacker.getPieceRank().ordinal()) {
                     moveThisX = lastKilledX + x;
                     moveThisY = lastKilledY + y;
                 }
-                else if(moveThisX != 100 && moveThisY != 100 &&
-                        gameStateCopy.getBoard()[lastKilledX + x][lastKilledY + y].getContainedPiece().getPieceRank().ordinal()
+                else if(moveThisX != 100 && moveThisY != 100 && desiredPiece.getPieceRank().ordinal()
                         > gameStateCopy.getBoard()[moveThisX][moveThisY].getContainedPiece().getPieceRank().ordinal()
-                        && gameStateCopy.getBoard()[lastKilledX +x][lastKilledY + y].getContainedPiece().getPieceRank().ordinal()
-                        <= gameStateCopy.getBoard()[lastKilledX][lastKilledY].getContainedPiece().getPieceRank().ordinal()) {
+                        && desiredPiece.getPieceRank().ordinal()
+                        <= attacker.getPieceRank().ordinal()) {
                     moveThisX = lastKilledX + x;
                     moveThisY = lastKilledY + y;
-                } else if(gameStateCopy.getBoard()[lastKilledX + x][lastKilledY + y].getContainedPiece().getPieceRank() == Rank.SPY
-                        && lastKilledRank == Rank.ONE) {
+                } else if(desiredPiece.getPieceRank() == Rank.SPY && lastKilledRank == Rank.ONE) {
                     this.game.sendAction(new StrategoComputerMoveAction
                             (this, lastKilledX+x, lastKilledY+y, lastKilledX,
                             lastKilledY));

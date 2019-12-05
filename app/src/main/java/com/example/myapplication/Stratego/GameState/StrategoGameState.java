@@ -1037,11 +1037,6 @@ public class StrategoGameState extends GameState implements Serializable {
         isGameOver();
         return true;
     }
-
-    public boolean muteGame(){
-        return true;
-    }
-
     /**
      * method that prints class information as a String
      * @return toReturn: the String that contains all the gameState information

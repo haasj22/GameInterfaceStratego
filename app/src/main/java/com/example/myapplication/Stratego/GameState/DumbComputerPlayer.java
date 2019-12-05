@@ -5,21 +5,14 @@
  */
 package com.example.myapplication.Stratego.GameState;
 
-import android.text.method.MovementMethod;
-import android.util.Log;
-
 import com.example.myapplication.Game.GameComputerPlayer;
-import com.example.myapplication.Game.GameMainActivity;
-import com.example.myapplication.Game.GamePlayer;
 import com.example.myapplication.Game.infoMsg.GameInfo;
 import com.example.myapplication.Game.infoMsg.IllegalMoveInfo;
 import com.example.myapplication.Game.infoMsg.NotYourTurnInfo;
 import com.example.myapplication.Stratego.GameActions.StrategoComputerMoveAction;
-import com.example.myapplication.Stratego.GameActions.StrategoMoveAction;
 import com.example.myapplication.Stratego.GameActions.StrategoPassAction;
 import com.example.myapplication.Stratego.GameActions.StrategoTransitionAction;
-import com.example.myapplication.Stratego.GameState.Phase;
-import com.example.myapplication.Stratego.GameState.StrategoGameState;
+
 
 import java.util.ArrayList;
 

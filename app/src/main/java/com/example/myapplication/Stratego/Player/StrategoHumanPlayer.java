@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.myapplication.Game.GameMainActivity;
 import com.example.myapplication.Game.GameHumanPlayer;
+import com.example.myapplication.Game.actionMsg.GameAction;
 import com.example.myapplication.Game.infoMsg.GameInfo;
 import com.example.myapplication.Game.infoMsg.IllegalMoveInfo;
 import com.example.myapplication.Game.infoMsg.NotYourTurnInfo;
@@ -85,6 +86,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     public View getTopView() {
         return myActivity.findViewById(R.id.StrategoInGameLayout);
     }
+    public MediaPlayer getMediaPlayer() { return mediaPlayer; }
 
 
     /**
@@ -107,7 +109,6 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
         if(info instanceof StrategoGameState) {
 
             if (surfaceView == null) return;
-            Log.i("statemsg", "state set");
             surfaceView.setState((StrategoGameState) info);
             surfaceView.setSurfaceViewOwner(this.playerNum);
 
@@ -133,17 +134,17 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 if(surfaceView.getState().getCurrentTeamsTurn().getTEAMNUMBER() == this.playerNum) {
                     this.setEnemyLeft(surfaceView.getState());
                     if(this.surfaceView.getState().getLastKilledPiece() != null) {
-                        Log.i("smrtmsg", "removing vendetta");
                         game.sendAction(new NoVendettaAction(this));
                     }
                 }
             }
 
             //show last tapped button on surface view
-            this.setLastTappedButtonText(surfaceView.getState());
-            this.setHelpScreenText(surfaceView.getState());
+            if(this.playerNum == this.surfaceView.getState().getCurrentTeamsTurn().getTEAMNUMBER()) {
+                this.setLastTappedButtonText(surfaceView.getState());
+                this.setHelpScreenText(surfaceView.getState());
+            }
             this.setCurrentTeamsTurnText(surfaceView.getState());
-            Log.i("statemsg", "" + this.playerNum + " invalidated");
             surfaceView.invalidate();
 
             if(surfaceView.getState().getVisiblePiece() != null) {
@@ -254,11 +255,11 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     private void setCurrentTeamsTurnText(StrategoGameState gsc){
         //shows who's turn it currently is
         if(gsc.getCurrentTeamsTurn() == Team.BLUE_TEAM){
-            String buttonText = "It's Blue Teams Turn!";
+            String buttonText = "Blues Turn!";
             whosTurnText.setText(buttonText);
         }
         else if(gsc.getCurrentTeamsTurn() == Team.RED_TEAM){
-            String buttonText = "It's Red Teams Turn!";
+            String buttonText = "Reds Turn!";
             whosTurnText.setText(buttonText);
         }
     }
@@ -342,8 +343,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
     @Override
     public void onClick(View v) {
 
-        //TODO WORK ON GETTING THIS TO WORK
-
+        //turns button pieces green upon click
         for(int i = 0; i < strategoPieceButtons.size(); i++) {
             if(v.getId() == strategoPieceButtons.get(i).getContainedButton().getId()) {
                 setWhiteButtons(v);
@@ -361,8 +361,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                 this.game.sendAction(forfeitAction);
                 break;
             case R.id.muteButton:
-                StrategoMuteAction muteAction = new StrategoMuteAction(this);
-                this.game.sendAction(muteAction);
+                this.game.sendAction(new StrategoMuteAction(this));
                 break;
             case R.id.infoButton:
                 Intent intent0 = new Intent(this.myActivity, HowToPlay.class);
@@ -385,36 +384,13 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements View.OnClick
                     setWhiteButtons(v);
                     break;
         }
-        if (v == muteButton) {
-            if(mediaPlayer.isPlaying()){
-                mediaPlayer.pause();
-            }
-            else{
-                mediaPlayer.start();
-            }
-        }
-
-        /**
-         * External Citation
-         * Problem: Could not fix mute button
-         * Date: 3 December 2019
-         * Source: https://stackoverflow.com/questions/9461056/android-media-player-play-pause-button
-         * Solution: Added if statements using isPlaying()
-         */
-//        if (v == muteButton) {
-//            if(mediaPlayer.isPlaying()){
-//                mediaPlayer.pause();
-//            }
-//            else{
-//                mediaPlayer.start();
-//            }
-//        }
     }
-        /**
-         * changes color of all buttons to white when called
-         * @author Jordan Ho
-         * @param v
-         */
+
+    /**
+     * changes color of all buttons to white when called
+     * @author Jordan Ho
+     * @param v surface view being changed
+     */
     public void setWhiteButtons(View v){
         for(int x = 0; x < strategoPieceButtons.size(); x++) {
             strategoPieceButtons.get(x).getContainedButton().setBackgroundColor(Color.WHITE);

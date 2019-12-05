@@ -22,6 +22,7 @@ import com.example.myapplication.Stratego.GameState.Rank;
 import com.example.myapplication.Stratego.GameState.SmartComputerPlayer;
 import com.example.myapplication.Stratego.GameState.StrategoGameState;
 import com.example.myapplication.Stratego.GameState.Team;
+import com.example.myapplication.Stratego.Player.StrategoHumanPlayer;
 
 /**
  * The local game to control the master StrategoGameState
@@ -112,12 +113,10 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         }
         //handles a forfeit action by telling the game state to end the game
         else if (action instanceof StrategoForfeitAction) {
-            StrategoForfeitAction sfa = (StrategoForfeitAction)action;
             state.forfeitGame();
         }
         //handles a transition action by telling the game to transition phases
         else if (action instanceof StrategoTransitionAction) {
-            StrategoTransitionAction sta = (StrategoTransitionAction)action;
             state.transitionPhases();
         }
         //handles a button press by updating the proper game state variable
@@ -127,7 +126,13 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
         }
         else if (action instanceof StrategoMuteAction){
             StrategoMuteAction ma = (StrategoMuteAction)action;
-            state.muteGame();
+            StrategoHumanPlayer sender = (StrategoHumanPlayer)ma.getPlayer();
+            if(sender.getMediaPlayer().isPlaying()){
+                sender.getMediaPlayer().pause();
+            }
+            else{
+                sender.getMediaPlayer().start();
+            }
         }
         //handles a computers setup action by setting up the board
         else if (action instanceof StrategoSmartComputerSetupAction) {
@@ -158,8 +163,6 @@ public class StrategoLocalGame extends LocalGame implements Serializable {
             }
         }
         else if (action instanceof NoVendettaAction) {
-            Log.i("smrtmsg", "enteredNoVendetta");
-            NoVendettaAction nva = (NoVendettaAction)action;
             state.setLastKilledPiece(null);
         }
         return true;
