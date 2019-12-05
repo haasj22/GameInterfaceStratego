@@ -453,7 +453,8 @@
             <Space
                 android:id="@+id/topRightspace"
                 android:layout_width="match_parent"
-                android:layout_height="50dp" />
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
 
             <TextView
                 android:id="@+id/lastTappedButtonText"
@@ -492,6 +493,12 @@
                 android:foregroundGravity="center"
                 android:orientation="horizontal">
 
+                <Space
+                    android:id="@+id/buttonSpaceInfo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1" />
+
                 <Button
                     android:id="@+id/infoButton"
                     android:layout_width="65dp"
@@ -504,7 +511,7 @@
                     app:srcCompat="@drawable/info4" />
 
                 <Space
-                    android:id="@+id/buttonSpace15"
+                    android:id="@+id/buttonSpaceInfoMute"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_weight="1" />
@@ -521,7 +528,7 @@
                     app:srcCompat="@drawable/mute" />
 
                 <Space
-                    android:id="@+id/buttonSpace17"
+                    android:id="@+id/buttonSpaceMuteForfeit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
@@ -535,7 +542,7 @@
                     android:textSize="10sp" />
 
                 <Space
-                    android:id="@+id/buttonSpace18"
+                    android:id="@+id/buttonSpaceForfeit"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1" />
