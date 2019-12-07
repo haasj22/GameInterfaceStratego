@@ -44,7 +44,6 @@ public class notepadSurfaceView  extends View {
         paint.setStrokeJoin(Paint.Join.ROUND);
         paint.setStyle(Paint.Style.STROKE);
         paint.setStrokeWidth(5f);
-
     }
 
     @Override

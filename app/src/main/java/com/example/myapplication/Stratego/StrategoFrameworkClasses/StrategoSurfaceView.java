@@ -199,6 +199,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
      */
     public void drawPiece(Canvas canvas, Team currentTeam, Piece drawThisPiece, int row, int col) {
 
+        //allows the right team to be chosen for the desired piece
         int teamOffset;
         if(drawThisPiece.getPieceTeam() == Team.RED_TEAM) {
             teamOffset=13;
@@ -206,6 +207,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
             teamOffset=0;
         }
 
+        //if the piece is not suppose to be seen shows the base piece for the desired team
         if(currentTeam.getTEAMNUMBER() == surfaceViewOwner
                 && drawThisPiece.getPieceTeam().getTEAMNUMBER() != surfaceViewOwner
                 && drawThisPiece.getIsVisible() == false
@@ -217,6 +219,7 @@ public class StrategoSurfaceView extends FlashSurfaceView {
                     canvas.getWidth() * col / 10, canvas.getHeight() * row / 10, null);
             return;
         }
+        //else draws the piece with the desired rank and the desired team
         else {
             canvas.drawBitmap(strategoBitmaps.get(drawThisPiece.getPieceRank().ordinal() + teamOffset),
                     canvas.getWidth() * 2 / 100 + canvas.getWidth() * col / 10,

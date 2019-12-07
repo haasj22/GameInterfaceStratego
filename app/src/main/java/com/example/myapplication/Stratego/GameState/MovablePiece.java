@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 public class MovablePiece implements Serializable{
 
+    //variables to store information for each movable piece
     private int x;
     private int y;
     private Rank pieceRank;
@@ -39,7 +40,6 @@ public class MovablePiece implements Serializable{
     public int getX() {
         return x;
     }
-
     public void setX(int x) {
         this.x = x;
     }
@@ -47,7 +47,6 @@ public class MovablePiece implements Serializable{
     public int getY() {
         return y;
     }
-
     public void setY(int y) {
         this.y = y;
     }
@@ -55,7 +54,6 @@ public class MovablePiece implements Serializable{
     public Rank getPieceRank() {
         return pieceRank;
     }
-
     public void setPieceRank(Rank pieceRank) {
         this.pieceRank = pieceRank;
     }

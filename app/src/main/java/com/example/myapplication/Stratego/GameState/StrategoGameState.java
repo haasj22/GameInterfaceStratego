@@ -480,7 +480,6 @@ public class StrategoGameState extends GameState implements Serializable {
                         currentTeamsTurn.getTOPBOUNDARYINDEX());
 
                 //places piece if possible or adds another iteration to the loop
-
                 boolean isPiecePlace = addPieceToGame(new Piece(currentTeamsTurn, r),
                         randomRowValue, randomColValue);
                 if(isPiecePlace == false) {

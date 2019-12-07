@@ -445,6 +445,7 @@ public class StrategoHumanPlayer extends GameHumanPlayer implements
         helpScreenText = (TextView)activity.findViewById(R.id.helpScreenText);
         currentTimerText = (TextView)activity.findViewById(R.id.currentPlayerTimer);
 
+        //adds the piece buttons to the button list
         strategoPieceButtons.add
                 (new PieceButton((Button)activity.findViewById(R.id.marshallButton), Rank.ONE));
         strategoPieceButtons.add
